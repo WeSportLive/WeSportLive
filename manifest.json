@@ -1,0 +1,20 @@
+{
+  "name": "W.E Sports - Live Match Hub",
+  "short_name": "W.E Sports",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#eab308",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/Tx06dFv3/image.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.ibb.co/Tx06dFv3/image.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
