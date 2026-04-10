@@ -7,4 +7,4 @@ I am a football streamer and the founder of **W.E Sports**. Welcome to my GitHub
 - 🦊 **Our Mascots:** Look out for our cute brand mascots: Woxy (white fox), Pandy (panda in a blue jersey), and Livey (yellow fox)!
 - 💻 **Currently working on:** Developing the W.E Sports web app and my personal live streaming website.
 - 🤝 **Partnership:** 1XBET Affiliate Partner (Use Promo Code: **ZINXBET** | Deposit/Withdrawal: **@WinExpress99**)
-- 📫 **How to reach me:** You can contact me at (https://t.me/WinExpress99.
+- 📫 **How to reach me:** You can contact me at (https://t.me/WinExpress99).
