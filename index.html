@@ -1286,5 +1286,57 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAIUsageUI();
 });
 </script>
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUkm6nhbm8ezTTJDaXvHdZxQFDbcjS9GU",
+    authDomain: "wesportlive-e5507.firebaseapp.com",
+    projectId: "wesportlive-e5507",
+    storageBucket: "wesportlive-e5507.firebasestorage.app",
+    messagingSenderId: "550050377587",
+    appId: "1:550050377587:web:7f7dcdccac34ace5f7df06",
+    measurementId: "G-D7EKXC6P3X"
+  };
+
+  // Firebase ကို အသက်သွင်းခြင်း
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  // Noti ပို့ခွင့် တောင်းခံသည့် လုပ်ဆောင်ချက်
+  function requestNotificationPermission() {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Noti ပို့ခွင့် ရပါပြီ။');
+        
+        // VAPID Key ကို အသုံးပြုပြီး Token တောင်းခံခြင်း
+        getToken(messaging, { vapidKey: 'bmiY2VRChkl4BIylDQku_GM2qhZp90hngmo-eZRc8fA' }).then((currentToken) => {
+          if (currentToken) {
+            console.log('ဒီဖုန်းရဲ့ Noti Token က -', currentToken);
+            // အောင်မြင်ကြောင်း Toast လေးပြမယ်
+            showGoalToast('Notification ဖွင့်ပြီးပါပြီ', 'ပွဲချိန် Noti များ လက်ခံရရှိပါမည်');
+          } else {
+            console.log('Token ယူလို့ မရပါ။');
+          }
+        }).catch((err) => {
+          console.log('Token ယူစဉ် အမှားဖြစ်နေပါသည်', err);
+        });
+      } else {
+        console.log('Noti ပို့ခွင့် မပေးပါ။');
+      }
+    });
+  }
+
+  // ကစားသူက ခေါင်းလောင်း (Bell) အိုင်ကွန်ကို နှိပ်တဲ့အခါ Noti ခွင့်ပြုချက်တောင်းမယ်
+  document.getElementById('bell-btn').addEventListener('click', requestNotificationPermission);
+
+  // App ဖွင့်ထားချိန်မှာ Noti ဝင်လာရင် ပြမယ့်စနစ်
+  onMessage(messaging, (payload) => {
+    console.log('Noti ဝင်လာပါပြီ - ', payload);
+    // ဝင်လာတဲ့ Noti ကို ဂိုးဝင်တဲ့ Toast ပုံစံလေးနဲ့ ပြပေးမယ်
+    showGoalToast(payload.notification?.title || 'W.E Sports', payload.notification?.body || 'Noti အသစ်ဝင်လာပါပြီ');
+  });
+</script>
 </body>
 </html>
