@@ -231,6 +231,7 @@
     <nav id="header-tabs" class="w-full px-4 pb-3 overflow-x-auto hide-scrollbar flex space-x-2 items-center">
         <button onclick="switchTab('tab-home',this)" data-tab="tab-home" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-brand-gold text-slate-900 shadow-md">ပင်မ</button>
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
+        <button onclick="switchTab('tab-live-tv',this)" data-tab="tab-live-tv" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-tv text-red-500 mr-1.5 animate-pulse"></i> LIVE TV</button>
         <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
         <button onclick="switchTab('tab-casino',this)" data-tab="tab-casino" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ကာစီနို</button>
@@ -336,6 +337,28 @@
                     <span class="text-2xl mb-1">🚀</span><span class="text-[9px] font-black">Crash</span>
                 </a>
             </div>
+        </div>
+    </section>
+
+    <section id="tab-live-tv" class="tab-content pt-4 space-y-4 animate-fade-up">
+        <div class="flex justify-between items-center px-1 mb-2">
+            <h3 class="text-[15px] font-black text-slate-800 dark:text-white flex items-center">
+                <i class="fas fa-tv text-red-500 mr-2 animate-pulse"></i> W.E Sports Live TV
+            </h3>
+        </div>
+        
+        <div class="w-full bg-black rounded-2xl overflow-hidden shadow-xl aspect-video relative flex items-center justify-center border border-slate-800">
+            <iframe src="https://www.youtube.com/embed/3aOt_uB-U_k?si=-HVYYKIsNbvaCjBh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen class="absolute top-0 left-0 w-full h-full z-10"></iframe>
+        </div>
+        
+        <div class="bg-white dark:bg-[#1e293b] p-4 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-sm">
+             <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-2 flex items-center"><i class="fas fa-info-circle text-brand-gold mr-1.5"></i> ကြည့်ရှုရန် အကြံပြုချက်</h4>
+             <p class="text-[11px] font-bold text-slate-500 leading-relaxed">
+                 ပွဲစဉ်များကို မျက်နှာပြင်အပြည့် (Full Screen) ဖြင့် ကြည့်ရှုနိုင်ပါသည်။ လိုင်းမကောင်းပါက ခေတ္တစောင့်ဆိုင်းပေးပါ။ ပွဲချိန်များတွင်သာ Live ဖွင့်ထားမည်ဖြစ်ပါသည်။
+             </p>
+             <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="mt-4 flex justify-center items-center w-full py-3 bg-gradient-to-r from-yellow-400 to-brand-gold text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-md">
+                <i class="fas fa-coins mr-2"></i> 1XBET တွင် ငွေသွင်းကစားမည်
+             </a>
         </div>
     </section>
 
@@ -556,9 +579,10 @@
 </main>
 
 <nav class="fixed bottom-0 left-0 w-full z-40 flex justify-center pb-safe">
-    <div class="w-full max-w-2xl bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 flex shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+    <div class="w-full max-w-2xl bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 flex shadow-[0_-4px_20px_rgba(0,0,0,0.05)] overflow-x-auto hide-scrollbar">
         <div onclick="switchTabById('tab-home')" data-navtab="tab-home" class="bottom-nav-item active text-slate-400"><i class="nav-icon fas fa-home"></i><span class="nav-label">ပင်မ</span></div>
         <div onclick="switchTabById('tab-matches')" data-navtab="tab-matches" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-futbol"></i><span class="nav-label">ပွဲစဉ်</span></div>
+        <div onclick="switchTabById('tab-live-tv')" data-navtab="tab-live-tv" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-tv"></i><span class="nav-label">Live</span></div>
         <div onclick="switchTabById('tab-ai')" data-navtab="tab-ai" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-robot"></i><span class="nav-label">AI</span></div>
         <div onclick="switchTabById('tab-standings')" data-navtab="tab-standings" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-list-ol"></i><span class="nav-label">ဇယား</span></div>
         <div onclick="switchTabById('tab-casino')" data-navtab="tab-casino" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-dice"></i><span class="nav-label">ကာစီနို</span></div>
