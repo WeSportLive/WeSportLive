@@ -231,10 +231,9 @@
     <nav id="header-tabs" class="w-full px-4 pb-3 overflow-x-auto hide-scrollbar flex space-x-2 items-center">
         <button onclick="switchTab('tab-home',this)" data-tab="tab-home" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-brand-gold text-slate-900 shadow-md">ပင်မ</button>
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
-        <button onclick="switchTab('tab-live-tv',this)" data-tab="tab-live-tv" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-tv text-red-500 mr-1.5 animate-pulse"></i> LIVE TV</button>
+        <button onclick="switchTab('tab-play',this)" data-tab="tab-play" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-blue-600 text-white flex items-center shadow-md"><i class="fas fa-gamepad mr-1.5"></i> 1XBET ကစားမည်</button>
         <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
-        <button onclick="switchTab('tab-casino',this)" data-tab="tab-casino" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ကာစီနို</button>
         <button onclick="switchTab('tab-services',this)" data-tab="tab-services" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဝန်ဆောင်မှု</button>
         <button onclick="switchTab('tab-promos',this)" data-tab="tab-promos" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပရိုမို</button>
     </nav>
@@ -321,51 +320,64 @@
         <div>
             <div class="flex justify-between items-center px-1 mb-3">
                 <h3 class="text-[14px] font-black text-slate-800 dark:text-white">🎰 လူကြိုက်များသော ဂိမ်းများ</h3>
-                <button onclick="switchTabById('tab-casino')" class="text-[10px] text-slate-400 font-bold hover:text-brand-gold transition">အားလုံးကြည့်ရန် <i class="fas fa-chevron-right text-[8px] ml-1"></i></button>
+                <button onclick="switchTabById('tab-play')" class="text-[10px] text-slate-400 font-bold hover:text-brand-gold transition">အားလုံးကြည့်ရန် <i class="fas fa-chevron-right text-[8px] ml-1"></i></button>
             </div>
             <div class="grid grid-cols-4 gap-2">
-                <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=slots" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
                     <span class="text-2xl mb-1">🎰</span><span class="text-[9px] font-black">Slots</span>
                 </a>
-                <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=casino" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
                     <span class="text-2xl mb-1">🃏</span><span class="text-[9px] font-black">Casino</span>
                 </a>
-                <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=casino" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
                     <span class="text-2xl mb-1">🎡</span><span class="text-[9px] font-black">Roulette</span>
                 </a>
-                <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=1xgames" target="_top" class="glass-card rounded-xl aspect-square flex flex-col items-center justify-center text-slate-800 dark:text-white">
                     <span class="text-2xl mb-1">🚀</span><span class="text-[9px] font-black">Crash</span>
                 </a>
             </div>
         </div>
     </section>
 
-   <section id="tab-live-tv" class="tab-content pt-4 space-y-4 animate-fade-up">
-        <div class="flex justify-between items-center px-1 mb-2">
-            <h3 class="text-[15px] font-black text-slate-800 dark:text-white flex items-center">
-                <i class="fas fa-tv text-red-500 mr-2 animate-pulse"></i> W.E Sports Live TV
-            </h3>
-        </div>
-        
-        <div class="w-full bg-black rounded-2xl overflow-hidden shadow-xl aspect-video relative flex items-center justify-center border border-slate-800">
-            <iframe src="https://gooz.aapmains.net/new-stream-embed/48635" frameborder="0" allowfullscreen="" scrolling="no" allowtransparency="" class="absolute top-0 left-0 w-full h-full z-10"></iframe>
-            
-            <div class="absolute top-3 right-3 z-20 bg-black/60 backdrop-blur-md border border-white/20 px-2.5 py-1.5 rounded-lg flex items-center gap-2 pointer-events-none shadow-lg">
-                <div class="bg-blue-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm tracking-wider">1XBET</div>
-                <div class="text-[10px] font-black text-white tracking-wide">Promo: <span class="text-brand-gold">ZINXBET</span></div>
+    <section id="tab-play" class="tab-content pt-4 space-y-4 animate-fade-up">
+        <div class="bg-gradient-to-r from-blue-700 to-blue-900 rounded-3xl p-5 shadow-xl relative overflow-hidden text-white">
+            <div class="absolute -right-4 -top-4 opacity-10 text-8xl pointer-events-none"><i class="fas fa-coins"></i></div>
+            <div class="relative z-10 text-center">
+                <h2 class="text-[18px] font-black mb-1">1XBET Direct Play</h2>
+                <p class="text-[11px] font-bold text-blue-200 mb-4">အကောင့် Log In ထပ်ခါထပ်ခါ ဝင်စရာမလိုဘဲ အလွယ်တကူ ကစားနိုင်ရန် အောက်ပါဂိမ်းများကို ရွေးချယ်ပါ</p>
+                
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=line" target="_top" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-2xl p-4 flex flex-col items-center justify-center transition active:scale-95">
+                        <i class="fas fa-futbol text-3xl mb-2 text-brand-gold"></i>
+                        <span class="text-[12px] font-black tracking-wide">ဘောလုံး/အားကစား</span>
+                    </a>
+                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=slots" target="_top" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-2xl p-4 flex flex-col items-center justify-center transition active:scale-95">
+                        <span class="text-3xl mb-2 text-brand-gold">🎰</span>
+                        <span class="text-[12px] font-black tracking-wide">စလော့ (Slots)</span>
+                    </a>
+                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=casino" target="_top" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-2xl p-4 flex flex-col items-center justify-center transition active:scale-95">
+                        <span class="text-3xl mb-2 text-brand-gold">🃏</span>
+                        <span class="text-[12px] font-black tracking-wide">Live ကာစီနို</span>
+                    </a>
+                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=1xgames" target="_top" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-2xl p-4 flex flex-col items-center justify-center transition active:scale-95">
+                        <span class="text-3xl mb-2 text-brand-gold">🚀</span>
+                        <span class="text-[12px] font-black tracking-wide">Crash / 1xGames</span>
+                    </a>
+                </div>
             </div>
         </div>
-        
-        <div class="bg-white dark:bg-[#1e293b] p-4 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-sm">
-             <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-2 flex items-center"><i class="fas fa-info-circle text-brand-gold mr-1.5"></i> ကြည့်ရှုရန် အကြံပြုချက်</h4>
-             <p class="text-[11px] font-bold text-slate-500 leading-relaxed">
-                 ပွဲစဉ်များကို မျက်နှာပြင်အပြည့် (Full Screen) ဖြင့် ကြည့်ရှုနိုင်ပါသည်။ လိုင်းမကောင်းပါက ခေတ္တစောင့်ဆိုင်းပေးပါ။ ပွဲချိန်များတွင်သာ Live ဖွင့်ထားမည်ဖြစ်ပါသည်။
-             </p>
-             <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="mt-4 flex justify-center items-center w-full py-3 bg-gradient-to-r from-yellow-400 to-brand-gold text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-md">
-                <i class="fas fa-coins mr-2"></i> 1XBET တွင် ငွေသွင်းကစားမည်
-             </a>
+
+        <div class="bg-white dark:bg-[#1e293b] p-4 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-sm flex items-start space-x-3">
+            <i class="fas fa-shield-check text-green-500 text-xl mt-0.5"></i>
+            <div>
+                <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-1">လုံခြုံရေး အာမခံချက်</h4>
+                <p class="text-[11px] font-bold text-slate-500 leading-relaxed">
+                    သင့်အကောင့် လုံခြုံစေရန်နှင့် Password ခဏခဏ ပြန်တောင်းခြင်းမှ ကင်းဝေးစေရန် 1XBET Official ဝက်ဘ်ဆိုက်သို့ တိုက်ရိုက်လင့်ခ်ဖြင့် ချိတ်ဆက်ပေးထားပါသည်။
+                </p>
+            </div>
         </div>
     </section>
+
     <section id="tab-ai" class="tab-content pt-4 space-y-4 animate-fade-up">
         <div class="text-center mb-6 mt-2">
             <div class="inline-block p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3 animate-float">
@@ -533,27 +545,6 @@
         </div>
     </section>
 
-    <section id="tab-casino" class="tab-content pt-4 space-y-4 animate-fade-up">
-        <div class="text-center mb-4">
-            <h2 class="text-lg font-black text-slate-900 dark:text-white mb-1">ကာစီနို နှင့် စလော့</h2>
-            <p class="text-[12px] font-bold text-slate-500">စိတ်ကြိုက် ဂိမ်းပေါင်းစုံကို တစ်နေရာတည်းတွင်</p>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
-                <span class="text-4xl mb-2">🎰</span><span class="font-black text-[12px] tracking-widest">SLOTS</span>
-            </a>
-            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
-                <span class="text-4xl mb-2">🃏</span><span class="font-black text-[12px] tracking-widest text-center">LIVE<br>CASINO</span>
-            </a>
-            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
-                <span class="text-4xl mb-2">🎡</span><span class="font-black text-[12px] tracking-widest">ROULETTE</span>
-            </a>
-            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
-                <span class="text-4xl mb-2">🚀</span><span class="font-black text-[12px] tracking-widest text-center">CRASH<br>GAMES</span>
-            </a>
-        </div>
-    </section>
-
     <section id="tab-services" class="tab-content pt-4 space-y-4 animate-fade-up">
         <h3 class="text-[15px] font-black px-1 text-slate-800 dark:text-white">အကူအညီနှင့် ဝန်ဆောင်မှုများ</h3>
         <div class="grid grid-cols-1 gap-3">
@@ -586,10 +577,9 @@
     <div class="w-full max-w-2xl bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 flex shadow-[0_-4px_20px_rgba(0,0,0,0.05)] overflow-x-auto hide-scrollbar">
         <div onclick="switchTabById('tab-home')" data-navtab="tab-home" class="bottom-nav-item active text-slate-400"><i class="nav-icon fas fa-home"></i><span class="nav-label">ပင်မ</span></div>
         <div onclick="switchTabById('tab-matches')" data-navtab="tab-matches" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-futbol"></i><span class="nav-label">ပွဲစဉ်</span></div>
-        <div onclick="switchTabById('tab-live-tv')" data-navtab="tab-live-tv" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-tv"></i><span class="nav-label">Live</span></div>
+        <div onclick="switchTabById('tab-play')" data-navtab="tab-play" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gamepad"></i><span class="nav-label">ကစားမည်</span></div>
         <div onclick="switchTabById('tab-ai')" data-navtab="tab-ai" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-robot"></i><span class="nav-label">AI</span></div>
         <div onclick="switchTabById('tab-standings')" data-navtab="tab-standings" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-list-ol"></i><span class="nav-label">ဇယား</span></div>
-        <div onclick="switchTabById('tab-casino')" data-navtab="tab-casino" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-dice"></i><span class="nav-label">ကာစီနို</span></div>
         <div onclick="switchTabById('tab-services')" data-navtab="tab-services" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-concierge-bell"></i><span class="nav-label">ဝန်ဆောင်မှု</span></div>
         <div onclick="switchTabById('tab-promos')" data-navtab="tab-promos" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gift"></i><span class="nav-label">ပရိုမို</span></div>
     </div>
@@ -716,11 +706,15 @@ function switchTab(tabId, btnEl) {
     document.getElementById(tabId).classList.add('active');
 
     document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.remove('bg-brand-gold','text-slate-900','shadow-md');
+        b.classList.remove('bg-brand-gold','text-slate-900','shadow-md','bg-blue-600','text-white');
         b.classList.add('bg-slate-100','dark:bg-slate-800','text-slate-600','dark:text-slate-300');
     });
     if (btnEl) {
-        btnEl.classList.add('bg-brand-gold','text-slate-900','shadow-md');
+        if(tabId === 'tab-play') {
+            btnEl.classList.add('bg-blue-600','text-white','shadow-md');
+        } else {
+            btnEl.classList.add('bg-brand-gold','text-slate-900','shadow-md');
+        }
         btnEl.classList.remove('bg-slate-100','dark:bg-slate-800','text-slate-600','dark:text-slate-300');
         btnEl.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
     }
