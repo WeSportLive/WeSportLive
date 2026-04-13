@@ -903,13 +903,19 @@ function renderAutoVIPTips() {
     const container = document.getElementById('auto-vip-tips-container');
     if(!container) return;
     
-    // ယနေ့ ကစားမည့် Upcoming ပွဲစဉ်များကို စစ်ထုတ်ခြင်း
+    // မနက်ဖြန် မနက် ၅ နာရီအထိ ကစားမည့် Upcoming ပွဲစဉ်များကို စစ်ထုတ်ခြင်း
     let cutoff = new Date();
-    cutoff.setHours(23, 59, 59, 999);
+    if (cutoff.getHours() < 5) { 
+        cutoff.setHours(5, 0, 0, 0); 
+    } else { 
+        cutoff.setDate(cutoff.getDate() + 1); 
+        cutoff.setHours(5, 0, 0, 0); 
+    }
+    
     let todayMatches = allCachedMatches.upcoming.filter(m => m.date <= cutoff);
     
     if(todayMatches.length === 0) {
-        container.innerHTML = `<div class="text-center text-[11px] text-slate-400 py-4">ဒီနေ့အတွက် VIP ပွဲစဉ် မရှိသေးပါ</div>`;
+        container.innerHTML = `<div class="text-center text-[11px] text-slate-400 py-4">ဒီအချိန်အတွက် VIP ပွဲစဉ် မရှိသေးပါ</div>`;
         return;
     }
 
@@ -948,9 +954,9 @@ function renderAutoVIPTips() {
         return { ...m, pick, confidence, colorClass };
     });
 
-    // ယုံကြည်မှု အမြင့်ဆုံး (Confidence) ဖြင့် စီပြီး အကောင်းဆုံး ၂ ပွဲကို ယူခြင်း
+    // ယုံကြည်မှု အမြင့်ဆုံး (Confidence) ဖြင့် စီပြီး အကောင်းဆုံး ၃ ပွဲကို ယူခြင်း (၂ ပွဲမှ ၃ ပွဲသို့ တိုးပေးထားပါသည်)
     analyzedMatches.sort((a,b) => b.confidence - a.confidence);
-    let topPicks = analyzedMatches.slice(0, 2);
+    let topPicks = analyzedMatches.slice(0, 3);
 
     let html = '';
     topPicks.forEach(m => {
@@ -969,6 +975,7 @@ function renderAutoVIPTips() {
     });
     
     container.innerHTML = html;
+}
 }
 
 function filterAndRenderMatches() {
