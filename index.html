@@ -690,6 +690,34 @@ let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
 
+// Global Team Database for AI
+const globalTeamPowers = {
+    'argentina': {att: 2.9, def: 2.8}, 'france': {att: 2.9, def: 2.7}, 'brazil': {att: 2.8, def: 2.6},
+    'england': {att: 2.8, def: 2.7}, 'spain': {att: 2.8, def: 2.7}, 'portugal': {att: 2.8, def: 2.6},
+    'germany': {att: 2.7, def: 2.6}, 'italy': {att: 2.5, def: 2.7}, 'netherlands': {att: 2.6, def: 2.6},
+    'belgium': {att: 2.5, def: 2.5}, 'croatia': {att: 2.4, def: 2.5}, 'uruguay': {att: 2.5, def: 2.5},
+    'colombia': {att: 2.4, def: 2.4}, 'senegal': {att: 2.3, def: 2.4}, 'morocco': {att: 2.3, def: 2.5},
+    'japan': {att: 2.4, def: 2.3}, 'south korea': {att: 2.3, def: 2.2}, 'iran': {att: 2.2, def: 2.3},
+    'usa': {att: 2.2, def: 2.2}, 'mexico': {att: 2.2, def: 2.2}, 'switzerland': {att: 2.3, def: 2.4},
+    'denmark': {att: 2.3, def: 2.4}, 'austria': {att: 2.3, def: 2.3}, 'turkey': {att: 2.3, def: 2.2},
+    'australia': {att: 2.1, def: 2.2}, 'saudi arabia': {att: 2.0, def: 2.1}, 'qatar': {att: 1.9, def: 1.9},
+    'uzbekistan': {att: 1.9, def: 1.9}, 'iraq': {att: 1.9, def: 1.8}, 'uae': {att: 1.8, def: 1.8},
+    'thailand': {att: 1.6, def: 1.5}, 'vietnam': {att: 1.5, def: 1.6}, 'indonesia': {att: 1.5, def: 1.5},
+    'malaysia': {att: 1.4, def: 1.4}, 'myanmar': {att: 1.1, def: 1.0}, 'singapore': {att: 1.1, def: 1.1},
+    'philippines': {att: 1.1, def: 1.1}, 'cambodia': {att: 0.9, def: 0.8}, 'laos': {att: 0.7, def: 0.6},
+    'san marino': {att: 0.2, def: 0.3}, 'andorra': {att: 0.4, def: 0.5}, 'liechtenstein': {att: 0.3, def: 0.4},
+    'gibraltar': {att: 0.3, def: 0.4}, 'faroe island': {att: 0.9, def: 1.0}, 'malta': {att: 0.7, def: 0.8},
+    'luxembourg': {att: 1.1, def: 1.2}, 'cyprus': {att: 1.0, def: 1.1}, 'moldova': {att: 0.9, def: 1.0},
+    'ajax': {att: 2.3, def: 2.1}, 'psv': {att: 2.4, def: 2.2}, 'feyenoord': {att: 2.3, def: 2.2},
+    'porto': {att: 2.5, def: 2.4}, 'benfica': {att: 2.5, def: 2.4}, 'sporting': {att: 2.6, def: 2.3},
+    'galatasaray': {att: 2.4, def: 2.2}, 'fenerbahce': {att: 2.4, def: 2.2}, 'besiktas': {att: 2.2, def: 2.0},
+    'celtic': {att: 2.1, def: 2.0}, 'rangers': {att: 2.1, def: 2.0}, 'salzburg': {att: 2.2, def: 2.0},
+    'shakhtar': {att: 2.1, def: 2.0}, 'dinamo zagreb': {att: 2.0, def: 1.9}, 'boca juniors': {att: 2.3, def: 2.2},
+    'river plate': {att: 2.3, def: 2.2}, 'flamengo': {att: 2.4, def: 2.2}, 'palmeiras': {att: 2.4, def: 2.3},
+    'al nassr': {att: 2.5, def: 2.1}, 'al hilal': {att: 2.7, def: 2.4}, 'al ittihad': {att: 2.3, def: 2.1},
+    'inter miami': {att: 2.4, def: 1.9}, 'la galaxy': {att: 2.0, def: 1.8}
+};
+
 function getMatchDayString(dateObj) {
     const d = new Date(dateObj.getTime() - 5 * 3600000); 
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -867,7 +895,6 @@ function renderHomeTopMatches() {
     if (cutoff.getHours() < 5) { cutoff.setHours(5, 0, 0, 0); } else { cutoff.setDate(cutoff.getDate() + 1); cutoff.setHours(5, 0, 0, 0); }
     let matches = [...allCachedMatches.live, ...allCachedMatches.upcoming].filter(m => m.date <= cutoff);
     
-    // Priority Sorting
     const topTeams = ['Manchester United', 'Arsenal', 'Liverpool', 'Chelsea', 'Manchester City', 'Tottenham', 'Real Madrid', 'Barcelona', 'Bayern Munich', 'Paris Saint-Germain', 'Juventus', 'Inter Milan', 'AC Milan', 'Myanmar', 'Portugal', 'Argentina', 'Brazil', 'France', 'England', 'Spain', 'Germany'];
     
     matches.sort((a, b) => {
@@ -919,7 +946,6 @@ function renderAutoVIPTips() {
         return;
     }
 
-    // ပွဲတိုင်းအတွက် AI ယုံကြည်မှု ရာခိုင်နှုန်းကို တွက်ချက်ခြင်း
     let analyzedMatches = todayMatches.map(m => {
         const hn = m.homeTeam.team.name.toLowerCase();
         const an = m.awayTeam.team.name.toLowerCase();
@@ -954,7 +980,7 @@ function renderAutoVIPTips() {
         return { ...m, pick, confidence, colorClass };
     });
 
-    // ယုံကြည်မှု အမြင့်ဆုံး (Confidence) ဖြင့် စီပြီး အကောင်းဆုံး ၃ ပွဲကို ယူခြင်း (၂ ပွဲမှ ၃ ပွဲသို့ တိုးပေးထားပါသည်)
+    // ယုံကြည်မှု အမြင့်ဆုံး (Confidence) ဖြင့် စီပြီး အကောင်းဆုံး ၃ ပွဲကို ယူခြင်း
     analyzedMatches.sort((a,b) => b.confidence - a.confidence);
     let topPicks = analyzedMatches.slice(0, 3);
 
@@ -975,7 +1001,6 @@ function renderAutoVIPTips() {
     });
     
     container.innerHTML = html;
-}
 }
 
 function filterAndRenderMatches() {
@@ -1160,43 +1185,11 @@ async function fetchMatches(isManual=false) {
         allCachedMatches={live,upcoming,finished};
         renderDateSelector(); filterAndRenderMatches(); renderHomeTopMatches();
         
-        // Call the newly added Auto VIP function after matches are loaded
+        // Tab နှိပ်မရတဲ့ ပြဿနာ ဖြေရှင်းရန် Auto VIP ကို ဒီနေရာမှာ ပြန်ခေါ်ထားပါသည်
         renderAutoVIPTips();
         
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
-
-// --- FULL AI PREDICTION FEATURE ---
-
-const MAX_AI_PREDICTIONS = 5;
-const AI_UNLOCK_CODE = "ZINXBETVIP";
-
-const globalTeamPowers = {
-    'argentina': {att: 2.9, def: 2.8}, 'france': {att: 2.9, def: 2.7}, 'brazil': {att: 2.8, def: 2.6},
-    'england': {att: 2.8, def: 2.7}, 'spain': {att: 2.8, def: 2.7}, 'portugal': {att: 2.8, def: 2.6},
-    'germany': {att: 2.7, def: 2.6}, 'italy': {att: 2.5, def: 2.7}, 'netherlands': {att: 2.6, def: 2.6},
-    'belgium': {att: 2.5, def: 2.5}, 'croatia': {att: 2.4, def: 2.5}, 'uruguay': {att: 2.5, def: 2.5},
-    'colombia': {att: 2.4, def: 2.4}, 'senegal': {att: 2.3, def: 2.4}, 'morocco': {att: 2.3, def: 2.5},
-    'japan': {att: 2.4, def: 2.3}, 'south korea': {att: 2.3, def: 2.2}, 'iran': {att: 2.2, def: 2.3},
-    'usa': {att: 2.2, def: 2.2}, 'mexico': {att: 2.2, def: 2.2}, 'switzerland': {att: 2.3, def: 2.4},
-    'denmark': {att: 2.3, def: 2.4}, 'austria': {att: 2.3, def: 2.3}, 'turkey': {att: 2.3, def: 2.2},
-    'australia': {att: 2.1, def: 2.2}, 'saudi arabia': {att: 2.0, def: 2.1}, 'qatar': {att: 1.9, def: 1.9},
-    'uzbekistan': {att: 1.9, def: 1.9}, 'iraq': {att: 1.9, def: 1.8}, 'uae': {att: 1.8, def: 1.8},
-    'thailand': {att: 1.6, def: 1.5}, 'vietnam': {att: 1.5, def: 1.6}, 'indonesia': {att: 1.5, def: 1.5},
-    'malaysia': {att: 1.4, def: 1.4}, 'myanmar': {att: 1.1, def: 1.0}, 'singapore': {att: 1.1, def: 1.1},
-    'philippines': {att: 1.1, def: 1.1}, 'cambodia': {att: 0.9, def: 0.8}, 'laos': {att: 0.7, def: 0.6},
-    'san marino': {att: 0.2, def: 0.3}, 'andorra': {att: 0.4, def: 0.5}, 'liechtenstein': {att: 0.3, def: 0.4},
-    'gibraltar': {att: 0.3, def: 0.4}, 'faroe island': {att: 0.9, def: 1.0}, 'malta': {att: 0.7, def: 0.8},
-    'luxembourg': {att: 1.1, def: 1.2}, 'cyprus': {att: 1.0, def: 1.1}, 'moldova': {att: 0.9, def: 1.0},
-    'ajax': {att: 2.3, def: 2.1}, 'psv': {att: 2.4, def: 2.2}, 'feyenoord': {att: 2.3, def: 2.2},
-    'porto': {att: 2.5, def: 2.4}, 'benfica': {att: 2.5, def: 2.4}, 'sporting': {att: 2.6, def: 2.3},
-    'galatasaray': {att: 2.4, def: 2.2}, 'fenerbahce': {att: 2.4, def: 2.2}, 'besiktas': {att: 2.2, def: 2.0},
-    'celtic': {att: 2.1, def: 2.0}, 'rangers': {att: 2.1, def: 2.0}, 'salzburg': {att: 2.2, def: 2.0},
-    'shakhtar': {att: 2.1, def: 2.0}, 'dinamo zagreb': {att: 2.0, def: 1.9}, 'boca juniors': {att: 2.3, def: 2.2},
-    'river plate': {att: 2.3, def: 2.2}, 'flamengo': {att: 2.4, def: 2.2}, 'palmeiras': {att: 2.4, def: 2.3},
-    'al nassr': {att: 2.5, def: 2.1}, 'al hilal': {att: 2.7, def: 2.4}, 'al ittihad': {att: 2.3, def: 2.1},
-    'inter miami': {att: 2.4, def: 1.9}, 'la galaxy': {att: 2.0, def: 1.8}
-};
 
 function updateAIUsageUI() {
     let usage = parseInt(localStorage.getItem('aiUsageCount')) || 0;
