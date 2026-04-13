@@ -293,40 +293,20 @@
                 <h3 class="text-[14px] font-black text-slate-800 dark:text-white flex items-center">
                     <i class="fas fa-fire text-orange-500 mr-1.5 animate-pulse"></i> နေ့စဉ် အခမဲ့ VIP ပွဲစဉ်များ
                 </h3>
-                <span class="text-[9px] bg-green-100 text-green-600 font-black px-2 py-0.5 rounded-full uppercase tracking-widest">W.E Sports Choice</span>
+                <span class="text-[9px] bg-purple-100 text-purple-600 font-black px-2 py-0.5 rounded-full uppercase tracking-widest">AI Choice</span>
             </div>
 
             <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-1 shadow-lg border border-brand-gold/40">
                 <div class="bg-[#0f172a] rounded-xl p-4 relative overflow-hidden">
                     <div class="absolute -right-4 -top-4 opacity-5 text-7xl text-brand-gold pointer-events-none"><i class="fas fa-star"></i></div>
                     
-                    <p class="text-center text-[10px] text-slate-400 font-bold mb-4 border-b border-slate-700/50 pb-2 relative z-10">ဒီကနေ့အတွက် W.E Sports မှ အသေချာဆုံး သုံးသပ်ပေးထားသော ပွဲစဉ်များ</p>
+                    <p class="text-center text-[10px] text-slate-400 font-bold mb-4 border-b border-slate-700/50 pb-2 relative z-10">ဒီကနေ့အတွက် ESPN Data အခြေခံ အသေချာဆုံး ပွဲစဉ်များ</p>
                     
-                    <div class="flex justify-between items-center bg-slate-800/60 rounded-xl p-3 mb-3 border border-slate-700/50 relative z-10">
-                        <div class="w-[45%] text-left">
-                            <div class="text-[12px] font-black text-white">Arsenal</div>
-                            <div class="text-[9px] text-slate-400">vs Aston Villa</div>
-                        </div>
-                        <div class="w-[10%] text-center"><i class="fas fa-arrow-right text-brand-gold text-[11px] animate-pulse"></i></div>
-                        <div class="w-[45%] text-right">
-                            <div class="text-[12px] font-black text-brand-gold">Arsenal Win (1)</div>
-                            <div class="text-[9px] text-green-400 font-bold mt-0.5">ယုံကြည်မှု: 85%</div>
-                        </div>
+                    <div id="auto-vip-tips-container" class="relative z-10 min-h-[100px] flex items-center justify-center flex-col w-full">
+                        <div class="loader mb-2"></div> <span class="text-[11px] text-slate-400">ပွဲစဉ်များ ရှာဖွေနေပါသည်...</span>
                     </div>
 
-                    <div class="flex justify-between items-center bg-slate-800/60 rounded-xl p-3 mb-5 border border-slate-700/50 relative z-10">
-                        <div class="w-[45%] text-left">
-                            <div class="text-[12px] font-black text-white">Real Madrid</div>
-                            <div class="text-[9px] text-slate-400">vs Sevilla</div>
-                        </div>
-                        <div class="w-[10%] text-center"><i class="fas fa-arrow-right text-brand-gold text-[11px] animate-pulse"></i></div>
-                        <div class="w-[45%] text-right">
-                            <div class="text-[12px] font-black text-brand-gold">Over 2.5 Goals</div>
-                            <div class="text-[9px] text-green-400 font-bold mt-0.5">ယုံကြည်မှု: 90%</div>
-                        </div>
-                    </div>
-
-                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=line" target="_top" class="relative z-10 w-full flex items-center justify-center bg-brand-gold hover:bg-yellow-400 text-slate-900 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition shadow-md">
+                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=line" target="_top" class="relative z-10 w-full flex items-center justify-center bg-brand-gold hover:bg-yellow-400 text-slate-900 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition shadow-md mt-4">
                         <i class="fas fa-coins mr-2"></i> 1XBET တွင် ယခုပဲ လောင်းကြေးထပ်မည်
                     </a>
                 </div>
@@ -918,6 +898,79 @@ function renderHomeTopMatches() {
     }).join('');
 }
 
+// --- AUTO VIP TIPS RENDERER ---
+function renderAutoVIPTips() {
+    const container = document.getElementById('auto-vip-tips-container');
+    if(!container) return;
+    
+    // ယနေ့ ကစားမည့် Upcoming ပွဲစဉ်များကို စစ်ထုတ်ခြင်း
+    let cutoff = new Date();
+    cutoff.setHours(23, 59, 59, 999);
+    let todayMatches = allCachedMatches.upcoming.filter(m => m.date <= cutoff);
+    
+    if(todayMatches.length === 0) {
+        container.innerHTML = `<div class="text-center text-[11px] text-slate-400 py-4">ဒီနေ့အတွက် VIP ပွဲစဉ် မရှိသေးပါ</div>`;
+        return;
+    }
+
+    // ပွဲတိုင်းအတွက် AI ယုံကြည်မှု ရာခိုင်နှုန်းကို တွက်ချက်ခြင်း
+    let analyzedMatches = todayMatches.map(m => {
+        const hn = m.homeTeam.team.name.toLowerCase();
+        const an = m.awayTeam.team.name.toLowerCase();
+        
+        const getStats = (name) => {
+            for(let key in globalTeamPowers) {
+                if(name.includes(key) || key.includes(name)) return globalTeamPowers[key];
+            }
+            return {att: 1.2, def: 1.5}; // Unknown team default
+        };
+
+        let hStats = getStats(hn);
+        let aStats = getStats(an);
+
+        let homeXG = hStats.att * (aStats.def / 1.4) * 1.1; // Home Advantage
+        let awayXG = aStats.att * (hStats.def / 1.4);
+        
+        const totalXG = homeXG + awayXG + 0.8;
+        const hPct = (homeXG / totalXG) * 100;
+        const aPct = (awayXG / totalXG) * 100;
+        
+        let pick = '';
+        let confidence = 0;
+        let colorClass = 'text-brand-gold';
+
+        // အသေချာဆုံး ရွေးချယ်မှု သတ်မှတ်ခြင်း
+        if(hPct > 55) { pick = `${m.homeTeam.team.name.substring(0,12)} Win`; confidence = Math.min(95, Math.round(hPct + 15)); colorClass = 'text-blue-400'; }
+        else if(aPct > 50) { pick = `${m.awayTeam.team.name.substring(0,12)} Win`; confidence = Math.min(95, Math.round(aPct + 15)); colorClass = 'text-red-400'; }
+        else if((homeXG + awayXG) > 2.8) { pick = `Over 2.5 Goals`; confidence = Math.min(92, Math.round((homeXG+awayXG)*20)); colorClass = 'text-green-400'; }
+        else { pick = `Under 3.5 Goals`; confidence = 80; colorClass = 'text-slate-300'; }
+
+        return { ...m, pick, confidence, colorClass };
+    });
+
+    // ယုံကြည်မှု အမြင့်ဆုံး (Confidence) ဖြင့် စီပြီး အကောင်းဆုံး ၂ ပွဲကို ယူခြင်း
+    analyzedMatches.sort((a,b) => b.confidence - a.confidence);
+    let topPicks = analyzedMatches.slice(0, 2);
+
+    let html = '';
+    topPicks.forEach(m => {
+        html += `
+        <div class="w-full flex justify-between items-center bg-slate-800/60 rounded-xl p-3 mb-3 border border-slate-700/50">
+            <div class="w-[45%] text-left">
+                <div class="text-[12px] font-black text-white truncate">${m.homeTeam.team.name.substring(0,12)}</div>
+                <div class="text-[9px] text-slate-400 truncate">vs ${m.awayTeam.team.name.substring(0,12)}</div>
+            </div>
+            <div class="w-[10%] text-center"><i class="fas fa-arrow-right text-brand-gold text-[11px] animate-pulse"></i></div>
+            <div class="w-[45%] text-right">
+                <div class="text-[12px] font-black ${m.colorClass}">${m.pick}</div>
+                <div class="text-[9px] text-green-400 font-bold mt-0.5">ယုံကြည်မှု: ${m.confidence}%</div>
+            </div>
+        </div>`;
+    });
+    
+    container.innerHTML = html;
+}
+
 function filterAndRenderMatches() {
     const filterByDate = arr => currentSelectedDate === 'all' ? arr : arr.filter(m => getMatchDayString(m.date) === currentSelectedDate);
     const filterBySearch = arr => !searchQuery ? arr : arr.filter(m => m.homeTeam.team.name.toLowerCase().includes(searchQuery) || m.awayTeam.team.name.toLowerCase().includes(searchQuery) || m.leagueName.toLowerCase().includes(searchQuery));
@@ -1099,16 +1152,19 @@ async function fetchMatches(isManual=false) {
 
         allCachedMatches={live,upcoming,finished};
         renderDateSelector(); filterAndRenderMatches(); renderHomeTopMatches();
+        
+        // Call the newly added Auto VIP function after matches are loaded
+        renderAutoVIPTips();
+        
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
 
-// --- FULL AI PREDICTION FEATURE (EXPANDED FOR UCL, WORLD CUP & GLOBAL LEAGUES) ---
+// --- FULL AI PREDICTION FEATURE ---
 
 const MAX_AI_PREDICTIONS = 5;
 const AI_UNLOCK_CODE = "ZINXBETVIP";
 
 const globalTeamPowers = {
-    // Top National Teams (World Cup/Euros/Copa)
     'argentina': {att: 2.9, def: 2.8}, 'france': {att: 2.9, def: 2.7}, 'brazil': {att: 2.8, def: 2.6},
     'england': {att: 2.8, def: 2.7}, 'spain': {att: 2.8, def: 2.7}, 'portugal': {att: 2.8, def: 2.6},
     'germany': {att: 2.7, def: 2.6}, 'italy': {att: 2.5, def: 2.7}, 'netherlands': {att: 2.6, def: 2.6},
@@ -1117,20 +1173,14 @@ const globalTeamPowers = {
     'japan': {att: 2.4, def: 2.3}, 'south korea': {att: 2.3, def: 2.2}, 'iran': {att: 2.2, def: 2.3},
     'usa': {att: 2.2, def: 2.2}, 'mexico': {att: 2.2, def: 2.2}, 'switzerland': {att: 2.3, def: 2.4},
     'denmark': {att: 2.3, def: 2.4}, 'austria': {att: 2.3, def: 2.3}, 'turkey': {att: 2.3, def: 2.2},
-    
-    // Asian & SEA Teams
     'australia': {att: 2.1, def: 2.2}, 'saudi arabia': {att: 2.0, def: 2.1}, 'qatar': {att: 1.9, def: 1.9},
     'uzbekistan': {att: 1.9, def: 1.9}, 'iraq': {att: 1.9, def: 1.8}, 'uae': {att: 1.8, def: 1.8},
     'thailand': {att: 1.6, def: 1.5}, 'vietnam': {att: 1.5, def: 1.6}, 'indonesia': {att: 1.5, def: 1.5},
     'malaysia': {att: 1.4, def: 1.4}, 'myanmar': {att: 1.1, def: 1.0}, 'singapore': {att: 1.1, def: 1.1},
     'philippines': {att: 1.1, def: 1.1}, 'cambodia': {att: 0.9, def: 0.8}, 'laos': {att: 0.7, def: 0.6},
-    
-    // Minnows / Lower Ranked
     'san marino': {att: 0.2, def: 0.3}, 'andorra': {att: 0.4, def: 0.5}, 'liechtenstein': {att: 0.3, def: 0.4},
     'gibraltar': {att: 0.3, def: 0.4}, 'faroe island': {att: 0.9, def: 1.0}, 'malta': {att: 0.7, def: 0.8},
     'luxembourg': {att: 1.1, def: 1.2}, 'cyprus': {att: 1.0, def: 1.1}, 'moldova': {att: 0.9, def: 1.0},
-
-    // Rest of World Clubs (UCL Regulars, Saudi, MLS etc.)
     'ajax': {att: 2.3, def: 2.1}, 'psv': {att: 2.4, def: 2.2}, 'feyenoord': {att: 2.3, def: 2.2},
     'porto': {att: 2.5, def: 2.4}, 'benfica': {att: 2.5, def: 2.4}, 'sporting': {att: 2.6, def: 2.3},
     'galatasaray': {att: 2.4, def: 2.2}, 'fenerbahce': {att: 2.4, def: 2.2}, 'besiktas': {att: 2.2, def: 2.0},
