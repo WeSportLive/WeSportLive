@@ -241,7 +241,7 @@
     <nav id="header-tabs" class="w-full px-4 pb-3 overflow-x-auto hide-scrollbar flex space-x-2 items-center">
         <button onclick="switchTab('tab-home',this)" data-tab="tab-home" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-brand-gold text-slate-900 shadow-md">ပင်မ</button>
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
-        <button onclick="switchTab('tab-play',this)" data-tab="tab-play" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-gamepad text-blue-500 mr-1.5"></i> 1XBET ကစားမည်</button>
+        <button onclick="switchTab('tab-play',this)" data-tab="tab-play" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-blue-600 text-white flex items-center shadow-md"><i class="fas fa-gamepad mr-1.5"></i> 1XBET ကစားမည်</button>
         <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
         <button onclick="switchTab('tab-services',this)" data-tab="tab-services" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဝန်ဆောင်မှု</button>
@@ -288,32 +288,7 @@
             </a>
         </div>
 
-        <div class="mb-2 mt-4 relative animate-fade-up">
-            <div class="flex justify-between items-center px-1 mb-3">
-                <h3 class="text-[14px] font-black text-slate-800 dark:text-white flex items-center">
-                    <i class="fas fa-fire text-orange-500 mr-1.5 animate-pulse"></i> နေ့စဉ် အခမဲ့ VIP ပွဲစဉ်များ
-                </h3>
-                <span class="text-[9px] bg-purple-100 text-purple-600 font-black px-2 py-0.5 rounded-full uppercase tracking-widest">AI Choice</span>
-            </div>
-
-            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-1 shadow-lg border border-brand-gold/40">
-                <div class="bg-[#0f172a] rounded-xl p-4 relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 opacity-5 text-7xl text-brand-gold pointer-events-none"><i class="fas fa-star"></i></div>
-                    
-                    <p class="text-center text-[10px] text-slate-400 font-bold mb-4 border-b border-slate-700/50 pb-2 relative z-10">ဒီကနေ့အတွက် ESPN Data အခြေခံ အသေချာဆုံး ပွဲစဉ်များ</p>
-                    
-                    <div id="auto-vip-tips-container" class="relative z-10 min-h-[100px] flex items-center justify-center flex-col w-full">
-                        <div class="loader mb-2"></div> <span class="text-[11px] text-slate-400">ပွဲစဉ်များ ရှာဖွေနေပါသည်...</span>
-                    </div>
-
-                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=line" target="_top" class="relative z-10 w-full flex items-center justify-center bg-brand-gold hover:bg-yellow-400 text-slate-900 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition shadow-md mt-4">
-                        <i class="fas fa-coins mr-2"></i> 1XBET တွင် ယခုပဲ လောင်းကြေးထပ်မည်
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <button onclick="switchTabById('tab-ai')" class="w-full mb-2 mt-4 rounded-2xl p-4 bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg border border-purple-400/50 flex items-center justify-between text-white active:scale-95 transition">
+        <button onclick="switchTabById('tab-ai')" class="w-full mb-2 mt-2 rounded-2xl p-4 bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg border border-purple-400/50 flex items-center justify-between text-white active:scale-95 transition">
             <div class="flex items-center space-x-3">
                 <div class="text-3xl animate-bounce">🔮</div>
                 <div class="text-left">
@@ -415,7 +390,7 @@
             </div>
             <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">W.E Sports AI Predictor</h2>
             <p class="text-[12px] font-bold text-slate-500 max-w-[280px] mx-auto leading-relaxed">
-                ထိပ်တန်းလိဂ်ပွဲစဉ်များသာမက <span class="text-brand-gold">UCL, World Cup နှင့် Global Matches များကိုပါ</span> AI မှ အသေးစိတ် တွက်ချက်ခန့်မှန်းပေးပါသည်။
+                ထိပ်တန်းလိဂ်ပွဲစဉ်များသာမက <span class="text-brand-gold">Friendly Matches နိုင်ငံတကာခြေစမ်းပွဲများ</span> အထိ AI မှ အသေးစိတ် တွက်ချက်ခန့်မှန်းပေးပါသည်။
             </p>
         </div>
 
@@ -426,7 +401,7 @@
                         <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">အိမ်ရှင်အသင်း (Home Team)</label>
                         <div class="relative">
                             <i class="fas fa-home absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="ai-home" placeholder="ဥပမာ - Argentina, Real Madrid, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
+                            <input type="text" id="ai-home" placeholder="ဥပမာ - San Marino, Man Utd, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
                         </div>
                     </div>
                     
@@ -438,7 +413,7 @@
                         <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">ဧည့်သည်အသင်း (Away Team)</label>
                         <div class="relative">
                             <i class="fas fa-plane absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="ai-away" placeholder="ဥပမာ - Brazil, Bayern Munich, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
+                            <input type="text" id="ai-away" placeholder="ဥပမာ - Faroe Islands, Arsenal, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
                         </div>
                     </div>
                 </div>
@@ -690,34 +665,6 @@ let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
 
-// Global Team Database for AI
-const globalTeamPowers = {
-    'argentina': {att: 2.9, def: 2.8}, 'france': {att: 2.9, def: 2.7}, 'brazil': {att: 2.8, def: 2.6},
-    'england': {att: 2.8, def: 2.7}, 'spain': {att: 2.8, def: 2.7}, 'portugal': {att: 2.8, def: 2.6},
-    'germany': {att: 2.7, def: 2.6}, 'italy': {att: 2.5, def: 2.7}, 'netherlands': {att: 2.6, def: 2.6},
-    'belgium': {att: 2.5, def: 2.5}, 'croatia': {att: 2.4, def: 2.5}, 'uruguay': {att: 2.5, def: 2.5},
-    'colombia': {att: 2.4, def: 2.4}, 'senegal': {att: 2.3, def: 2.4}, 'morocco': {att: 2.3, def: 2.5},
-    'japan': {att: 2.4, def: 2.3}, 'south korea': {att: 2.3, def: 2.2}, 'iran': {att: 2.2, def: 2.3},
-    'usa': {att: 2.2, def: 2.2}, 'mexico': {att: 2.2, def: 2.2}, 'switzerland': {att: 2.3, def: 2.4},
-    'denmark': {att: 2.3, def: 2.4}, 'austria': {att: 2.3, def: 2.3}, 'turkey': {att: 2.3, def: 2.2},
-    'australia': {att: 2.1, def: 2.2}, 'saudi arabia': {att: 2.0, def: 2.1}, 'qatar': {att: 1.9, def: 1.9},
-    'uzbekistan': {att: 1.9, def: 1.9}, 'iraq': {att: 1.9, def: 1.8}, 'uae': {att: 1.8, def: 1.8},
-    'thailand': {att: 1.6, def: 1.5}, 'vietnam': {att: 1.5, def: 1.6}, 'indonesia': {att: 1.5, def: 1.5},
-    'malaysia': {att: 1.4, def: 1.4}, 'myanmar': {att: 1.1, def: 1.0}, 'singapore': {att: 1.1, def: 1.1},
-    'philippines': {att: 1.1, def: 1.1}, 'cambodia': {att: 0.9, def: 0.8}, 'laos': {att: 0.7, def: 0.6},
-    'san marino': {att: 0.2, def: 0.3}, 'andorra': {att: 0.4, def: 0.5}, 'liechtenstein': {att: 0.3, def: 0.4},
-    'gibraltar': {att: 0.3, def: 0.4}, 'faroe island': {att: 0.9, def: 1.0}, 'malta': {att: 0.7, def: 0.8},
-    'luxembourg': {att: 1.1, def: 1.2}, 'cyprus': {att: 1.0, def: 1.1}, 'moldova': {att: 0.9, def: 1.0},
-    'ajax': {att: 2.3, def: 2.1}, 'psv': {att: 2.4, def: 2.2}, 'feyenoord': {att: 2.3, def: 2.2},
-    'porto': {att: 2.5, def: 2.4}, 'benfica': {att: 2.5, def: 2.4}, 'sporting': {att: 2.6, def: 2.3},
-    'galatasaray': {att: 2.4, def: 2.2}, 'fenerbahce': {att: 2.4, def: 2.2}, 'besiktas': {att: 2.2, def: 2.0},
-    'celtic': {att: 2.1, def: 2.0}, 'rangers': {att: 2.1, def: 2.0}, 'salzburg': {att: 2.2, def: 2.0},
-    'shakhtar': {att: 2.1, def: 2.0}, 'dinamo zagreb': {att: 2.0, def: 1.9}, 'boca juniors': {att: 2.3, def: 2.2},
-    'river plate': {att: 2.3, def: 2.2}, 'flamengo': {att: 2.4, def: 2.2}, 'palmeiras': {att: 2.4, def: 2.3},
-    'al nassr': {att: 2.5, def: 2.1}, 'al hilal': {att: 2.7, def: 2.4}, 'al ittihad': {att: 2.3, def: 2.1},
-    'inter miami': {att: 2.4, def: 1.9}, 'la galaxy': {att: 2.0, def: 1.8}
-};
-
 function getMatchDayString(dateObj) {
     const d = new Date(dateObj.getTime() - 5 * 3600000); 
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -895,6 +842,7 @@ function renderHomeTopMatches() {
     if (cutoff.getHours() < 5) { cutoff.setHours(5, 0, 0, 0); } else { cutoff.setDate(cutoff.getDate() + 1); cutoff.setHours(5, 0, 0, 0); }
     let matches = [...allCachedMatches.live, ...allCachedMatches.upcoming].filter(m => m.date <= cutoff);
     
+    // Priority Sorting
     const topTeams = ['Manchester United', 'Arsenal', 'Liverpool', 'Chelsea', 'Manchester City', 'Tottenham', 'Real Madrid', 'Barcelona', 'Bayern Munich', 'Paris Saint-Germain', 'Juventus', 'Inter Milan', 'AC Milan', 'Myanmar', 'Portugal', 'Argentina', 'Brazil', 'France', 'England', 'Spain', 'Germany'];
     
     matches.sort((a, b) => {
@@ -923,84 +871,6 @@ function renderHomeTopMatches() {
             ${!isLive ? `<div class="text-[9px] text-center text-slate-400 font-bold mt-2">${m.date.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</div>` : ''}
         </div>`;
     }).join('');
-}
-
-// --- AUTO VIP TIPS RENDERER ---
-function renderAutoVIPTips() {
-    const container = document.getElementById('auto-vip-tips-container');
-    if(!container) return;
-    
-    // မနက်ဖြန် မနက် ၅ နာရီအထိ ကစားမည့် Upcoming ပွဲစဉ်များကို စစ်ထုတ်ခြင်း
-    let cutoff = new Date();
-    if (cutoff.getHours() < 5) { 
-        cutoff.setHours(5, 0, 0, 0); 
-    } else { 
-        cutoff.setDate(cutoff.getDate() + 1); 
-        cutoff.setHours(5, 0, 0, 0); 
-    }
-    
-    let todayMatches = allCachedMatches.upcoming.filter(m => m.date <= cutoff);
-    
-    if(todayMatches.length === 0) {
-        container.innerHTML = `<div class="text-center text-[11px] text-slate-400 py-4">ဒီအချိန်အတွက် VIP ပွဲစဉ် မရှိသေးပါ</div>`;
-        return;
-    }
-
-    let analyzedMatches = todayMatches.map(m => {
-        const hn = m.homeTeam.team.name.toLowerCase();
-        const an = m.awayTeam.team.name.toLowerCase();
-        
-        const getStats = (name) => {
-            for(let key in globalTeamPowers) {
-                if(name.includes(key) || key.includes(name)) return globalTeamPowers[key];
-            }
-            return {att: 1.2, def: 1.5}; // Unknown team default
-        };
-
-        let hStats = getStats(hn);
-        let aStats = getStats(an);
-
-        let homeXG = hStats.att * (aStats.def / 1.4) * 1.1; // Home Advantage
-        let awayXG = aStats.att * (hStats.def / 1.4);
-        
-        const totalXG = homeXG + awayXG + 0.8;
-        const hPct = (homeXG / totalXG) * 100;
-        const aPct = (awayXG / totalXG) * 100;
-        
-        let pick = '';
-        let confidence = 0;
-        let colorClass = 'text-brand-gold';
-
-        // အသေချာဆုံး ရွေးချယ်မှု သတ်မှတ်ခြင်း
-        if(hPct > 55) { pick = `${m.homeTeam.team.name.substring(0,12)} Win`; confidence = Math.min(95, Math.round(hPct + 15)); colorClass = 'text-blue-400'; }
-        else if(aPct > 50) { pick = `${m.awayTeam.team.name.substring(0,12)} Win`; confidence = Math.min(95, Math.round(aPct + 15)); colorClass = 'text-red-400'; }
-        else if((homeXG + awayXG) > 2.8) { pick = `Over 2.5 Goals`; confidence = Math.min(92, Math.round((homeXG+awayXG)*20)); colorClass = 'text-green-400'; }
-        else { pick = `Under 3.5 Goals`; confidence = 80; colorClass = 'text-slate-300'; }
-
-        return { ...m, pick, confidence, colorClass };
-    });
-
-    // ယုံကြည်မှု အမြင့်ဆုံး (Confidence) ဖြင့် စီပြီး အကောင်းဆုံး ၃ ပွဲကို ယူခြင်း
-    analyzedMatches.sort((a,b) => b.confidence - a.confidence);
-    let topPicks = analyzedMatches.slice(0, 3);
-
-    let html = '';
-    topPicks.forEach(m => {
-        html += `
-        <div class="w-full flex justify-between items-center bg-slate-800/60 rounded-xl p-3 mb-3 border border-slate-700/50">
-            <div class="w-[45%] text-left">
-                <div class="text-[12px] font-black text-white truncate">${m.homeTeam.team.name.substring(0,12)}</div>
-                <div class="text-[9px] text-slate-400 truncate">vs ${m.awayTeam.team.name.substring(0,12)}</div>
-            </div>
-            <div class="w-[10%] text-center"><i class="fas fa-arrow-right text-brand-gold text-[11px] animate-pulse"></i></div>
-            <div class="w-[45%] text-right">
-                <div class="text-[12px] font-black ${m.colorClass}">${m.pick}</div>
-                <div class="text-[9px] text-green-400 font-bold mt-0.5">ယုံကြည်မှု: ${m.confidence}%</div>
-            </div>
-        </div>`;
-    });
-    
-    container.innerHTML = html;
 }
 
 function filterAndRenderMatches() {
@@ -1184,12 +1054,29 @@ async function fetchMatches(isManual=false) {
 
         allCachedMatches={live,upcoming,finished};
         renderDateSelector(); filterAndRenderMatches(); renderHomeTopMatches();
-        
-        // Tab နှိပ်မရတဲ့ ပြဿနာ ဖြေရှင်းရန် Auto VIP ကို ဒီနေရာမှာ ပြန်ခေါ်ထားပါသည်
-        renderAutoVIPTips();
-        
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
+
+// --- FULL AI PREDICTION FEATURE (UPDATED WITH STRICT LOGIC & UNLOCK LIMIT) ---
+
+const MAX_AI_PREDICTIONS = 5;
+const AI_UNLOCK_CODE = "ZINXBETVIP";
+
+const globalTeamPowers = {
+    'argentina': {att: 2.9, def: 2.7}, 'france': {att: 2.9, def: 2.6}, 'brazil': {att: 2.7, def: 2.5},
+    'england': {att: 2.8, def: 2.6}, 'spain': {att: 2.8, def: 2.7}, 'portugal': {att: 2.8, def: 2.6},
+    'germany': {att: 2.7, def: 2.5}, 'italy': {att: 2.4, def: 2.6}, 'netherlands': {att: 2.6, def: 2.5},
+    'belgium': {att: 2.5, def: 2.4}, 'croatia': {att: 2.3, def: 2.4}, 'uruguay': {att: 2.4, def: 2.5},
+    'colombia': {att: 2.3, def: 2.3}, 'senegal': {att: 2.2, def: 2.3}, 'morocco': {att: 2.2, def: 2.4},
+    'japan': {att: 2.4, def: 2.3}, 'south korea': {att: 2.3, def: 2.2}, 'iran': {att: 2.1, def: 2.2},
+    'australia': {att: 2.0, def: 2.1}, 'saudi arabia': {att: 1.9, def: 2.0}, 'qatar': {att: 1.8, def: 1.8},
+    'thailand': {att: 1.6, def: 1.5}, 'vietnam': {att: 1.5, def: 1.6}, 'indonesia': {att: 1.5, def: 1.5},
+    'malaysia': {att: 1.4, def: 1.4}, 'myanmar': {att: 1.1, def: 1.0}, 'singapore': {att: 1.1, def: 1.1},
+    'cambodia': {att: 0.9, def: 0.8}, 'laos': {att: 0.7, def: 0.6}, 'brunei': {att: 0.5, def: 0.5},
+    'san marino': {att: 0.2, def: 0.3}, 'andorra': {att: 0.4, def: 0.5}, 'liechtenstein': {att: 0.3, def: 0.4},
+    'gibraltar': {att: 0.3, def: 0.4}, 'faroe island': {att: 0.9, def: 1.0}, 'malta': {att: 0.7, def: 0.8},
+    'luxembourg': {att: 1.1, def: 1.2}, 'cyprus': {att: 1.0, def: 1.1}, 'moldova': {att: 0.9, def: 1.0}
+};
 
 function updateAIUsageUI() {
     let usage = parseInt(localStorage.getItem('aiUsageCount')) || 0;
@@ -1259,10 +1146,10 @@ async function generateAIPrediction() {
         document.getElementById(id).style.width = '0%';
     });
 
-    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2"></div> AI Data ရှာဖွေနေပါသည်...`;
+    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2"></div> AI တွက်ချက်နေပါသည်...`;
 
     try {
-        const leagues = ['eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'ned.1', 'por.1', 'ksa.1', 'eng.2', 'tur.1', 'bra.1', 'arg.1'];
+        const leagues = ['eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'ned.1', 'por.1', 'ksa.1', 'eng.2'];
         const responses = await Promise.all(leagues.map(id => 
             fetch(`https://site.api.espn.com/apis/v2/sports/soccer/${id}/standings`).catch(() => null)
         ));
@@ -1279,15 +1166,7 @@ async function generateAIPrediction() {
                 const gf = parseFloat(e.stats.find(s => s.name === 'pointsFor')?.displayValue || 1); 
                 const ga = parseFloat(e.stats.find(s => s.name === 'pointsAgainst')?.displayValue || 1);
                 const validGp = Math.max(gp, 1); 
-                
-                let attScore = gf / validGp;
-                let defScore = ga / validGp;
-                
-                if(data.name && !data.name.includes('Premier League') && !data.name.includes('LaLiga')) {
-                    attScore *= 0.85; defScore *= 1.15;
-                }
-                
-                const teamData = { att: attScore, def: defScore, name: e.team.name, short: e.team.shortDisplayName || e.team.name };
+                const teamData = { att: gf / validGp, def: ga / validGp, name: e.team.name, short: e.team.shortDisplayName || e.team.name };
                 allTeamsRealData[teamName] = teamData;
                 allTeamsRealData[(e.team.shortDisplayName || "").toLowerCase()] = teamData;
             });
@@ -1303,7 +1182,7 @@ async function generateAIPrediction() {
                     return { att: globalTeamPowers[key].att, def: globalTeamPowers[key].def, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1) };
                 }
             }
-            return { att: 1.0, def: 1.5, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1), isUnknown: true }; 
+            return { att: 0.9, def: 1.3, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1), isUnknown: true }; 
         };
 
         const homeData = findTeam(homeInput);
@@ -1312,14 +1191,14 @@ async function generateAIPrediction() {
         let homeAtt = homeData.att; let homeDef = homeData.def;
         let awayAtt = awayData.att; let awayDef = awayData.def;
 
-        if (!homeData.isUnknown && awayData.isUnknown) { awayAtt = 0.5; awayDef = 2.2; }
-        if (homeData.isUnknown && !awayData.isUnknown) { homeAtt = 0.5; homeDef = 2.2; } 
+        if (!homeData.isUnknown && awayData.isUnknown) { awayAtt = 0.5; awayDef = 2.0; }
+        if (homeData.isUnknown && !awayData.isUnknown) { homeAtt = 0.5; homeDef = 2.0; } 
 
         let homeXG = homeAtt * (awayDef / 1.4) * 1.10; 
         let awayXG = awayAtt * (homeDef / 1.4);
 
-        homeXG += (Math.random() * 0.3 - 0.15);
-        awayXG += (Math.random() * 0.3 - 0.15);
+        homeXG += (Math.random() * 0.2 - 0.1);
+        awayXG += (Math.random() * 0.2 - 0.1);
         homeXG = Math.max(0, homeXG); awayXG = Math.max(0, awayXG);
 
         let hScore = Math.round(homeXG);
@@ -1333,8 +1212,8 @@ async function generateAIPrediction() {
         const totalRating = homeAtt + awayDef + homeDef + awayAtt;
         let homePoss = Math.round(((homeAtt + awayDef) / totalRating) * 100);
         
-        if (homeData.isUnknown && !awayData.isUnknown) homePoss = Math.min(30, homePoss);
-        if (!homeData.isUnknown && awayData.isUnknown) homePoss = Math.max(70, homePoss);
+        if (homeData.isUnknown && !awayData.isUnknown) homePoss = Math.min(35, homePoss);
+        if (!homeData.isUnknown && awayData.isUnknown) homePoss = Math.max(65, homePoss);
         homePoss = Math.max(20, Math.min(80, homePoss + (homeData.isUnknown === awayData.isUnknown ? 2 : 0))); 
         const awayPoss = 100 - homePoss;
 
@@ -1360,11 +1239,6 @@ async function generateAIPrediction() {
         } else {
             detailText += `<span class="block mb-2">⚽ <b>အကြိတ်အနယ်:</b> ယခုပွဲစဉ်သည် အသင်းနှစ်သင်းလုံး ခြေစွမ်းဟန်ချက်ညီနေပြီး အပြန်အလှန် သွင်းဂိုးများနှင့်အတူ အကြိတ်အနယ် ကစားရမည့်ပွဲဖြစ်ကာ သရေကျရန် ရာခိုင်နှုန်း များပြားနေပါသည်။</span>`;
         }
-        
-        if (globalTeamPowers[homeInput.toLowerCase()] && !allTeamsRealData[homeInput.toLowerCase()]) {
-            detailText += `<span class="block mb-2 text-indigo-400">🌍 <b>International Note:</b> ဤခန့်မှန်းချက်သည် နိုင်ငံတကာ သို့မဟုတ် Global အဆင့် သတ်မှတ်ချက်များကို အခြေခံတွက်ချက်ထားခြင်းဖြစ်ပါသည်။</span>`;
-        }
-
         detailText += `<span class="block mb-2">📊 <b>နည်းဗျူဟာပိုင်း (Tactics):</b> ပွဲကစားချိန်အတွင်း <b>${homePoss >= awayPoss ? finalHomeName : finalAwayName}</b> မှ ဘောလုံးပိုင်ဆိုင်မှု (${Math.max(homePoss, awayPoss)}%) ခန့်ဖြင့် ပွဲကို ထိန်းချုပ်ကစားသွားမည်။ သွင်းဂိုးရနိုင်ချေ (xG) အနေဖြင့် အိမ်ရှင်က ${homeXG.toFixed(2)} ဂိုး နှင့် ဧည့်သည်က ${awayXG.toFixed(2)} ဂိုး ခန့်မှန်းရသည်။</span>`;
         detailText += `<span class="block text-brand-gold">💡 <b>Betting Tip:</b> ဂိုးပေါင်း အနေဖြင့် ${(homeXG + awayXG) > 2.5 ? 'Over 2.5' : 'Under 2.5'} ကို ရွေးချယ်သင့်ပြီး၊ 1XBET တွင် ZINXBET Promo Code အသုံးပြုကာ လောင်းကြေးထပ်နိုင်ပါသည်။</span>`;
 
