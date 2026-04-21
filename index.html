@@ -264,6 +264,7 @@
         <button onclick="switchTab('tab-home',this)" data-tab="tab-home" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-brand-gold text-slate-900 shadow-md">ပင်မ</button>
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
         <button onclick="switchTab('tab-play',this)" data-tab="tab-play" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-blue-600 text-white flex items-center shadow-md"><i class="fas fa-gamepad mr-1.5"></i> 1XBET ကစားမည်</button>
+        <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
         <button onclick="switchTab('tab-services',this)" data-tab="tab-services" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဝန်ဆောင်မှု</button>
         <button onclick="switchTab('tab-promos',this)" data-tab="tab-promos" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပရိုမို</button>
@@ -309,6 +310,17 @@
               <span class="text-[13px] font-black text-center text-green-700 dark:text-green-400 leading-tight">ငွေသွင်း/ထုတ်<br><span class="text-[9px] font-bold text-slate-500 dark:text-green-200">24/7 Service</span></span>
             </a>
         </div>
+ 
+        <button onclick="switchTabById('tab-ai')" class="w-full mb-2 mt-2 rounded-2xl p-4 bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg border border-purple-400/50 flex items-center justify-between text-white active:scale-95 transition">
+            <div class="flex items-center space-x-3">
+               <div class="text-3xl animate-bounce">🔮</div>
+               <div class="text-left">
+                  <h3 class="font-black text-[14px]">ဂိုးရလဒ် ခန့်မှန်းမည်</h3>
+                  <p class="text-[10px] font-bold text-purple-200">AI နှင့် Data ဖြင့် ရလဒ်များကို ကြိုတင်ကြည့်ပါ</p>
+              </div>
+          </div>
+            <i class="fas fa-chevron-right text-purple-300"></i>
+       </button>
  
         <div class="rounded-2xl p-0.5 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-600 shadow-md">
             <div class="bg-[#0f172a] rounded-[14px] p-4 flex items-center justify-between relative overflow-hidden">
@@ -393,29 +405,166 @@
           </div>
         </div>
     </section>
- 
-    <section id="tab-matches" class="tab-content pt-4 space-y-4 animate-fade-up">
-        <div class="relative">
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-            <input id="search-input" type="text" placeholder="အသင်းနာမည် (သို့) မြန်မာလို ရှာရန်..." oninput="onSearch()" class="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-brand-gold focus:outline-none shadow-sm"/>
+
+    <section id="tab-ai" class="tab-content pt-4 space-y-4 animate-fade-up">
+        
+        <div class="flex p-1 bg-slate-200 dark:bg-slate-800 rounded-xl mb-4">
+            <button id="aiPredictTab" class="flex-1 py-2 rounded-lg text-[13px] font-black transition-all bg-white dark:bg-[#0f172a] text-purple-600 dark:text-purple-400 shadow-sm" onclick="window.switchAiView('predict')">
+                ခန့်မှန်းရန်
+            </button>
+            <button id="aiHistoryTab" class="flex-1 py-2 rounded-lg text-[13px] font-bold transition-all text-slate-500 dark:text-slate-400" onclick="window.switchAiView('history')">
+                မှတ်တမ်း <span id="aiHistoryCount" class="ml-1 text-[10px]"></span>
+            </button>
         </div>
-        <div class="flex p-1 bg-slate-200 dark:bg-slate-800 rounded-xl">
-            <button onclick="toggleMatchView('live')" id="btn-view-live" class="flex-1 py-2 rounded-lg text-[12px] font-black transition-all bg-white dark:bg-[#0f172a] text-slate-800 dark:text-brand-gold shadow-sm">Live / Upcoming</button>
-            <button onclick="toggleMatchView('finished')" id="btn-view-finished" class="flex-1 py-2 rounded-lg text-[12px] font-bold transition-all text-slate-500 dark:text-slate-400">Finished Matches</button>
+
+        <div id="aiPredictView" class="space-y-4">
+            <div class="text-center mb-6 mt-2">
+                <div class="inline-block p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3 animate-float">
+                    <i class="fas fa-robot text-4xl text-purple-600 dark:text-purple-400"></i>
+               </div>
+                <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">W.E Sports AI Predictor</h2>
+                <p class="text-[12px] font-bold text-slate-500 max-w-[280px] mx-auto leading-relaxed">
+                    ထိပ်တန်းလိဂ်ပွဲစဉ်များကို AI နှင့် နောက်ဆုံးရသတင်းများဖြင့် အသေးစိတ် တွက်ချက်ခန့်မှန်းပေးပါသည်။
+                </p>
+            </div>
+            
+            <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-slate-200 dark:border-slate-700/50">
+                <div class="text-center text-[11px] p-3 mb-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl text-blue-600 dark:text-blue-400 font-bold leading-relaxed">
+                    **ရက်စွဲ** နှင့် **အသင်းနာမည်များ** ကိုသာ ဖြည့်သွင်းပါ။ AI မှ League, H2H နှင့် အခြားအချက်အလက်များကို ရှာဖွေပေးပါမည်။
+                </div>
+
+                <div class="space-y-4 mb-5">
+                    <div>
+                        <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">📅 ပွဲစဉ်ရက်စွဲ (Match Date)</label>
+                        <input type="date" id="aiMatchDate" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner" required>
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">အိမ်ရှင်အသင်း (Home Team)</label>
+                        <div class="relative">
+                            <i class="fas fa-home absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="aiHomeTeam" placeholder="ဥပမာ: Real Madrid" class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner" required>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center items-center">
+                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest border border-slate-200 dark:border-slate-700">VS</span>
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">ဧည့်သည်အသင်း (Away Team)</label>
+                        <div class="relative">
+                            <i class="fas fa-plane absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="aiAwayTeam" placeholder="ဥပမာ: Barcelona" class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-3 pt-2 mb-4">
+                    <input type="checkbox" id="aiSaveToggle" class="h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500" checked>
+                    <label for="aiSaveToggle" class="text-[11px] text-slate-600 dark:text-slate-300 font-bold">မှတ်တမ်းထဲ သိမ်းမည် (Save to History)</label>
+                </div>
+
+                <button id="aiPredictButton" onclick="window.generateGeminiPrediction()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 transition-all shadow-[0_8px_20px_rgba(147,51,234,0.3)] flex justify-center items-center">
+                    <span id="aiPredictButtonText">AI ဖြင့် ခန့်မှန်းမည်</span> <i class="fas fa-magic ml-2 animate-pulse"></i>
+                    <div id="aiLoadingSpinner" class="loader hidden ml-3 !w-4 !h-4 !border-2"></div>
+                </button>
+            </div>
+
+            <div id="aiErrorCard" class="bg-red-50 dark:bg-red-900/20 p-5 mt-4 rounded-2xl hidden border border-red-500/30 space-y-3">
+                <h2 class="text-[14px] font-black text-red-600 dark:text-red-400 flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i> အမှားအယွင်း ဖြစ်ပေါ်ခြင်း
+                </h2>
+                <div id="aiErrorMessage" class="text-[12px] font-bold text-red-800 dark:text-red-300 leading-relaxed">
+                    </div>
+            </div>
+
+            <div id="aiResultCard" class="hidden mt-6 animate-fade-up">
+                <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-purple-500/30 relative overflow-hidden">
+                   <div class="absolute -right-4 -top-4 opacity-[0.03] text-8xl text-purple-500 pointer-events-none"><i class="fas fa-robot"></i></div>
+                   
+                   <div class="text-center mb-4 relative z-10 border-b border-slate-100 dark:border-slate-700/50 pb-4">
+                      <span class="inline-block bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 border border-purple-200 dark:border-purple-800">Prediction Success</span>
+                      <h2 class="text-[15px] font-black text-slate-800 dark:text-white flex items-center justify-center">
+                          <i class="fas fa-check-circle text-green-500 mr-2"></i> ခန့်မှန်းချက် အောင်မြင်ပါသည်
+                      </h2>
+                      <div class="text-[10px] text-slate-500 font-bold mt-2" id="aiSuccessMessage"></div>
+                  </div>
+    
+                   <div class="relative z-10">
+                      <h4 class="font-black text-[12px] text-slate-800 dark:text-white mb-3 flex items-center">
+                          <i class="fas fa-align-left text-brand-gold mr-2"></i> AI ၏ အသေးစိတ် သုံးသပ်ချက်
+                      </h4>
+                       <div class="bg-slate-50 dark:bg-[#0f172a] p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
+                          <p id="aiFullPredictionOutput" class="text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 font-bold space-y-3 block whitespace-pre-wrap"></p>
+                      </div>
+                  </div>
+
+                   <div class="mt-5 relative z-10">
+                      <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex justify-center items-center w-full py-3.5 bg-slate-900 dark:bg-brand-gold text-brand-gold dark:text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg">
+                          <i class="fas fa-coins mr-2"></i> 1XBET တွင် လောင်းကြေးထပ်မည်
+                      </a>
+                  </div>
+              </div>
+            </div>
         </div>
-        <div id="live-upcoming-view">
-            <div class="flex justify-between items-center px-1 mb-2">
-                <h3 class="text-[15px] font-black text-slate-800 dark:text-white">ပွဲစဉ်များ</h3>
-              <button onclick="fetchMatches(true)" class="text-[11px] bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-slate-700 dark:text-slate-300 font-bold active:scale-95 flex items-center gap-1.5"><i class="fas fa-sync-alt" id="refresh-icon"></i> Refresh</button>
-          </div>
-            <div id="date-selector" class="flex overflow-x-auto hide-scrollbar gap-2 px-1 pb-1 snap-x mb-3"></div>
-            <div id="matches-container" class="flex flex-col gap-3 min-h-[200px]">
-               <div class="flex flex-col items-center justify-center py-10 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Woxy 🦊 က ပွဲစဉ်များကို ရှာဖွေပေးနေပါသည်...</span></div>
-          </div>
-        </div>
-        <div id="finished-matches-view" class="hidden">
-            <div class="px-1 mb-2"><h3 class="text-[15px] font-black text-slate-500 dark:text-slate-400">ပြီးခဲ့သော ရလဒ်များ</h3></div>
-            <div id="finished-matches-container" class="flex flex-col gap-2 min-h-[100px]"></div>
+
+        <div id="aiHistoryView" class="hidden space-y-4">
+            <div id="aiAuthStatus" class="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/50 text-yellow-800 dark:text-yellow-400 rounded-xl text-[11px] font-bold hidden mb-4 text-center shadow-sm">
+                </div>
+            
+            <div class="bg-white dark:bg-[#1e293b] rounded-2xl p-5 text-center shadow-md border border-slate-200 dark:border-slate-700">
+                <h3 class="text-[13px] font-black text-slate-700 dark:text-slate-300 mb-1">မှန်ကန်မှု ရာခိုင်နှုန်း (Win Rate)</h3>
+                <p id="aiWinRateValue" class="text-4xl font-extrabold text-green-500 drop-shadow-sm mt-2">
+                    --
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl p-5 shadow-md border border-indigo-200 dark:border-indigo-800/50">
+                <h3 class="text-[14px] font-black text-slate-800 dark:text-white flex items-center mb-2">
+                    <i class="fas fa-trophy text-brand-gold mr-2 text-lg"></i> AI ၏ အကောင်းဆုံး ရွေးချယ်မှု (Best Pick)
+                </h3>
+                <p class="text-[11px] font-bold text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                    စစ်ဆေးရန်ကျန်ရှိနေသော ပွဲစဉ်များထဲမှ AI မှ နောက်ဆုံးအချက်အလက်များဖြင့် အကောင်းဆုံးဖြစ်နိုင်ချေရှိသော ပွဲစဉ်ကို ရွေးချယ်ပေးပါမည်။
+                </p>
+
+                <button id="aiBestPickButton" onclick="window.analyzeAiBestPick()" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-black text-[13px] active:scale-95 transition shadow-[0_4px_15px_rgba(79,70,229,0.3)] flex justify-center items-center">
+                    <span id="aiBestPickButtonText">ခွဲခြမ်းစိတ်ဖြာရန်</span>
+                    <div id="aiBestPickLoadingSpinner" class="loader hidden ml-3 !w-4 !h-4 !border-2"></div>
+                </button>
+
+                <div id="aiBestPickResult" class="hidden mt-4 p-4 bg-white dark:bg-[#0f172a] rounded-xl border border-indigo-100 dark:border-indigo-800/50 text-[12px] font-bold text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed shadow-inner">
+                    </div>
+
+                <div id="aiBestPickError" class="hidden mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[11px] font-bold rounded-xl border border-red-200 dark:border-red-800/50 text-center">
+                    </div>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-center px-1 mb-3">
+                    <h3 class="text-[14px] font-black text-slate-800 dark:text-white">မှတ်တမ်းအားလုံး</h3>
+                </div>
+                
+                <div class="bg-white dark:bg-[#1e293b] rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 mb-4">
+                    <h3 class="text-[12px] font-black text-slate-700 dark:text-slate-300 mb-3"><i class="far fa-calendar-alt text-brand-gold mr-1.5"></i> ရက်စွဲဖြင့် စစ်ထုတ်ခြင်း</h3>
+                    <div class="flex space-x-3">
+                        <div class="flex-1">
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">မှ (From)</label>
+                            <input type="date" id="aiFilterFromDate" onchange="window.applyAiFilter()" class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[11px] font-bold focus:ring-2 focus:ring-brand-gold focus:outline-none text-slate-800 dark:text-white">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">ထိ (To)</label>
+                            <input type="date" id="aiFilterToDate" onchange="window.applyAiFilter()" class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[11px] font-bold focus:ring-2 focus:ring-brand-gold focus:outline-none text-slate-800 dark:text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="aiHistoryList" class="space-y-3">
+                    <div id="aiHistoryLoading" class="text-center text-slate-500 dark:text-slate-400 py-8 text-[12px] font-bold">
+                        <div class="loader inline-block mb-3"></div><br>မှတ်တမ်းများကို ဆွဲယူနေပါသည်...
+                    </div>
+                    </div>
+            </div>
         </div>
     </section>
  
@@ -517,6 +666,7 @@
         <div onclick="switchTabById('tab-home')" data-navtab="tab-home" class="bottom-nav-item active text-slate-400"><i class="nav-icon fas fa-home"></i><span class="nav-label">ပင်မ</span></div>
         <div onclick="switchTabById('tab-matches')" data-navtab="tab-matches" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-futbol"></i><span class="nav-label">ပွဲစဉ်</span></div>
         <div onclick="switchTabById('tab-play')" data-navtab="tab-play" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gamepad"></i><span class="nav-label">ကစားမည်</span></div>
+        <div onclick="switchTabById('tab-ai')" data-navtab="tab-ai" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-robot"></i><span class="nav-label">AI</span></div>
         <div onclick="switchTabById('tab-standings')" data-navtab="tab-standings" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-list-ol"></i><span class="nav-label">ဇယား</span></div>
         <div onclick="switchTabById('tab-services')" data-navtab="tab-services" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-concierge-bell"></i><span class="nav-label">ဝန်ဆောင်မှု</span></div>
         <div onclick="switchTabById('tab-promos')" data-navtab="tab-promos" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gift"></i><span class="nav-label">ပရိုမို</span></div>
@@ -620,7 +770,6 @@
 </div>
  
 <script>
-// မြန်မာ Keyword များကို အင်္ဂလိပ်သို့ ပြောင်းပေးမည့် Mapping
 const mmSearchTerms = {
     'မန်ယူ': 'manchester united',
     'အာဆင်နယ်': 'arsenal',
@@ -631,21 +780,14 @@ const mmSearchTerms = {
     'ဘာစီလိုနာ': 'barcelona'
 };
 
-// --- Telegram Variables & Environment Check ---
 const tg = window.Telegram?.WebApp;
-// Telegram Mini App ထဲမှာ ဖွင့်တာ ဟုတ်၊ မဟုတ် စစ်ဆေးခြင်း
 const isTgApp = tg && tg.initDataUnsafe && Object.keys(tg.initDataUnsafe).length > 0;
+if (isTgApp) { tg.expand(); }
 
-if (isTgApp) {
-    tg.expand(); // Telegram ထဲမှာဆိုရင် Full Screen ချဲ့မယ်
-}
-
-// --- State & Variables ---
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
  
-// Haptic Native Feedback Override (Browser & Telegram အတွက်)
 const triggerHaptic = () => {
     if (isTgApp && tg.HapticFeedback) {
         tg.HapticFeedback.impactOccurred('light');
@@ -704,10 +846,9 @@ function closeDownloadModal() {
 function showWelcomeModal() { document.getElementById('welcome-modal').classList.remove('hidden'); }
 function closeWelcomeModal() { document.getElementById('welcome-modal').classList.add('hidden'); }
 
-// Flash Promo Logic
 function showFlashPromo() {
     document.getElementById('flash-promo-modal').classList.remove('hidden');
-    let timeLeft = 3599; // 59:59
+    let timeLeft = 3599; 
     const mEl = document.getElementById('flash-m');
     const sEl = document.getElementById('flash-s');
     if(flashTimerInterval) clearInterval(flashTimerInterval);
@@ -722,7 +863,6 @@ function showFlashPromo() {
 }
 function closeFlashPromo() { document.getElementById('flash-promo-modal').classList.add('hidden'); }
 
-// Spin Wheel Logic
 let isSpinning = false;
 function openSpinModal() {
     triggerHaptic();
@@ -769,7 +909,6 @@ function spinNow() {
 function switchTab(tabId, btnEl) {
     triggerHaptic();
 
-    // Google Analytics - Page View Tracking (Tab ပြောင်းတိုင်း)
     if (typeof gtag === 'function') {
         gtag('event', 'page_view', {
             page_title: tabId.replace('tab-', '').toUpperCase(),
@@ -884,15 +1023,9 @@ function selectDate(val) { currentSelectedDate = val; renderDateSelector(); filt
  
 function onSearch() { 
     let query = document.getElementById('search-input').value.trim().toLowerCase(); 
-    
-    // မြန်မာလိုရိုက်ခဲ့ရင် English Keyword သို့ ပြောင်းပေးရန်
     for (const [mmKey, engVal] of Object.entries(mmSearchTerms)) {
-        if (query.includes(mmKey)) {
-            query = engVal;
-            break;
-        }
+        if (query.includes(mmKey)) { query = engVal; break; }
     }
-    
     searchQuery = query; 
     filterAndRenderMatches(); 
 }
@@ -914,7 +1047,6 @@ function renderHomeTopMatches() {
     if (cutoff.getHours() < 5) { cutoff.setHours(5, 0, 0, 0); } else { cutoff.setDate(cutoff.getDate() + 1); cutoff.setHours(5, 0, 0, 0); }
     let matches = [...allCachedMatches.live, ...allCachedMatches.upcoming].filter(m => m.date <= cutoff);
     
-    // Priority Sorting
     const topTeams = ['Manchester United', 'Arsenal', 'Liverpool', 'Chelsea', 'Manchester City', 'Tottenham', 'Real Madrid', 'Barcelona', 'Bayern Munich', 'Paris Saint-Germain', 'Juventus', 'Inter Milan', 'AC Milan', 'Myanmar', 'Portugal', 'Argentina', 'Brazil', 'France', 'England', 'Spain', 'Germany'];
     
     matches.sort((a, b) => {
@@ -1025,9 +1157,6 @@ function renderMatchCard(match, isCompact) {
     </div>`;
 }
 
-// -----------------------------------------------------------
-// STATS, LINEUP & PREDICTION MODAL (AI TAB REMOVED)
-// -----------------------------------------------------------
 async function openStatsModal(matchId) {
     triggerHaptic();
     const match = globalMatchesMap[matchId]; if (!match) return;
@@ -1046,7 +1175,6 @@ async function openStatsModal(matchId) {
     const isLiveOrFinished = match.status === 'in' || match.status === 'post';
     const matchTime = match.date.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
 
-    // ခေါင်းစဉ်ပိုင်း (အသင်းနှစ်သင်း နှင့် အချိန်/ရမှတ်)
     const headerHtml = `
     <div class="p-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md z-30">
         <h3 class="font-black text-slate-800 dark:text-white flex items-center text-[16px]"><i class="fas fa-chart-bar text-brand-gold mr-2"></i> ပွဲစဉ် အချက်အလက်များ</h3>
@@ -1061,13 +1189,11 @@ async function openStatsModal(matchId) {
     cont.innerHTML = headerHtml + `<div class="flex flex-col items-center justify-center py-16 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Woxy 🦊 Data များကို ဆွဲယူနေပါသည်...</span></div>`;
 
     try {
-        // ESPN Summary API ကို လှမ်းခေါ်ခြင်း (Stats, Lineup, Prediction အကုန်ပါသည်)
         const res  = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${match.leagueId}/summary?event=${matchId}`);
         const data = await res.json();
         
         let htmlBody = `<div class="p-4 space-y-4 animate-fade-up">`;
 
-        // --- ၁။ ESPN ခန့်မှန်းချက် အပိုင်း (Prediction) ---
         if (data.predictor && !isLiveOrFinished) {
             const hPct = parseFloat(data.predictor.homeChance);
             const dPct = parseFloat(data.predictor.tieChance);
@@ -1101,7 +1227,6 @@ async function openStatsModal(matchId) {
             </div>`;
         }
 
-        // --- ၂။ ပွဲထွက်လူစာရင်း အပိုင်း (Line-up) ---
         if (data.rosters && data.rosters.length >= 2) {
             const hRoster = data.rosters.find(r => r.team.id === match.homeTeam.team.id);
             const aRoster = data.rosters.find(r => r.team.id === match.awayTeam.team.id);
@@ -1126,7 +1251,6 @@ async function openStatsModal(matchId) {
             htmlBody += `<div class="text-center py-4 text-[11px] font-bold text-slate-400 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm"><i class="fas fa-clock mr-1"></i> ပွဲထွက်လူစာရင်း မထွက်သေးပါ</div>`;
         }
 
-        // --- ၃။ ပွဲတွင်းစာရင်း အပိုင်း (Match Stats) ---
         const bs = data.boxscore;
         if (bs?.teams && bs.teams.length >= 2) {
             const t1 = bs.teams[0], t2 = bs.teams[1];
@@ -1156,7 +1280,6 @@ async function openStatsModal(matchId) {
             }
         }
         
-        // 1XBET Button
         if(!isLiveOrFinished) {
             htmlBody += `
             <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex justify-center items-center w-full py-3.5 bg-slate-900 dark:bg-brand-gold text-brand-gold dark:text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg mt-2">
@@ -1164,8 +1287,7 @@ async function openStatsModal(matchId) {
             </a>`;
         }
 
-        htmlBody += `</div>`; // Close Main Div
-
+        htmlBody += `</div>`; 
         cont.innerHTML = headerHtml + htmlBody;
 
     } catch(err) { 
@@ -1214,7 +1336,6 @@ async function fetchMatches(isManual=false) {
     if (isFetching && !isManual) return; isFetching = true;
     if (isManual) { const icon = document.getElementById('refresh-icon'); icon.style.animation = 'spin 0.8s linear infinite'; setTimeout(()=>icon.style.animation='',1000); }
  
-    // သာမန် Loading Text အစား Skeleton Loading UI ထည့်သွင်းခြင်း
     const matchesContainer = document.getElementById('matches-container');
     if(matchesContainer) {
         matchesContainer.innerHTML = Array(3).fill(`
@@ -1288,7 +1409,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(showWelcomeModal, 2000); 
     setTimeout(showFlashPromo, 30000); 
 
-    // Deep Linking Handling
     let startParam = null;
     if (isTgApp) {
         startParam = tg.initDataUnsafe?.start_param;
@@ -1299,8 +1419,455 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startParam === 'promo') {
         setTimeout(() => switchTabById('tab-promos'), 500);
+    } else if (startParam === 'ai') {
+        setTimeout(() => switchTabById('tab-ai'), 500);
     }
+
+    const todayDateStr = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('aiMatchDate');
+    if(dateInput) dateInput.value = todayDateStr;
 });
+
+// View Switcher for AI Tab
+window.switchAiView = function(view) {
+    document.getElementById('aiPredictView').classList.add('hidden');
+    document.getElementById('aiHistoryView').classList.add('hidden');
+    
+    document.getElementById('aiPredictTab').classList.remove('text-purple-600', 'dark:text-purple-400', 'bg-white', 'dark:bg-[#0f172a]', 'shadow-sm');
+    document.getElementById('aiPredictTab').classList.add('text-slate-500', 'dark:text-slate-400');
+    
+    document.getElementById('aiHistoryTab').classList.remove('text-purple-600', 'dark:text-purple-400', 'bg-white', 'dark:bg-[#0f172a]', 'shadow-sm');
+    document.getElementById('aiHistoryTab').classList.add('text-slate-500', 'dark:text-slate-400');
+    
+    if (view === 'predict') {
+        document.getElementById('aiPredictView').classList.remove('hidden');
+        document.getElementById('aiPredictTab').classList.remove('text-slate-500', 'dark:text-slate-400');
+        document.getElementById('aiPredictTab').classList.add('text-purple-600', 'dark:text-purple-400', 'bg-white', 'dark:bg-[#0f172a]', 'shadow-sm');
+    } else if (view === 'history') {
+        document.getElementById('aiHistoryView').classList.remove('hidden');
+        document.getElementById('aiHistoryTab').classList.remove('text-slate-500', 'dark:text-slate-400');
+        document.getElementById('aiHistoryTab').classList.add('text-purple-600', 'dark:text-purple-400', 'bg-white', 'dark:bg-[#0f172a]', 'shadow-sm');
+        if(window.renderAiHistory) window.renderAiHistory();
+    }
+}
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, onSnapshot, collection, query, orderBy, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    setLogLevel('silent');
+    let db, auth, userId = null;
+    let isAuthReady = false;
+    let aiPredictions = []; 
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'we-sports-live';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    // ----------------------------------------------------
+    // 👇 အောက်ပါနေရာတွင် ညီကို့ရဲ့ API KEY ထည့်သွင်းထားပါသည်
+    const API_KEY = "AIzaSyCyOdALFPPeWhrriw9uLNN_9eOgIO9JYLQ"; 
+    // ----------------------------------------------------
+    
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+    const MAX_RETRIES = 3;
+    const INITIAL_DELAY_MS = 1000;
+
+    // --- DOM Elements ---
+    const predictBtn = document.getElementById('aiPredictButton');
+    const predictBtnText = document.getElementById('aiPredictButtonText');
+    const spinner = document.getElementById('aiLoadingSpinner');
+    const resultCard = document.getElementById('aiResultCard');
+    const successMsg = document.getElementById('aiSuccessMessage');
+    const fullOutput = document.getElementById('aiFullPredictionOutput');
+    const errorCard = document.getElementById('aiErrorCard');
+    const errorMsg = document.getElementById('aiErrorMessage');
+    
+    // History Elements
+    const authStatus = document.getElementById('aiAuthStatus');
+    const winRateVal = document.getElementById('aiWinRateValue');
+    const historyList = document.getElementById('aiHistoryList');
+    const historyCount = document.getElementById('aiHistoryCount');
+
+    // --- Firebase Init ---
+    if (firebaseConfig) {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+            } else {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        userId = auth.currentUser.uid;
+                    } else {
+                        const anonUserCredential = await signInAnonymously(auth);
+                        userId = anonUserCredential.user.uid;
+                    }
+                } catch (error) {
+                    console.error("Firebase Auth failed:", error);
+                    userId = null;
+                }
+            }
+            
+            if(userId) {
+                isAuthReady = true;
+                setupFirestoreListener();
+            } else {
+                isAuthReady = true;
+                authStatus.classList.remove('hidden');
+                authStatus.innerHTML = `⚠️ မှတ်တမ်းများကို Database တွင် သိမ်းဆည်းနိုင်မည်မဟုတ်ပါ။ (Auth Error)`;
+            }
+        });
+    }
+
+    function getCollectionPath() {
+        return userId ? `artifacts/${appId}/users/${userId}/predictions` : null;
+    }
+
+    function setupFirestoreListener() {
+        const path = getCollectionPath();
+        if (!db || !path) return;
+
+        const predictionsRef = collection(db, path);
+        const q = query(predictionsRef, orderBy("timestamp", "desc")); 
+
+        onSnapshot(q, (snapshot) => {
+            aiPredictions = [];
+            snapshot.forEach((doc) => { aiPredictions.push({ id: doc.id, ...doc.data() }); });
+            if(document.getElementById('aiHistoryView').classList.contains('hidden') === false) {
+                window.renderAiHistory(); 
+            }
+        }, (error) => {
+            console.error("Error listening to history:", error);
+        });
+    }
+
+    function fetchWithRetry(fn, retries = MAX_RETRIES, delay = INITIAL_DELAY_MS) {
+        return new Promise(async (resolve, reject) => {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const result = await fn();
+                    return resolve(result);
+                } catch (error) {
+                    if (error.message.includes("401") || error.message.includes("403")) {
+                         return reject(error);
+                    }
+                    if (i === retries - 1) return reject(error);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; 
+                }
+            }
+        });
+    }
+
+    function displayAiError(message) {
+        errorMsg.innerHTML = message;
+        errorCard.classList.remove('hidden');
+        errorCard.classList.add('animate-fade-up');
+    }
+
+    function extractScore(predictionText) {
+        const scoreMatch = predictionText.match(/(\d+)\s*-\s*(\d+)/);
+        return scoreMatch ? `${scoreMatch[1]}-${scoreMatch[2]}` : "N/A"; 
+    }
+
+    // --- Main Prediction Function ---
+    window.generateGeminiPrediction = async function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic();
+
+        const matchDate = document.getElementById('aiMatchDate').value;
+        const homeTeam = document.getElementById('aiHomeTeam').value.trim();
+        const awayTeam = document.getElementById('aiAwayTeam').value.trim();
+        const shouldSave = document.getElementById('aiSaveToggle').checked;
+        
+        if (!homeTeam || !awayTeam || !matchDate) {
+            displayAiError("ကျေးဇူးပြု၍ အချက်အလက်အားလုံး (အိမ်ရှင်၊ ဧည့်သည်၊ ရက်စွဲ) ကို ဖြည့်သွင်းပေးပါ။");
+            return;
+        }
+
+        resultCard.classList.add('hidden');
+        errorCard.classList.add('hidden');
+        predictBtn.disabled = true;
+        predictBtnText.textContent = "Data များကို ခွဲခြမ်းစိတ်ဖြာနေပါသည်...";
+        spinner.classList.remove('hidden');
+
+        let generatedText = null;
+        let predictedScore = null;
+
+        const systemPrompt = `You are a world-class football (soccer) analyst and predictor. Your analysis must be highly professional, concise, and grounded in real-time information from Google Search. Always consider the **head-to-head (H2H)** records, current **league/competition form/standing**, and team news (injuries, suspensions) before giving a final prediction. Output should be in Burmese. Crucially, you **MUST AVOID** highly common and generic scores like 2-1, 1-1, 1-0, or 0-0. Your score prediction must be specific and reflect the depth of your analysis (e.g., 3-0, 3-2, 4-1, 0-1, 2-0, etc.). After your detailed analysis, you MUST provide the predicted final score on a new line using the exact format 'ခန့်မှန်းဂိုးရလဒ်: H-A', where H is the home score and A is the away score.`;
+        const userQuery = `Match Analysis: ${homeTeam} vs ${awayTeam} playing on ${matchDate}. First, use Google Search to determine the current league and key competition for both teams on this date. Then, provide an in-depth prediction considering their recent form, league standing, and crucial head-to-head (H2H) history. Give a final score prediction on the last line.`;
+
+        const payload = {
+            contents: [{ parts: [{ text: userQuery }] }],
+            tools: [{ "google_search": {} }],
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+        };
+
+        const fetchFn = async () => {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`API error ${response.status}: ${errText}`);
+            }
+            return response.json();
+        };
+
+        try {
+            const result = await fetchWithRetry(fetchFn);
+            const candidate = result.candidates?.[0];
+
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                generatedText = candidate.content.parts[0].text;
+                predictedScore = extractScore(generatedText);
+            } else {
+                displayAiError("ခန့်မှန်းချက် မရရှိပါ (AI မှ အဖြေမပေးနိုင်ခဲ့ပါ)။");
+                return;
+            }
+        } catch (error) {
+            console.error("Gemini API Error:", error);
+            let msg = `ခန့်မှန်းမှု ပြုလုပ်ရာတွင် အင်တာနက် သို့မဟုတ် ဆာဗာ အမှားအယွင်းဖြစ်ပွားပါသည်။`;
+            if (error.message.includes("401") || error.message.includes("403") || error.message.includes("API_KEY_INVALID")) {
+                msg = `**API Key မမှန်ကန်ပါ** သို့မဟုတ် ခွင့်ပြုချက်မရှိပါ။ Admin အား အကြောင်းကြားပါ။`;
+            }
+            displayAiError(msg);
+        } finally {
+            predictBtn.disabled = false;
+            predictBtnText.textContent = "AI ဖြင့် ခန့်မှန်းမည်";
+            spinner.classList.add('hidden');
+        }
+        
+        if (generatedText) {
+            fullOutput.textContent = generatedText;
+
+            if (shouldSave && isAuthReady && userId) {
+                await savePrediction(matchDate, homeTeam, awayTeam, generatedText, predictedScore);
+                successMsg.innerHTML = `<span class="text-green-600 dark:text-green-400">Database သို့ မှတ်တမ်းတင်ပြီးပါပြီ။ ဂိုးရလဒ်: ${predictedScore}</span>`;
+            } else if (shouldSave) {
+                successMsg.innerHTML = `<span class="text-yellow-600 dark:text-yellow-400">Database ချိတ်ဆက်မှု မရှိသဖြင့် မှတ်တမ်း မသိမ်းဆည်းနိုင်ပါ။</span>`;
+            } else {
+                successMsg.innerHTML = "ခန့်မှန်းချက် အောင်မြင်ပါသည် (မှတ်တမ်းမသိမ်းပါ)။";
+            }
+            resultCard.classList.remove('hidden');
+        }
+    };
+
+    async function savePrediction(date, home, away, result, score) {
+        const path = getCollectionPath();
+        if(!path) return;
+        
+        const data = {
+            match_date: date,
+            home_team: home,
+            away_team: away,
+            prediction_result: result, 
+            predicted_score: score,    
+            is_correct: null,          
+            timestamp: Date.now()
+        };
+
+        try {
+            await addDoc(collection(db, path), data);
+            document.getElementById('aiHomeTeam').value = '';
+            document.getElementById('aiAwayTeam').value = '';
+        } catch (error) {
+            console.error("Error saving:", error);
+            displayAiError("မှတ်တမ်း သိမ်းဆည်းရာတွင် အမှားဖြစ်ပွားပါသည်။");
+        }
+    }
+
+    // --- History Logic ---
+    window.deleteAiPrediction = async function(id) {
+        if (typeof triggerHaptic === 'function') triggerHaptic();
+        const path = getCollectionPath();
+        if (!path) return;
+
+        try {
+            const el = document.getElementById(`hist-${id}`);
+            if(el) { el.style.opacity = '0.5'; el.innerHTML = `<div class="p-4 text-center text-red-500 font-bold">ဖျက်ဆီးနေပါသည်...</div>`; }
+            await deleteDoc(doc(db, path, id));
+        } catch (error) {
+            console.error("Delete error:", error);
+        }
+    };
+
+    window.toggleAiCorrection = async function(id, currentStatus) {
+        if (typeof triggerHaptic === 'function') triggerHaptic();
+        const path = getCollectionPath();
+        if (!path) return;
+        
+        let newStatus = currentStatus === true ? false : (currentStatus === false ? null : true);
+        try {
+            await updateDoc(doc(db, path, id), { is_correct: newStatus });
+        } catch (error) {
+            console.error("Update error:", error);
+        }
+    };
+
+    window.applyAiFilter = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic();
+        window.renderAiHistory();
+    };
+
+    function calculateWinRate(list) {
+        if (!list || list.length === 0) { winRateVal.textContent = '--'; return; }
+        let correct = 0, verified = 0; 
+        list.forEach(p => {
+            if (p.is_correct === true || p.is_correct === false) verified++;
+            if (p.is_correct === true) correct++;
+        });
+        if (verified === 0) { winRateVal.textContent = '0%'; return; }
+        winRateVal.textContent = `${((correct / verified) * 100).toFixed(1)}%`;
+    }
+
+    window.renderAiHistory = function() {
+        const fromDate = document.getElementById('aiFilterFromDate').value;
+        const toDate = document.getElementById('aiFilterToDate').value;
+        
+        let filtered = aiPredictions;
+        if (fromDate || toDate) {
+            filtered = aiPredictions.filter(p => {
+                const matchTime = new Date(p.match_date + 'T00:00:00').getTime(); 
+                let fTime = 0, tTime = Infinity;
+                if (fromDate) fTime = new Date(fromDate + 'T00:00:00').getTime(); 
+                if (toDate) {
+                    const d = new Date(toDate + 'T00:00:00');
+                    d.setDate(d.getDate() + 1);
+                    tTime = d.getTime() - 1;
+                }
+                return matchTime >= fTime && matchTime <= tTime;
+            });
+        }
+
+        historyList.innerHTML = '';
+        historyCount.textContent = `(${filtered.length})`; 
+        document.getElementById('aiHistoryLoading').style.display = 'none';
+        calculateWinRate(filtered);
+        
+        if (filtered.length === 0) {
+            historyList.innerHTML = '<div class="text-center text-[12px] text-slate-500 py-8 font-bold bg-slate-50 dark:bg-slate-800/50 rounded-2xl">မှတ်တမ်း မရှိသေးပါ။</div>';
+            return;
+        }
+
+        filtered.forEach(p => {
+            const isCor = p.is_correct;
+            const dParts = p.match_date.split('-'); 
+            const dDisp = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+
+            let bgClass = 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/10';
+            let badge = `<span class="bg-yellow-100 text-yellow-700 dark:bg-yellow-900 text-[9px] px-2 py-0.5 rounded-full font-black">စစ်ဆေးရန်</span>`;
+            let btnClass = 'bg-green-500 hover:bg-green-600 text-white';
+            let btnText = 'မှန်ကန်ရန်';
+
+            if (isCor === true) {
+                bgClass = 'border-green-500 bg-green-50 dark:bg-green-900/10';
+                badge = `<span class="bg-green-100 text-green-700 dark:bg-green-900 text-[9px] px-2 py-0.5 rounded-full font-black">မှန်ကန်</span>`;
+                btnClass = 'bg-red-500 hover:bg-red-600 text-white';
+                btnText = 'မှားယွင်းရန်';
+            } else if (isCor === false) {
+                bgClass = 'border-red-500 bg-red-50 dark:bg-red-900/10';
+                badge = `<span class="bg-red-100 text-red-700 dark:bg-red-900 text-[9px] px-2 py-0.5 rounded-full font-black">မှားယွင်း</span>`;
+                btnClass = 'bg-slate-400 hover:bg-slate-500 text-white';
+                btnText = 'Reset';
+            }
+
+            const html = `
+                <div id="hist-${p.id}" class="bg-white dark:bg-[#1e293b] rounded-2xl p-4 shadow-sm border-l-4 ${bgClass} border-t border-r border-b border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-bold text-slate-500"><i class="far fa-calendar-alt mr-1"></i> ${dDisp}</span>
+                        ${badge}
+                    </div>
+                    
+                    <h3 class="text-[13px] font-black text-slate-800 dark:text-white mb-3 flex items-center justify-between">
+                        <span class="truncate flex-1">${p.home_team}</span>
+                        <span class="text-[10px] text-slate-400 mx-2">VS</span>
+                        <span class="truncate flex-1 text-right">${p.away_team}</span>
+                    </h3>
+                    
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-xl p-3 text-center mb-3">
+                         <p class="text-[10px] text-slate-500 font-bold mb-1">ခန့်မှန်း ရလဒ်</p>
+                         <p class="text-xl font-black text-brand-gold drop-shadow-sm">${p.predicted_score || "N/A"}</p>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                        <button onclick="window.toggleAiCorrection('${p.id}', ${isCor})" class="py-1.5 px-4 rounded-lg font-black text-[11px] transition-colors ${btnClass} shadow-sm active:scale-95">
+                            ${btnText}
+                        </button>
+                        
+                        <button onclick="window.deleteAiPrediction('${p.id}')" class="py-1.5 px-3 rounded-lg font-black text-[11px] transition-colors bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 active:scale-95">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            historyList.innerHTML += html;
+        });
+    };
+
+    // --- Best Pick Logic ---
+    window.analyzeAiBestPick = async function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic();
+        const resDiv = document.getElementById('aiBestPickResult');
+        const errDiv = document.getElementById('aiBestPickError');
+        const btn = document.getElementById('aiBestPickButton');
+        const btnText = document.getElementById('aiBestPickButtonText');
+        const spin = document.getElementById('aiBestPickLoadingSpinner');
+
+        resDiv.classList.add('hidden');
+        errDiv.classList.add('hidden');
+        btn.disabled = true;
+        btnText.textContent = "ခွဲခြမ်းစိတ်ဖြာနေပါသည်...";
+        spin.classList.remove('hidden');
+
+        const pending = aiPredictions.filter(p => p.is_correct === null);
+
+        if (pending.length === 0) {
+            resDiv.classList.remove('hidden');
+            resDiv.innerHTML = '<span class="text-yellow-600 dark:text-yellow-400">စစ်ဆေးရန်ကျန်ရှိနေသော ပွဲစဉ်များ မရှိပါ။</span>';
+            btn.disabled = false; btnText.textContent = "ခွဲခြမ်းစိတ်ဖြာရန်"; spin.classList.add('hidden');
+            return;
+        }
+
+        const matchSummary = pending.map((p, i) => `${i + 1}. Date: ${p.match_date}, Match: ${p.home_team} vs ${p.away_team}, My Prediction: ${p.predicted_score}`).join('\n');
+        
+        const sysPrompt = `You are a professional sports handicapper. Your task is to analyze a list of pending football (soccer) predictions based on the latest web information. You must select the single prediction from the list that has the highest probability of being correct. Output your analysis and selection ONLY in Burmese. Your final output MUST clearly state the chosen match and the predicted score from the list, along with your rationale.`;
+        const uQuery = `အောက်ပါ စစ်ဆေးရန်ကျန်ရှိနေသော ပွဲစဉ်စာရင်းကို အသုံးပြုပါ။ လက်ရှိအခြေအနေများနှင့် နှိုင်းယှဉ်၍ အနိုင်ရရန် အခွင့်အလမ်းအကောင်းဆုံး ပွဲစဉ် (Best Pick) တစ်ခုကို ရွေးချယ်ပေးပါ။ အကြောင်းရင်းကိုလည်း တိုတိုနှင့် လိုရင်းရောက်အောင် ရှင်းပြပေးပါ။\n\nPredictions List:\n---\n${matchSummary}\n---`;
+
+        const payload = {
+            contents: [{ parts: [{ text: uQuery }] }],
+            tools: [{ "google_search": {} }],
+            systemInstruction: { parts: [{ text: sysPrompt }] },
+        };
+
+        try {
+            const response = await fetchWithRetry(async () => {
+                const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!r.ok) throw new Error(`API failed`);
+                return r.json();
+            });
+            const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+                resDiv.textContent = text;
+                resDiv.classList.remove('hidden');
+            } else throw new Error("No output");
+        } catch (error) {
+            console.error("Best Pick Error:", error);
+            errDiv.textContent = "ခွဲခြမ်းစိတ်ဖြာမှု ပြုလုပ်ရာတွင် အမှားဖြစ်ပွားပါသည်။";
+            errDiv.classList.remove('hidden');
+        } finally {
+            btn.disabled = false; btnText.textContent = "ခွဲခြမ်းစိတ်ဖြာရန်"; spin.classList.add('hidden');
+        }
+    };
 </script>
 </body>
 </html>
