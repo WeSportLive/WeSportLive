@@ -264,7 +264,6 @@
         <button onclick="switchTab('tab-home',this)" data-tab="tab-home" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-brand-gold text-slate-900 shadow-md">ပင်မ</button>
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
         <button onclick="switchTab('tab-play',this)" data-tab="tab-play" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-blue-600 text-white flex items-center shadow-md"><i class="fas fa-gamepad mr-1.5"></i> 1XBET ကစားမည်</button>
-        <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
         <button onclick="switchTab('tab-services',this)" data-tab="tab-services" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဝန်ဆောင်မှု</button>
         <button onclick="switchTab('tab-promos',this)" data-tab="tab-promos" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပရိုမို</button>
@@ -310,17 +309,6 @@
               <span class="text-[13px] font-black text-center text-green-700 dark:text-green-400 leading-tight">ငွေသွင်း/ထုတ်<br><span class="text-[9px] font-bold text-slate-500 dark:text-green-200">24/7 Service</span></span>
             </a>
         </div>
- 
-        <button onclick="switchTabById('tab-ai')" class="w-full mb-2 mt-2 rounded-2xl p-4 bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg border border-purple-400/50 flex items-center justify-between text-white active:scale-95 transition">
-            <div class="flex items-center space-x-3">
-               <div class="text-3xl animate-bounce">🔮</div>
-               <div class="text-left">
-                  <h3 class="font-black text-[14px]">ဂိုးရလဒ် ခန့်မှန်းမည်</h3>
-                  <p class="text-[10px] font-bold text-purple-200">AI နှင့် ESPN Data ဖြင့် ရလဒ်များကို ကြိုတင်ကြည့်ပါ</p>
-              </div>
-          </div>
-            <i class="fas fa-chevron-right text-purple-300"></i>
-       </button>
  
         <div class="rounded-2xl p-0.5 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-600 shadow-md">
             <div class="bg-[#0f172a] rounded-[14px] p-4 flex items-center justify-between relative overflow-hidden">
@@ -402,161 +390,6 @@
                 <p class="text-[11px] font-bold text-slate-500 leading-relaxed">
                     သင့်အကောင့် လုံခြုံစေရန်နှင့် Password ခဏခဏ ပြန်တောင်းခြင်းမှ ကင်းဝေးစေရန် 1XBET Official ဝက်ဘ်ဆိုက်သို့ တိုက်ရိုက်လင့်ခ်ဖြင့် ချိတ်ဆက်ပေးထားပါသည်။
               </p>
-          </div>
-        </div>
-    </section>
- 
-    <section id="tab-ai" class="tab-content pt-4 space-y-4 animate-fade-up">
-        <div class="text-center mb-6 mt-2">
-            <div class="inline-block p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3 animate-float">
-                <i class="fas fa-robot text-4xl text-purple-600 dark:text-purple-400"></i>
-           </div>
-            <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">W.E Sports AI Predictor</h2>
-            <p class="text-[12px] font-bold text-slate-500 max-w-[280px] mx-auto leading-relaxed">
-                ထိပ်တန်းလိဂ်ပွဲစဉ်များသာမက <span class="text-brand-gold">Friendly Matches နိုင်ငံတကာခြေစမ်းပွဲများ</span> အထိ AI မှ အသေးစိတ် တွက်ချက်ခန့်မှန်းပေးပါသည်။
-            </p>
-        </div>
- 
-        <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-slate-200 dark:border-slate-700/50">
-            <div id="ai-input-section">
-               <div class="space-y-4 mb-5">
-                  <div>
-                      <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">အိမ်ရှင်အသင်း (Home Team)</label>
-                      <div class="relative">
-                          <i class="fas fa-home absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                          <input type="text" id="ai-home" placeholder="ဥပမာ - San Marino, Man Utd, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
-                      </div>
-                  </div>
-                    
-                  <div class="flex justify-center items-center">
-                      <span class="bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest border border-slate-200 dark:border-slate-700">VS</span>
-                  </div>
- 
-                  <div>
-                      <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">ဧည့်သည်အသင်း (Away Team)</label>
-                      <div class="relative">
-                           <i class="fas fa-plane absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                          <input type="text" id="ai-away" placeholder="ဥပမာ - Faroe Islands, Arsenal, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
-                       </div>
-                  </div>
-               </div>
-               
-              <button onclick="generateAIPrediction()" id="ai-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 transition-all shadow-[0_8px_20px_rgba(147,51,234,0.3)] flex justify-center items-center">
-                    AIဖြင့် ခန့်မှန်းမည် <i class="fas fa-magic ml-2 animate-pulse"></i>
-               </button>
- 
-               <div id="ai-usage-counter" class="text-center text-[11px] font-bold text-slate-500 mt-4"></div>
-          </div>
- 
-            <div id="ai-locked-section" class="hidden flex-col items-center justify-center py-2 text-center animate-pop-in">
-               <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-500 mb-3 mx-auto shadow-inner">
-                  <i class="fas fa-lock text-2xl"></i>
-              </div>
-                <h3 class="font-black text-[15px] text-slate-800 dark:text-white mb-2">အခမဲ့အကြိမ် ပြည့်သွားပါပြီ</h3>
-                <p class="text-[11px] font-bold text-slate-500 mb-5 px-4 leading-relaxed">ဆက်လက်ခန့်မှန်းရန် Agentထံတွင် Unlock Code တောင်းယူပါ။ <br>(အခမဲ့ဖြစ်ပါသည်)</p>
-                
-               <div class="w-full relative mb-4">
-                  <i class="fas fa-key absolute left-4 top-1/2 -translate-y-1/2 text-brand-gold"></i>
-                  <input type="text" id="ai-unlock-code" placeholder="Unlock Code ထည့်ပါ" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold text-center uppercase tracking-widest focus:ring-2 focus:ring-brand-gold focus:outline-none text-slate-800 dark:text-white shadow-inner transition-all">
-              </div>
-                
-              <button onclick="unlockAI()" class="w-full bg-gradient-to-r from-yellow-400 to-brand-gold text-slate-900 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg mb-3">
-                  <i class="fas fa-unlock-alt mr-2"></i> Code ဖြင့် ဖွင့်မည်
-              </button>
-                
-                <a href="https://t.me/WinExpress99" target="_blank" class="w-full flex justify-center items-center py-3.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 rounded-xl font-black text-[13px] active:scale-95 transition">
-                  <i class="fab fa-telegram-plane mr-2 text-lg"></i> Agent ထံ Code တောင်းမည်
-              </a>
-           </div>
-        </div>
- 
-        <div id="ai-result" class="hidden mt-6 animate-fade-up">
-            <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-purple-500/20 relative overflow-hidden">
-               <div class="absolute -right-4 -top-4 opacity-[0.03] text-8xl text-purple-500 pointer-events-none"><i class="fas fa-robot"></i></div>
-               
-               <div class="text-center mb-6 relative z-10">
-                  <span class="inline-block bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 border border-purple-200 dark:border-purple-800">AI Prediction Result</span>
-                    
-                  <div class="flex justify-center items-center space-x-2">
-                      <div class="text-right flex-1 truncate font-black text-[15px] text-slate-800 dark:text-white" id="ai-res-home">Home</div>
-                      <div class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-500 px-4 drop-shadow-sm" id="ai-res-score">0 - 0</div>
-                      <div class="text-left flex-1 truncate font-black text-[15px] text-slate-800 dark:text-white" id="ai-res-away">Away</div>
-                  </div>
-              </div>
- 
-               <div class="space-y-4 relative z-10">
-                  <div>
-                      <div class="flex justify-between text-[11px] font-bold mb-1.5 px-1">
-                          <span id="ai-prob-home-text" class="text-blue-500">Home 0%</span>
-                          <span id="ai-prob-draw-text" class="text-slate-400">Draw 0%</span>
-                          <span id="ai-prob-away-text" class="text-red-500">Away 0%</span>
-                      </div>
-                      <div class="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full flex overflow-hidden shadow-inner border border-slate-200 dark:border-slate-700">
-                          <div id="ai-bar-home" class="h-full bg-blue-500 transition-all duration-1000 w-0"></div>
-                          <div id="ai-bar-draw" class="h-full bg-slate-400 transition-all duration-1000 w-0"></div>
-                           <div id="ai-bar-away" class="h-full bg-red-500 transition-all duration-1000 w-0"></div>
-                      </div>
-                      <div class="text-center mt-1 text-[9px] text-slate-400 font-bold uppercase">နိုင်ခြေ ရာခိုင်နှုန်း (Win Probability)</div>
-                  </div>
- 
-                  <div class="pt-2">
-                      <div class="flex justify-between text-[11px] font-bold mb-1.5 px-1 text-slate-600 dark:text-slate-300">
-                          <span id="ai-poss-home">0%</span>
-                          <span class="text-[9px] text-slate-400 uppercase tracking-widest">Possession</span>
-                          <span id="ai-poss-away">0%</span>
-                      </div>
-                      <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full flex overflow-hidden shadow-inner">
-                          <div id="ai-bar-poss-home" class="h-full bg-indigo-500 transition-all duration-1000 w-0"></div>
-                           <div id="ai-bar-poss-away" class="h-full bg-orange-500 transition-all duration-1000 w-0"></div>
-                      </div>
-                  </div>
-              </div>
- 
-               <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 relative z-10">
-                  <h4 class="font-black text-[12px] text-slate-800 dark:text-white mb-3 flex items-center">
-                      <i class="fas fa-align-left text-brand-gold mr-2"></i> AI ၏ အသေးစိတ် သုံးသပ်ချက်
-                  </h4>
-                   <div class="bg-slate-50 dark:bg-[#0f172a] p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
-                      <p id="ai-detailed-text" class="text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 font-bold space-y-3 block"></p>
-                  </div>
-              </div>
-
-               <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 relative z-10">
-                    <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-2 flex items-center">
-                        <i class="fas fa-calculator text-blue-500 mr-2"></i> လောင်းကြေး တွက်ချက်ရန်
-                    </h4>
-                    <div class="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-200 dark:border-blue-800/50">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300">AI အကြံပြုချက် (Odds):</span>
-                            <span class="text-[14px] font-black text-blue-600 dark:text-blue-400" id="ai-sim-odd">1.85</span>
-                        </div>
-                        <div class="flex items-center space-x-2 mb-3">
-                            <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 w-16">လောင်းငွေ:</span>
-                            <input type="number" id="ai-stake-input" value="10000" oninput="updatePotentialWin()" class="flex-1 bg-white dark:bg-[#1e293b] border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 text-[13px] font-black focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white">
-                            <span class="text-[11px] font-bold text-slate-500">MMK</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white dark:bg-[#1e293b] p-3 rounded-lg shadow-sm">
-                            <span class="text-[11px] font-black text-slate-500">ရနိုင်မည့် အမြတ်:</span>
-                            <span class="text-[16px] font-black text-green-600 dark:text-green-400" id="ai-potential-win">18,500 MMK</span>
-                        </div>
-                    </div>
-               </div>
- 
-               <div class="mt-5 relative z-10">
-                  <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex justify-center items-center w-full py-3.5 bg-slate-900 dark:bg-brand-gold text-brand-gold dark:text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg">
-                      <i class="fas fa-coins mr-2"></i> 1XBET တွင် လောင်းကြေးထပ်မည်
-                  </a>
-              </div>
-
-               <div class="mt-3 relative z-10">
-                   <button onclick="sharePredictionToTelegram()" class="flex justify-center items-center w-full py-3.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 rounded-xl font-black text-[13px] active:scale-95 transition shadow-sm">
-                       <i class="fab fa-telegram-plane mr-2 text-lg"></i> AI ခန့်မှန်းချက်ကို မျှဝေမည်
-                   </button>
-               </div>
-               
-               <div class="text-center mt-4">
-                  <p class="text-[12px] font-bold text-slate-500 italic">"အကြိုက်တူမှပဲ ကစားပါ"</p>
-              </div>
           </div>
         </div>
     </section>
@@ -684,7 +517,6 @@
         <div onclick="switchTabById('tab-home')" data-navtab="tab-home" class="bottom-nav-item active text-slate-400"><i class="nav-icon fas fa-home"></i><span class="nav-label">ပင်မ</span></div>
         <div onclick="switchTabById('tab-matches')" data-navtab="tab-matches" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-futbol"></i><span class="nav-label">ပွဲစဉ်</span></div>
         <div onclick="switchTabById('tab-play')" data-navtab="tab-play" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gamepad"></i><span class="nav-label">ကစားမည်</span></div>
-        <div onclick="switchTabById('tab-ai')" data-navtab="tab-ai" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-robot"></i><span class="nav-label">AI</span></div>
         <div onclick="switchTabById('tab-standings')" data-navtab="tab-standings" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-list-ol"></i><span class="nav-label">ဇယား</span></div>
         <div onclick="switchTabById('tab-services')" data-navtab="tab-services" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-concierge-bell"></i><span class="nav-label">ဝန်ဆောင်မှု</span></div>
         <div onclick="switchTabById('tab-promos')" data-navtab="tab-promos" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gift"></i><span class="nav-label">ပရိုမို</span></div>
@@ -799,9 +631,6 @@ const mmSearchTerms = {
     'ဘာစီလိုနာ': 'barcelona'
 };
 
-const MAX_AI_PREDICTIONS = 5;
-const AI_UNLOCK_CODE = "ZINXBETVIP";
-
 // --- Telegram Variables & Environment Check ---
 const tg = window.Telegram?.WebApp;
 // Telegram Mini App ထဲမှာ ဖွင့်တာ ဟုတ်၊ မဟုတ် စစ်ဆေးခြင်း
@@ -815,7 +644,6 @@ if (isTgApp) {
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
-let currentAIOdd = 1.85; // Default for AI Predictor
  
 // Haptic Native Feedback Override (Browser & Telegram အတွက်)
 const triggerHaptic = () => {
@@ -1198,7 +1026,7 @@ function renderMatchCard(match, isCompact) {
 }
 
 // -----------------------------------------------------------
-// 💥 NEW: COMBINED STATS, LINEUP & AI PREDICTION MODAL
+// STATS, LINEUP & PREDICTION MODAL (AI TAB REMOVED)
 // -----------------------------------------------------------
 async function openStatsModal(matchId) {
     triggerHaptic();
@@ -1239,13 +1067,12 @@ async function openStatsModal(matchId) {
         
         let htmlBody = `<div class="p-4 space-y-4 animate-fade-up">`;
 
-        // --- ၁။ AI ခန့်မှန်းချက် အပိုင်း (Prediction) ---
+        // --- ၁။ ESPN ခန့်မှန်းချက် အပိုင်း (Prediction) ---
         if (data.predictor && !isLiveOrFinished) {
             const hPct = parseFloat(data.predictor.homeChance);
             const dPct = parseFloat(data.predictor.tieChance);
             const aPct = parseFloat(data.predictor.awayChance);
             
-            // Score ခန့်မှန်းမှုအတွက် တွက်ချက်နည်းသစ် (၁-၁ တွေချည်း မဖြစ်စေရန်)
             const seedStr = matchId.toString();
             let randomVal1 = parseFloat('0.' + seedStr.substring(0, 4)) || 0.5;
             let randomVal2 = parseFloat('0.' + seedStr.substring(seedStr.length-4)) || 0.5;
@@ -1259,7 +1086,7 @@ async function openStatsModal(matchId) {
 
             htmlBody += `
             <div class="bg-gradient-to-r from-purple-900/20 to-indigo-900/20 border border-purple-500/30 rounded-2xl p-4 shadow-sm">
-                <h4 class="font-black text-[13px] text-purple-600 dark:text-purple-400 mb-3 flex items-center justify-center"><i class="fas fa-robot mr-2"></i> AI ခန့်မှန်းချက် (ESPN Data)</h4>
+                <h4 class="font-black text-[13px] text-purple-600 dark:text-purple-400 mb-3 flex items-center justify-center"><i class="fas fa-robot mr-2"></i> ခန့်မှန်းချက် (ESPN Data)</h4>
                 
                 <div class="flex items-center justify-between mb-3 text-[12px] font-bold">
                     <div class="text-blue-500 w-[30%] text-center">Home<br><span class="text-lg font-black">${Math.round(hPct)}%</span></div>
@@ -1455,233 +1282,11 @@ async function fetchMatches(isManual=false) {
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
 
-// -----------------------------------------------------------
-// AI TAB MANUAL PREDICTION (ESPN DATA API)
-// -----------------------------------------------------------
-function updateAIUsageUI() {
-    let usage = parseInt(localStorage.getItem('aiUsageCount')) || 0;
-    let isUnlocked = localStorage.getItem('aiUnlocked') === 'true';
-    
-    const inputSec = document.getElementById('ai-input-section');
-    const lockSec = document.getElementById('ai-locked-section');
-    const counterText = document.getElementById('ai-usage-counter');
-    
-    if (isUnlocked) {
-      inputSec.classList.remove('hidden');
-      lockSec.classList.add('hidden');
-       lockSec.style.display = 'none';
-      counterText.innerHTML = `<i class="fas fa-crown text-brand-gold mr-1"></i> VIP Access: အကန့်အသတ်မရှိ ခန့်မှန်းနိုင်ပါပြီ`;
-      counterText.classList.add('text-brand-gold');
-      counterText.classList.remove('text-slate-500');
-    } else {
-        if (usage >= MAX_AI_PREDICTIONS) {
-          inputSec.classList.add('hidden');
-          lockSec.classList.remove('hidden');
-          lockSec.style.display = 'flex'; 
-        } else {
-          inputSec.classList.remove('hidden');
-          lockSec.classList.add('hidden');
-          lockSec.style.display = 'none';
-          counterText.innerHTML = `အခမဲ့ ခန့်မှန်းခွင့် လက်ကျန်: <span class="text-purple-500 font-black">${MAX_AI_PREDICTIONS - usage}</span> / ${MAX_AI_PREDICTIONS}`;
-        }
-    }
-}
- 
-function unlockAI() {
-    triggerHaptic();
-    const codeInput = document.getElementById('ai-unlock-code').value.trim().toUpperCase();
-    if (codeInput === AI_UNLOCK_CODE) {
-      localStorage.setItem('aiUnlocked', 'true');
-        alert("✅ Unlock အောင်မြင်ပါသည်။ အကန့်အသတ်မရှိ ဆက်လက်ခန့်မှန်းနိုင်ပါပြီ။");
-      updateAIUsageUI();
-    } else {
-        alert("❌ Unlock Code မှားယွင်းနေပါသည်။ သင့် Agentထံတွင် ပြန်လည်တောင်းယူပါ။");
-    }
-}
-
-function updatePotentialWin() {
-    let stake = parseFloat(document.getElementById('ai-stake-input').value) || 0;
-    let win = Math.round(stake * currentAIOdd);
-    document.getElementById('ai-potential-win').innerText = win.toLocaleString() + " MMK";
-}
-
-function sharePredictionToTelegram() {
-    triggerHaptic();
-    const home = document.getElementById('ai-res-home').innerText;
-    const away = document.getElementById('ai-res-away').innerText;
-    const score = document.getElementById('ai-res-score').innerText;
-    
-    const miniAppLink = "http://t.me/wesportlive_bot/live?startapp=ai"; 
-    
-    const shareText = `🔥 W.E Sports AI ခန့်မှန်းချက် 🔥\n\n⚽ ${home} [ ${score} ] ${away}\n\n🎁 100% Bonus ရယူရန် Promo Code: ZINXBET ဖြင့် ကစားပါ။\n\n👇 အခြားပွဲစဉ်များကို AI ဖြင့် ခန့်မှန်းရန် အောက်ပါလင့်ခ်ကို နှိပ်ပါ။\n${miniAppLink}`;
-    const shareUrl = `https://t.me/share/url?url=&text=${encodeURIComponent(shareText)}`;
-    
-    if (isTgApp) {
-        tg.openTelegramLink(shareUrl); 
-    } else {
-        window.open(shareUrl, '_blank'); 
-    }
-}
- 
-async function generateAIPrediction() {
-    triggerHaptic();
-    
-    let usage = parseInt(localStorage.getItem('aiUsageCount')) || 0;
-    let isUnlocked = localStorage.getItem('aiUnlocked') === 'true';
-    
-    if (!isUnlocked && usage >= MAX_AI_PREDICTIONS) {
-        updateAIUsageUI();
-        return;
-    }
-
-    const homeInput = document.getElementById('ai-home').value.trim().toLowerCase();
-    const awayInput = document.getElementById('ai-away').value.trim().toLowerCase();
-    
-    if(!homeInput || !awayInput) { alert('ကျေးဇူးပြု၍ အိမ်ရှင် နှင့် ဧည့်သည် အသင်းနှစ်ခုစလုံးကို ရိုက်ထည့်ပါ။'); return; }
-    
-    const btn = document.getElementById('ai-btn');
-    const resultBox = document.getElementById('ai-result');
-    
-    btn.disabled = true;
-    resultBox.classList.add('hidden');
-    resultBox.classList.remove('animate-fade-up');
-    
-    ['ai-bar-home', 'ai-bar-draw', 'ai-bar-away', 'ai-bar-poss-home', 'ai-bar-poss-away'].forEach(id => {
-        document.getElementById(id).style.width = '0%';
-    });
-
-    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2"></div> Real Data ရှာဖွေနေပါသည်...`;
-
-    try {
-        let targetMatch = null;
-        const allMatches = [...allCachedMatches.live, ...allCachedMatches.upcoming];
-        
-        for (const m of allMatches) {
-            const hName = m.homeTeam.team.name.toLowerCase();
-            const aName = m.awayTeam.team.name.toLowerCase();
-            if ((hName.includes(homeInput) && aName.includes(awayInput)) || 
-                (hName.includes(awayInput) && aName.includes(homeInput))) {
-                targetMatch = m;
-                break;
-            }
-        }
-
-        if (!targetMatch) {
-            alert('ဒီနေ့ သို့မဟုတ် လာမည့်ရက်များအတွင်း ဒီနှစ်သင်းကစားမည့်ပွဲကို မတွေ့ရပါ။ စာလုံးပေါင်း ပြန်စစ်ကြည့်ပါ။ (ဥပမာ - man utd, arsenal)');
-            btn.innerHTML = 'AIဖြင့် ခန့်မှန်းမည် <i class="fas fa-magic ml-2"></i>';
-            btn.disabled = false;
-            return;
-        }
-
-        const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${targetMatch.leagueId}/summary?event=${targetMatch.id}`);
-        const summaryData = await summaryRes.json();
-
-        let homeWinPct = 33, drawPct = 34, awayWinPct = 33;
-        let homeScoreCalc = 1, awayScoreCalc = 1;
-
-        if (summaryData.predictor) {
-            homeWinPct = parseFloat(summaryData.predictor.homeChance);
-            drawPct = parseFloat(summaryData.predictor.tieChance);
-            awayWinPct = parseFloat(summaryData.predictor.awayChance);
-            
-            const seedStr = targetMatch.id.toString();
-            let randomVal1 = parseFloat('0.' + seedStr.substring(0, 4)) || 0.5;
-            let randomVal2 = parseFloat('0.' + seedStr.substring(seedStr.length-4)) || 0.5;
-
-            if (homeWinPct > 55) { homeScoreCalc = Math.floor(randomVal1 * 2) + 2; awayScoreCalc = Math.floor(randomVal2 * 2); } 
-            else if (awayWinPct > 55) { awayScoreCalc = Math.floor(randomVal1 * 2) + 2; homeScoreCalc = Math.floor(randomVal2 * 2); }
-            else if (homeWinPct > awayWinPct + 5) { homeScoreCalc = Math.floor(randomVal1 * 2) + 1; awayScoreCalc = Math.floor(randomVal2 * 2); } 
-            else if (awayWinPct > homeWinPct + 5) { awayScoreCalc = Math.floor(randomVal1 * 2) + 1; homeScoreCalc = Math.floor(randomVal2 * 2); }
-            else { homeScoreCalc = Math.floor(randomVal1 * 3); awayScoreCalc = Math.floor(randomVal2 * 3); if(homeScoreCalc===awayScoreCalc && randomVal1 > 0.8) homeScoreCalc++; }
-        }
-
-        const finalHomeName = targetMatch.homeTeam.team.name;
-        const finalAwayName = targetMatch.awayTeam.team.name;
-
-        document.getElementById('ai-res-home').innerText = finalHomeName.substring(0, 12);
-        document.getElementById('ai-res-away').innerText = finalAwayName.substring(0, 12);
-        document.getElementById('ai-res-score').innerText = `${homeScoreCalc} - ${awayScoreCalc}`;
-        
-        document.getElementById('ai-prob-home-text').innerText = `Home ${Math.round(homeWinPct)}%`;
-        document.getElementById('ai-prob-draw-text').innerText = `Draw ${Math.round(drawPct)}%`;
-        document.getElementById('ai-prob-away-text').innerText = `Away ${Math.round(awayWinPct)}%`;
-        
-        document.getElementById('ai-poss-home').innerText = `${Math.round(homeWinPct + 10)}%`;
-        document.getElementById('ai-poss-away').innerText = `${Math.round(awayWinPct + 10)}%`;
-
-        let lineupHtml = '';
-        if (summaryData.rosters && summaryData.rosters.length >= 2) {
-            const hRoster = summaryData.rosters.find(r => r.team.id === targetMatch.homeTeam.team.id);
-            const aRoster = summaryData.rosters.find(r => r.team.id === targetMatch.awayTeam.team.id);
-            
-            if (hRoster && hRoster.roster && hRoster.roster.length > 0) {
-                lineupHtml = `<div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-                    <h5 class="font-black text-[12px] text-slate-800 dark:text-white mb-3 text-center"><i class="fas fa-users text-blue-500 mr-1"></i> ပွဲထွက်လူစာရင်း (Confirmed Line-up)</h5>
-                    <div class="flex justify-between text-[11px] font-bold text-slate-600 dark:text-slate-300">
-                        <div class="flex-1 text-left bg-slate-50 dark:bg-slate-800 p-2 rounded-lg mr-1 border border-slate-200 dark:border-slate-700">
-                            <span class="block text-center text-blue-500 mb-2">${hRoster.formation || 'Line-up'}</span>
-                            ${hRoster.roster.filter(p => p.starter).map(p => `<div class="truncate mb-1"><span class="text-slate-400 mr-1">${p.jersey || '-'}</span> ${p.athlete.shortName}</div>`).join('')}
-                        </div>
-                        <div class="flex-1 text-right bg-slate-50 dark:bg-slate-800 p-2 rounded-lg ml-1 border border-slate-200 dark:border-slate-700">
-                            <span class="block text-center text-red-500 mb-2">${aRoster.formation || 'Line-up'}</span>
-                            ${aRoster.roster.filter(p => p.starter).map(p => `<div class="truncate mb-1">${p.athlete.shortName} <span class="text-slate-400 ml-1">${p.jersey || '-'}</span></div>`).join('')}
-                        </div>
-                    </div>
-                </div>`;
-            }
-        } else {
-            lineupHtml = `<div class="mt-4 pt-3 text-center text-[10px] text-slate-400 font-bold border-t border-slate-200 dark:border-slate-700"><i class="fas fa-clock mr-1"></i> ပွဲထွက်လူစာရင်း မထွက်သေးပါ (ပွဲစရန် ၁ နာရီအလိုတွင် ထွက်ပါမည်)</div>`;
-        }
-
-        let detailText = "";
-        if (homeWinPct >= 50) {
-            detailText += `<span class="block mb-2">⚽ <b>အိမ်ရှင်အသာစီး:</b> ESPN ၏ တရားဝင် Data အရ <b>${finalHomeName}</b> သည် ယခုပွဲစဉ်တွင် အနိုင်ရရန် (${Math.round(homeWinPct)}%) ရေပန်းစားနေပါသည်။</span>`;
-            currentAIOdd = (1.50 + Math.random() * 0.30).toFixed(2);
-        } else if (awayWinPct >= 50) {
-            detailText += `<span class="block mb-2">⚽ <b>ဧည့်သည်အသာစီး:</b> <b>${finalAwayName}</b> သည် အဝေးကွင်းဖြစ်သော်လည်း အနိုင်ရရန် ရာခိုင်နှုန်း (${Math.round(awayWinPct)}%) ဖြင့် အသာစီးရနေပါသည်။</span>`;
-            currentAIOdd = (1.60 + Math.random() * 0.40).toFixed(2);
-        } else {
-            detailText += `<span class="block mb-2">⚽ <b>အကြိတ်အနယ်:</b> ယခုပွဲစဉ်သည် အသင်းနှစ်သင်းလုံး အနိုင်ရခြေ ရာခိုင်နှုန်းကွာဟချက် နည်းပါးပြီး သရေကျရန် (${Math.round(drawPct)}%) ရှိနေပါသည်။</span>`;
-            currentAIOdd = (2.50 + Math.random() * 0.50).toFixed(2);
-        }
-        
-        document.getElementById('ai-detailed-text').innerHTML = detailText + lineupHtml;
-
-        document.getElementById('ai-sim-odd').innerText = currentAIOdd;
-        updatePotentialWin();
-
-        resultBox.classList.remove('hidden');
-        resultBox.classList.add('animate-fade-up');
-        
-        setTimeout(() => {
-            document.getElementById('ai-bar-home').style.width = `${homeWinPct}%`;
-            document.getElementById('ai-bar-draw').style.width = `${drawPct}%`;
-            document.getElementById('ai-bar-away').style.width = `${awayWinPct}%`;
-            
-            document.getElementById('ai-bar-poss-home').style.width = `${homeWinPct + 10}%`;
-            document.getElementById('ai-bar-poss-away').style.width = `${awayWinPct + 10}%`;
-        }, 100);
-
-    } catch (error) {
-        console.error(error);
-        alert('ESPN Data ဆွဲယူရာတွင် အခက်အခဲရှိနေပါသည်။ ကျေးဇူးပြု၍ ခဏနေမှ ပြန်ကြိုးစားပါ။');
-    } finally {
-        if (!isUnlocked) {
-            usage++;
-            localStorage.setItem('aiUsageCount', usage.toString());
-            updateAIUsageUI();
-        }
-        btn.innerHTML = 'နောက်တစ်ပွဲ ခန့်မှန်းမည် <i class="fas fa-redo ml-2"></i>';
-        btn.disabled = false;
-    }
-}
- 
 document.addEventListener('DOMContentLoaded', () => { 
     fetchMatches(); 
     setInterval(() => fetchMatches(), 90000); 
     setTimeout(showWelcomeModal, 2000); 
     setTimeout(showFlashPromo, 30000); 
-    updateAIUsageUI();
 
     // Deep Linking Handling
     let startParam = null;
@@ -1692,9 +1297,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startParam = urlParams.get('startapp');
     }
 
-    if (startParam === 'ai') {
-        setTimeout(() => switchTabById('tab-ai'), 500);
-    } else if (startParam === 'promo') {
+    if (startParam === 'promo') {
         setTimeout(() => switchTabById('tab-promos'), 500);
     }
 });
