@@ -693,11 +693,7 @@
  
 <div id="stats-modal" class="fixed inset-0 bg-black/80 z-[70] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm flex items-end sm:items-center justify-center" onclick="closeStatsModal()">
     <div class="bg-white dark:bg-[#0f172a] w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[88vh] overflow-y-auto transform translate-y-full transition-transform duration-300 shadow-2xl border border-slate-200 dark:border-white/10" id="stats-modal-content" onclick="event.stopPropagation()">
-        <div class="p-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md z-10">
-            <h3 class="font-black text-slate-800 dark:text-white flex items-center text-[16px]"><i class="fas fa-chart-bar text-brand-gold mr-2"></i> ပွဲစဉ် Stats</h3>
-            <button onclick="closeStatsModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="stats-container" class="pb-6"></div>
+        <div id="stats-container" class="pb-6 relative"></div>
     </div>
 </div>
  
@@ -802,6 +798,9 @@ const mmSearchTerms = {
     'ရီးရဲ': 'real madrid',
     'ဘာစီလိုနာ': 'barcelona'
 };
+
+const MAX_AI_PREDICTIONS = 5;
+const AI_UNLOCK_CODE = "ZINXBETVIP";
 
 // --- Telegram Variables & Environment Check ---
 const tg = window.Telegram?.WebApp;
@@ -1197,33 +1196,160 @@ function renderMatchCard(match, isCompact) {
       ${goalRow}${cdHtml}${urgencyHtml}${probHtml}${oddsHtml}
     </div>`;
 }
- 
+
+// -----------------------------------------------------------
+// 💥 NEW: COMBINED STATS, LINEUP & AI PREDICTION MODAL
+// -----------------------------------------------------------
 async function openStatsModal(matchId) {
+    triggerHaptic();
     const match = globalMatchesMap[matchId]; if (!match) return;
-    const modal = document.getElementById('stats-modal'), content = document.getElementById('stats-modal-content'), cont = document.getElementById('stats-container');
-  modal.classList.remove('hidden'); requestAnimationFrame(() => { modal.classList.remove('opacity-0'); content.classList.remove('translate-y-full'); content.classList.add('translate-y-0'); });
- 
+    const modal = document.getElementById('stats-modal');
+    const content = document.getElementById('stats-modal-content');
+    const cont = document.getElementById('stats-container');
+
+    modal.classList.remove('hidden'); 
+    requestAnimationFrame(() => { 
+        modal.classList.remove('opacity-0'); 
+        content.classList.remove('translate-y-full'); 
+        content.classList.add('translate-y-0'); 
+    });
+
     const px = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-    const headerHtml = `<div class="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700"><div class="flex flex-col items-center flex-1"><img src="${match.homeTeam.team.logo||px}" class="w-10 h-10 object-contain mb-1"><span class="text-[12px] font-black text-slate-800 dark:text-white">${match.homeTeam.team.name.substring(0,12)}</span></div><div class="text-center px-2"><span class="text-sm font-black bg-slate-200 dark:bg-slate-900 px-3 py-1 rounded-lg text-slate-700 dark:text-white">${match.status==='in'||match.status==='post' ? match.homeTeam.score+' - '+match.awayTeam.score : 'VS'}</span></div><div class="flex flex-col items-center flex-1"><img src="${match.awayTeam.team.logo||px}" class="w-10 h-10 object-contain mb-1"><span class="text-[12px] font-black text-slate-800 dark:text-white">${match.awayTeam.team.name.substring(0,12)}</span></div></div>`;
-    cont.innerHTML = headerHtml + `<div class="flex flex-col items-center justify-center py-10 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Woxy 🦊 Stats ရှာပေးနေပါတယ်...</span></div>`;
- 
+    const isLiveOrFinished = match.status === 'in' || match.status === 'post';
+    const matchTime = match.date.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+
+    // ခေါင်းစဉ်ပိုင်း (အသင်းနှစ်သင်း နှင့် အချိန်/ရမှတ်)
+    const headerHtml = `
+    <div class="p-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md z-30">
+        <h3 class="font-black text-slate-800 dark:text-white flex items-center text-[16px]"><i class="fas fa-chart-bar text-brand-gold mr-2"></i> ပွဲစဉ် အချက်အလက်များ</h3>
+        <button onclick="closeStatsModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700 sticky top-[65px] z-20">
+        <div class="flex flex-col items-center flex-1"><img src="${match.homeTeam.team.logo||px}" class="w-10 h-10 object-contain mb-1"><span class="text-[12px] font-black text-slate-800 dark:text-white text-center">${match.homeTeam.team.name.substring(0,12)}</span></div>
+        <div class="text-center px-2"><span class="text-sm font-black bg-slate-200 dark:bg-slate-900 px-3 py-1 rounded-lg text-slate-700 dark:text-white shadow-inner">${isLiveOrFinished ? match.homeTeam.score+' - '+match.awayTeam.score : matchTime}</span></div>
+        <div class="flex flex-col items-center flex-1"><img src="${match.awayTeam.team.logo||px}" class="w-10 h-10 object-contain mb-1"><span class="text-[12px] font-black text-slate-800 dark:text-white text-center">${match.awayTeam.team.name.substring(0,12)}</span></div>
+    </div>`;
+
+    cont.innerHTML = headerHtml + `<div class="flex flex-col items-center justify-center py-16 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Woxy 🦊 Data များကို ဆွဲယူနေပါသည်...</span></div>`;
+
     try {
-        const res  = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${match.leagueId}/summary?event=${matchId}`), data = await res.json(), bs = data.boxscore;
-        if (!bs?.teams || bs.teams.length < 2) throw new Error('no stats');
-        const t1 = bs.teams[0], t2 = bs.teams[1], hSt = t1.team.id === match.homeTeam.team.id ? t1.statistics : t2.statistics, aSt = t1.team.id === match.homeTeam.team.id ? t2.statistics : t1.statistics;
-        const keys = [{ k:'possessionPct', l:'ဘောလုံးပိုင်ဆိုင်မှု (%)' }, { k:'shotsSummary', l:'ဂိုးကန်သွင်းမှု' }, { k:'shotsOnTarget', a:'shotsOnGoal', l:'ဂိုးပေါက်တည့်မှု' }, { k:'cornerKicks', l:'ထောင့်ကန်ဘော' }, { k:'foulsCommitted', l:'ပြစ်ဒဏ်' }, { k:'yellowCards', l:'အဝါကတ်' }, { k:'redCards', l:'အနီကတ်' }];
-        let statsHtml = '';
-      keys.forEach(({k,a,l}) => {
-            const hO = hSt.find(x=>x.name===k||(a&&x.name===a)), aO = aSt.find(x=>x.name===k||(a&&x.name===a)); if (!hO||!aO) return;
-            const hV = parseFloat(hO.displayValue)||0, aV = parseFloat(aO.displayValue)||0, tot = hV+aV || 1, hPct = (hV/tot)*100, aPct=(aV/tot)*100;
-            statsHtml += `<div class="mb-5"><div class="flex justify-between text-[12px] font-bold text-slate-600 dark:text-slate-300 mb-1.5"><span>${hO.displayValue}</span><span class="text-[10px] text-slate-400">${l}</span><span>${aO.displayValue}</span></div><div class="flex h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width:${hPct}%"></div><div class="h-full bg-red-500" style="width:${aPct}%"></div></div></div>`;
-        });
-        cont.innerHTML = headerHtml + `<div class="p-6 pt-5 animate-fade-up">${statsHtml||'<div class="text-center text-[12px] font-bold text-slate-400 py-6">Stats မရရှိနိုင်သေးပါ</div>'}</div>`;
-    } catch { cont.innerHTML = headerHtml + `<div class="p-8 text-center text-slate-400 font-bold text-[12px]">ဒီပွဲ Statsမရရှိနိုင်သေးပါ</div>`; }
+        // ESPN Summary API ကို လှမ်းခေါ်ခြင်း (Stats, Lineup, Prediction အကုန်ပါသည်)
+        const res  = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${match.leagueId}/summary?event=${matchId}`);
+        const data = await res.json();
+        
+        let htmlBody = `<div class="p-4 space-y-4 animate-fade-up">`;
+
+        // --- ၁။ AI ခန့်မှန်းချက် အပိုင်း (Prediction) ---
+        if (data.predictor && !isLiveOrFinished) {
+            const hPct = parseFloat(data.predictor.homeChance);
+            const dPct = parseFloat(data.predictor.tieChance);
+            const aPct = parseFloat(data.predictor.awayChance);
+            
+            // Score ခန့်မှန်းမှုအတွက် တွက်ချက်နည်းသစ် (၁-၁ တွေချည်း မဖြစ်စေရန်)
+            const seedStr = matchId.toString();
+            let randomVal1 = parseFloat('0.' + seedStr.substring(0, 4)) || 0.5;
+            let randomVal2 = parseFloat('0.' + seedStr.substring(seedStr.length-4)) || 0.5;
+
+            let hScore = 0, aScore = 0;
+            if (hPct > 55) { hScore = Math.floor(randomVal1 * 2) + 2; aScore = Math.floor(randomVal2 * 2); } 
+            else if (aPct > 55) { aScore = Math.floor(randomVal1 * 2) + 2; hScore = Math.floor(randomVal2 * 2); }
+            else if (hPct > aPct + 5) { hScore = Math.floor(randomVal1 * 2) + 1; aScore = Math.floor(randomVal2 * 2); } 
+            else if (aPct > hPct + 5) { aScore = Math.floor(randomVal1 * 2) + 1; hScore = Math.floor(randomVal2 * 2); }
+            else { hScore = Math.floor(randomVal1 * 3); aScore = Math.floor(randomVal2 * 3); if(hScore===aScore && randomVal1 > 0.8) hScore++; } 
+
+            htmlBody += `
+            <div class="bg-gradient-to-r from-purple-900/20 to-indigo-900/20 border border-purple-500/30 rounded-2xl p-4 shadow-sm">
+                <h4 class="font-black text-[13px] text-purple-600 dark:text-purple-400 mb-3 flex items-center justify-center"><i class="fas fa-robot mr-2"></i> AI ခန့်မှန်းချက် (ESPN Data)</h4>
+                
+                <div class="flex items-center justify-between mb-3 text-[12px] font-bold">
+                    <div class="text-blue-500 w-[30%] text-center">Home<br><span class="text-lg font-black">${Math.round(hPct)}%</span></div>
+                    <div class="text-slate-500 w-[30%] text-center">Draw<br><span class="text-lg font-black">${Math.round(dPct)}%</span></div>
+                    <div class="text-red-500 w-[30%] text-center">Away<br><span class="text-lg font-black">${Math.round(aPct)}%</span></div>
+                </div>
+                
+                <div class="bg-white dark:bg-[#0f172a] rounded-xl p-3 text-center border border-slate-200 dark:border-slate-700 shadow-sm mx-8">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase block mb-1">ခန့်မှန်း ရလဒ်</span>
+                    <div class="text-[20px] font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-500">${hScore} - ${aScore}</div>
+                </div>
+            </div>`;
+        }
+
+        // --- ၂။ ပွဲထွက်လူစာရင်း အပိုင်း (Line-up) ---
+        if (data.rosters && data.rosters.length >= 2) {
+            const hRoster = data.rosters.find(r => r.team.id === match.homeTeam.team.id);
+            const aRoster = data.rosters.find(r => r.team.id === match.awayTeam.team.id);
+            
+            if (hRoster && hRoster.roster && hRoster.roster.length > 0) {
+                htmlBody += `
+                <div class="bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-2xl p-4 shadow-sm">
+                    <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-3 flex items-center justify-center"><i class="fas fa-users text-blue-500 mr-2"></i> ပွဲထွက်လူစာရင်း</h4>
+                    <div class="flex justify-between text-[11px] font-bold text-slate-600 dark:text-slate-300 gap-2">
+                        <div class="flex-1 bg-slate-50 dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <span class="block text-center text-blue-500 mb-2 border-b border-slate-200 dark:border-slate-700 pb-1">${hRoster.formation || 'Home'}</span>
+                            ${hRoster.roster.filter(p => p.starter).map(p => `<div class="flex justify-between mb-1.5"><span class="text-slate-400 w-5">${p.jersey || '-'}</span><span class="truncate text-right flex-1">${p.athlete.shortName}</span></div>`).join('')}
+                        </div>
+                        <div class="flex-1 bg-slate-50 dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <span class="block text-center text-red-500 mb-2 border-b border-slate-200 dark:border-slate-700 pb-1">${aRoster.formation || 'Away'}</span>
+                            ${aRoster.roster.filter(p => p.starter).map(p => `<div class="flex justify-between mb-1.5"><span class="truncate text-left flex-1">${p.athlete.shortName}</span><span class="text-slate-400 w-5 text-right">${p.jersey || '-'}</span></div>`).join('')}
+                        </div>
+                    </div>
+                </div>`;
+            }
+        } else if (!isLiveOrFinished) {
+            htmlBody += `<div class="text-center py-4 text-[11px] font-bold text-slate-400 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm"><i class="fas fa-clock mr-1"></i> ပွဲထွက်လူစာရင်း မထွက်သေးပါ</div>`;
+        }
+
+        // --- ၃။ ပွဲတွင်းစာရင်း အပိုင်း (Match Stats) ---
+        const bs = data.boxscore;
+        if (bs?.teams && bs.teams.length >= 2) {
+            const t1 = bs.teams[0], t2 = bs.teams[1];
+            const hSt = t1.team.id === match.homeTeam.team.id ? t1.statistics : t2.statistics;
+            const aSt = t1.team.id === match.homeTeam.team.id ? t2.statistics : t1.statistics;
+            
+            const keys = [{ k:'possessionPct', l:'ဘောလုံးပိုင်ဆိုင်မှု (%)' }, { k:'shotsSummary', l:'ဂိုးကန်သွင်းမှု' }, { k:'shotsOnTarget', a:'shotsOnGoal', l:'ဂိုးပေါက်တည့်မှု' }, { k:'cornerKicks', l:'ထောင့်ကန်ဘော' }, { k:'foulsCommitted', l:'ပြစ်ဒဏ်' }, { k:'yellowCards', l:'အဝါကတ်' }, { k:'redCards', l:'အနီကတ်' }];
+            let statsHtml = '';
+            
+            keys.forEach(({k,a,l}) => {
+                const hO = hSt.find(x=>x.name===k||(a&&x.name===a));
+                const aO = aSt.find(x=>x.name===k||(a&&x.name===a)); 
+                if (!hO||!aO) return;
+                
+                const hV = parseFloat(hO.displayValue)||0, aV = parseFloat(aO.displayValue)||0, tot = hV+aV || 1, hPct = (hV/tot)*100, aPct=(aV/tot)*100;
+                statsHtml += `<div class="mb-4">
+                    <div class="flex justify-between text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1.5 px-1"><span>${hO.displayValue}</span><span class="text-[10px] text-slate-400 uppercase tracking-wide">${l}</span><span>${aO.displayValue}</span></div>
+                    <div class="flex h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width:${hPct}%"></div><div class="h-full bg-red-500" style="width:${aPct}%"></div></div>
+                </div>`;
+            });
+
+            if (statsHtml) {
+                htmlBody += `<div class="bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-2xl p-4 shadow-sm">
+                    <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-4 text-center"><i class="fas fa-chart-bar text-brand-gold mr-2"></i> Match Stats</h4>
+                    ${statsHtml}
+                </div>`;
+            }
+        }
+        
+        // 1XBET Button
+        if(!isLiveOrFinished) {
+            htmlBody += `
+            <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex justify-center items-center w-full py-3.5 bg-slate-900 dark:bg-brand-gold text-brand-gold dark:text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg mt-2">
+                <i class="fas fa-coins mr-2"></i> 1XBET တွင် လောင်းကြေးထပ်မည်
+            </a>`;
+        }
+
+        htmlBody += `</div>`; // Close Main Div
+
+        cont.innerHTML = headerHtml + htmlBody;
+
+    } catch(err) { 
+        console.error(err);
+        cont.innerHTML = headerHtml + `<div class="p-8 text-center text-slate-400 font-bold text-[12px]">ဒေတာ မရရှိနိုင်သေးပါ</div>`; 
+    }
 }
+
 function closeStatsModal() {
     const modal = document.getElementById('stats-modal'), content = document.getElementById('stats-modal-content');
-  modal.classList.add('opacity-0'); content.classList.add('translate-y-full'); content.classList.remove('translate-y-0');
+    modal.classList.add('opacity-0'); content.classList.add('translate-y-full'); content.classList.remove('translate-y-0');
     setTimeout(() => modal.classList.add('hidden'), 300);
 }
  
@@ -1328,12 +1454,10 @@ async function fetchMatches(isManual=false) {
       renderDateSelector(); filterAndRenderMatches(); renderHomeTopMatches();
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
- 
-// --- FULL AI PREDICTION FEATURE WITH ESPN API ---
 
-const MAX_AI_PREDICTIONS = 5;
-const AI_UNLOCK_CODE = "ZINXBETVIP";
-
+// -----------------------------------------------------------
+// AI TAB MANUAL PREDICTION (ESPN DATA API)
+// -----------------------------------------------------------
 function updateAIUsageUI() {
     let usage = parseInt(localStorage.getItem('aiUsageCount')) || 0;
     let isUnlocked = localStorage.getItem('aiUnlocked') === 'true';
@@ -1381,7 +1505,6 @@ function updatePotentialWin() {
     document.getElementById('ai-potential-win').innerText = win.toLocaleString() + " MMK";
 }
 
-// Telegram Share Function (Cross-Platform)
 function sharePredictionToTelegram() {
     triggerHaptic();
     const home = document.getElementById('ai-res-home').innerText;
@@ -1430,7 +1553,6 @@ async function generateAIPrediction() {
     btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2"></div> Real Data ရှာဖွေနေပါသည်...`;
 
     try {
-        // ၁။ Cached လုပ်ထားတဲ့ ပွဲတွေထဲကနေ အခုရှာမယ့်ပွဲကို ရှာမယ်
         let targetMatch = null;
         const allMatches = [...allCachedMatches.live, ...allCachedMatches.upcoming];
         
@@ -1451,29 +1573,31 @@ async function generateAIPrediction() {
             return;
         }
 
-        // ၂။ ESPN Summary API ကနေ Prediction နဲ့ Line-up ကို ခေါ်မယ်
         const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${targetMatch.leagueId}/summary?event=${targetMatch.id}`);
         const summaryData = await summaryRes.json();
 
-        // ၃။ Data များကို ထုတ်ယူခြင်း
         let homeWinPct = 33, drawPct = 34, awayWinPct = 33;
         let homeScoreCalc = 1, awayScoreCalc = 1;
 
-        // ESPN Predictor Data ပါရင် ယူသုံးမယ်
         if (summaryData.predictor) {
             homeWinPct = parseFloat(summaryData.predictor.homeChance);
             drawPct = parseFloat(summaryData.predictor.tieChance);
             awayWinPct = parseFloat(summaryData.predictor.awayChance);
             
-            // Percentage ပေါ်မူတည်ပြီး Score ခန့်မှန်းချက်ကို ပြောင်းမယ်
-            homeScoreCalc = Math.round((homeWinPct / 100) * 3);
-            awayScoreCalc = Math.round((awayWinPct / 100) * 3);
+            const seedStr = targetMatch.id.toString();
+            let randomVal1 = parseFloat('0.' + seedStr.substring(0, 4)) || 0.5;
+            let randomVal2 = parseFloat('0.' + seedStr.substring(seedStr.length-4)) || 0.5;
+
+            if (homeWinPct > 55) { homeScoreCalc = Math.floor(randomVal1 * 2) + 2; awayScoreCalc = Math.floor(randomVal2 * 2); } 
+            else if (awayWinPct > 55) { awayScoreCalc = Math.floor(randomVal1 * 2) + 2; homeScoreCalc = Math.floor(randomVal2 * 2); }
+            else if (homeWinPct > awayWinPct + 5) { homeScoreCalc = Math.floor(randomVal1 * 2) + 1; awayScoreCalc = Math.floor(randomVal2 * 2); } 
+            else if (awayWinPct > homeWinPct + 5) { awayScoreCalc = Math.floor(randomVal1 * 2) + 1; homeScoreCalc = Math.floor(randomVal2 * 2); }
+            else { homeScoreCalc = Math.floor(randomVal1 * 3); awayScoreCalc = Math.floor(randomVal2 * 3); if(homeScoreCalc===awayScoreCalc && randomVal1 > 0.8) homeScoreCalc++; }
         }
 
         const finalHomeName = targetMatch.homeTeam.team.name;
         const finalAwayName = targetMatch.awayTeam.team.name;
 
-        // ၄။ UI ကို Update လုပ်ခြင်း
         document.getElementById('ai-res-home').innerText = finalHomeName.substring(0, 12);
         document.getElementById('ai-res-away').innerText = finalAwayName.substring(0, 12);
         document.getElementById('ai-res-score').innerText = `${homeScoreCalc} - ${awayScoreCalc}`;
@@ -1485,7 +1609,6 @@ async function generateAIPrediction() {
         document.getElementById('ai-poss-home').innerText = `${Math.round(homeWinPct + 10)}%`;
         document.getElementById('ai-poss-away').innerText = `${Math.round(awayWinPct + 10)}%`;
 
-        // ၅။ Line-up (Roster) စစ်ဆေးခြင်း
         let lineupHtml = '';
         if (summaryData.rosters && summaryData.rosters.length >= 2) {
             const hRoster = summaryData.rosters.find(r => r.team.id === targetMatch.homeTeam.team.id);
@@ -1510,7 +1633,6 @@ async function generateAIPrediction() {
             lineupHtml = `<div class="mt-4 pt-3 text-center text-[10px] text-slate-400 font-bold border-t border-slate-200 dark:border-slate-700"><i class="fas fa-clock mr-1"></i> ပွဲထွက်လူစာရင်း မထွက်သေးပါ (ပွဲစရန် ၁ နာရီအလိုတွင် ထွက်ပါမည်)</div>`;
         }
 
-        // ၆။ Dynamic Text ထုတ်ပေးခြင်း
         let detailText = "";
         if (homeWinPct >= 50) {
             detailText += `<span class="block mb-2">⚽ <b>အိမ်ရှင်အသာစီး:</b> ESPN ၏ တရားဝင် Data အရ <b>${finalHomeName}</b> သည် ယခုပွဲစဉ်တွင် အနိုင်ရရန် (${Math.round(homeWinPct)}%) ရေပန်းစားနေပါသည်။</span>`;
@@ -1523,10 +1645,8 @@ async function generateAIPrediction() {
             currentAIOdd = (2.50 + Math.random() * 0.50).toFixed(2);
         }
         
-        // Lineup ကို Detail Text အောက်မှာ ဆက်ထည့်မယ်
         document.getElementById('ai-detailed-text').innerHTML = detailText + lineupHtml;
 
-        // Update Calculator
         document.getElementById('ai-sim-odd').innerText = currentAIOdd;
         updatePotentialWin();
 
@@ -1563,7 +1683,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(showFlashPromo, 30000); 
     updateAIUsageUI();
 
-    // Deep Linking Handling (Telegram အတွက်ရော Browser အတွက်ပါ)
+    // Deep Linking Handling
     let startParam = null;
     if (isTgApp) {
         startParam = tg.initDataUnsafe?.start_param;
