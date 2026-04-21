@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8LNM1G7R31"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8LWM1G7R3"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-8LWM1G7R31');
+      gtag('config', 'G-8LWM1G7R3');
     </script>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -287,7 +289,7 @@
                    <img id="mu-opponent-logo" src="" class="w-10 h-10 object-contain drop-shadow-md mb-1">
                    <span id="mu-opponent-name" class="text-[11px] font-black uppercase text-center"></span>
                </div>
-           </div>
+            </div>
         </div>
  
         <a href="https://t.me/wesportlive3?livestream" target="_blank" class="live-pulse bg-red-600 w-full flex items-center justify-center py-4 rounded-2xl text-[15px] font-black text-white shadow-md active:scale-95 transition">
@@ -389,7 +391,7 @@
                         <span class="text-[12px] font-black tracking-wide">Crash / 1xGames</span>
                    </a>
                </div>
-           </div>
+            </div>
         </div>
  
         <div class="bg-white dark:bg-[#1e293b] p-4 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-sm flex items-start space-x-3">
@@ -444,7 +446,7 @@
  
                <div id="ai-usage-counter" class="text-center text-[11px] font-bold text-slate-500 mt-4">
                    </div>
-           </div>
+            </div>
  
             <div id="ai-locked-section" class="hidden flex-col items-center justify-center py-2 text-center animate-pop-in">
                <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-500 mb-3 mx-auto shadow-inner">
@@ -520,7 +522,6 @@
                    </div>
                </div>
 
-               <!-- Bet Simulator added here -->
                <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 relative z-10">
                     <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-2 flex items-center">
                         <i class="fas fa-calculator text-blue-500 mr-2"></i> လောင်းကြေး တွက်ချက်ရန်
@@ -547,11 +548,17 @@
                        <i class="fas fa-coins mr-2"></i> 1XBET တွင် ယခုပဲ လောင်းမည်
                    </a>
                </div>
+
+               <div class="mt-3 relative z-10">
+                   <button onclick="sharePredictionToTelegram()" class="flex justify-center items-center w-full py-3.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 rounded-xl font-black text-[13px] active:scale-95 transition shadow-sm">
+                       <i class="fab fa-telegram-plane mr-2 text-lg"></i> AI ခန့်မှန်းချက်ကို မျှဝေမည်
+                   </button>
+               </div>
                
                <div class="text-center mt-4">
                    <p class="text-[12px] font-bold text-slate-500 italic">"အကြိုက်တူမှပဲ ကစားပါ"</p>
                </div>
-           </div>
+            </div>
         </div>
     </section>
  
@@ -649,7 +656,6 @@
  
 </main>
 
-<!-- Floating Spin Button -->
 <button onclick="openSpinModal()" class="fixed bottom-24 right-4 z-40 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-full p-4 shadow-[0_4px_15px_rgba(239,68,68,0.5)] active:scale-90 transition gold-pulse flex items-center justify-center border-2 border-brand-gold">
     <i class="fas fa-gift text-2xl animate-bounce"></i>
 </button>
@@ -724,7 +730,6 @@
     </div>
 </div>
 
-<!-- Flash Promo Modal -->
 <div id="flash-promo-modal" class="fixed inset-0 bg-black/80 z-[105] hidden flex items-center justify-center px-4 backdrop-blur-sm" onclick="closeFlashPromo()">
     <div class="bg-gradient-to-b from-red-600 to-red-900 w-full max-w-[340px] rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(239,68,68,0.5)] animate-pop-in border-2 border-brand-gold" onclick="event.stopPropagation()">
         <div class="p-6 text-center flex flex-col items-center relative text-white">
@@ -740,7 +745,6 @@
     </div>
 </div>
 
-<!-- Spin Wheel Modal -->
 <div id="spin-modal" class="fixed inset-0 bg-slate-900/90 z-[110] hidden flex items-center justify-center px-4 backdrop-blur-sm" onclick="closeSpinModal()">
     <div class="bg-white dark:bg-[#0f172a] w-full max-w-[360px] rounded-3xl overflow-hidden shadow-2xl animate-pop-in border border-brand-gold/30" onclick="event.stopPropagation()">
         <div class="p-6 text-center relative flex flex-col items-center">
@@ -769,12 +773,25 @@
 </div>
  
 <script>
+// --- Telegram Variables ---
+const tg = window.Telegram.WebApp;
+tg.expand(); // Expand Mini App to full height
+
 // --- State & Variables ---
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
 let currentAIOdd = 1.85; // Default for AI Predictor
  
+// Haptic Native Feedback Override
+const triggerHaptic = () => {
+    if (tg.HapticFeedback) {
+        tg.HapticFeedback.impactOccurred('light');
+    } else if (navigator.vibrate) {
+        navigator.vibrate(35);
+    }
+};
+
 function getMatchDayString(dateObj) {
     const d = new Date(dateObj.getTime() - 5 * 3600000); 
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -789,8 +806,6 @@ let countdownTimers = {};
 let manUtdCountdownTimer = null;
 let isFetching = false;
 let flashTimerInterval = null;
- 
-const triggerHaptic = () => navigator.vibrate && navigator.vibrate(35);
  
 function toggleTheme() {
     triggerHaptic();
@@ -869,10 +884,9 @@ function spinNow() {
     const wheel = document.getElementById('spin-wheel');
     
     // Degrees: 0=100%, 60=VIP, 120=Try Again, 180=Free Bet, 240=No Luck, 300=200%
-    // Let's bias it to "100% Bonus" or "VIP Code"
-    const outcomes = [360, 300]; // 0 deg mapped to 360, 60 mapped to 300
+    const outcomes = [360, 300]; 
     const finalDegree = outcomes[Math.floor(Math.random() * outcomes.length)];
-    const extraSpins = 5 * 360; // Spin 5 times before stopping
+    const extraSpins = 5 * 360; 
     const totalRotation = extraSpins + finalDegree;
 
     wheel.style.transform = `rotate(${totalRotation}deg)`;
@@ -960,7 +974,7 @@ function showGoalToast(title, subtitle) {
     const toast = document.getElementById('goal-toast');
    document.getElementById('toast-title').innerText = title; document.getElementById('toast-subtitle').innerText = subtitle;
    toast.classList.remove('opacity-0','translate-y-[-24px]','pointer-events-none'); toast.classList.add('opacity-100','translate-y-0');
-    navigator.vibrate && navigator.vibrate([100, 50, 100]);
+    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); else if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
     setTimeout(() => { toast.classList.add('opacity-0','translate-y-[-24px]','pointer-events-none'); toast.classList.remove('opacity-100','translate-y-0'); }, 5000);
 }
  
@@ -1017,7 +1031,6 @@ function renderHomeTopMatches() {
     if (cutoff.getHours() < 5) { cutoff.setHours(5, 0, 0, 0); } else { cutoff.setDate(cutoff.getDate() + 1); cutoff.setHours(5, 0, 0, 0); }
     let matches = [...allCachedMatches.live, ...allCachedMatches.upcoming].filter(m => m.date <= cutoff);
     
-    // Priority Sorting
     const topTeams = ['Manchester United', 'Arsenal', 'Liverpool', 'Chelsea', 'Manchester City', 'Tottenham', 'Real Madrid', 'Barcelona', 'Bayern Munich', 'Paris Saint-Germain', 'Juventus', 'Inter Milan', 'AC Milan', 'Myanmar', 'Portugal', 'Argentina', 'Brazil', 'France', 'England', 'Spain', 'Germany'];
     
     matches.sort((a, b) => {
@@ -1114,7 +1127,6 @@ function renderMatchCard(match, isCompact) {
     let oddsHtml = (!isCompact && isPre && !match.isPostponed) ? `<div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-center" onclick="event.stopPropagation()"><a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="inline-block w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-white rounded-lg font-bold text-[12px] active:scale-95 transition">🔥 1XBET ကြေးကြည့်မည်</a></div>` : '';
     const cdHtml = (!isCompact && isPre && !match.isPostponed) ? `<div id="cd-${match.id}" class="mt-3 flex justify-center"></div>` : '';
     
-    // Live Match Urgency
     const urgencyHtml = (isLive && !isCompact) ? `<div onclick="event.stopPropagation()"><a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=line" target="_top" class="mt-3 block text-center bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-[10px] font-black py-1.5 rounded-lg animate-pulse">🔥 နောက်တစ်ဂိုးသွင်းမည့်သူ ကြေး ${(2.5 + Math.random()*3).toFixed(1)} ဆ - ယခုပဲ လောင်းမည်!</a></div>` : '';
 
     return `<div class="${isCompact?'finished-match-card':'match-card'} ${isUtd?'man-utd':''} ${isLive&&!isCompact?'live-card':''} p-${isCompact?'3':'4'} relative flex flex-col justify-between" onclick="openStatsModal('${match.id}')">
@@ -1236,8 +1248,6 @@ async function fetchMatches(isManual=false) {
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
  
-// --- FULL AI PREDICTION FEATURE ---
- 
 const MAX_AI_PREDICTIONS = 5;
 const AI_UNLOCK_CODE = "ZINXBETVIP";
  
@@ -1298,11 +1308,26 @@ function unlockAI() {
     }
 }
 
-// Update Bet Calculator
 function updatePotentialWin() {
     let stake = parseFloat(document.getElementById('ai-stake-input').value) || 0;
     let win = Math.round(stake * currentAIOdd);
     document.getElementById('ai-potential-win').innerText = win.toLocaleString() + " MMK";
+}
+
+// Telegram Share Function
+function sharePredictionToTelegram() {
+    triggerHaptic();
+    const home = document.getElementById('ai-res-home').innerText;
+    const away = document.getElementById('ai-res-away').innerText;
+    const score = document.getElementById('ai-res-score').innerText;
+    
+    // မှတ်ချက် - ဒီလင့်ခ်မှာ ညီကို့ Mini App Username အမှန် ပြန်ချိန်းပါ
+    const miniAppLink = "https://t.me/WinExpress99_bot/app?startapp=ai"; 
+    
+    const shareText = `🔥 W.E Sports AI ခန့်မှန်းချက် 🔥\n\n⚽ ${home} [ ${score} ] ${away}\n\n🎁 100% Bonus ရယူရန် Promo Code: ZINXBET ဖြင့် ကစားပါ။\n\n👇 အခြားပွဲစဉ်များကို AI ဖြင့် ခန့်မှန်းရန် အောက်ပါလင့်ခ်ကို နှိပ်ပါ။\n${miniAppLink}`;
+    
+    const telegramUrl = `https://t.me/share/url?url=&text=${encodeURIComponent(shareText)}`;
+    tg.openTelegramLink(telegramUrl);
 }
  
 async function generateAIPrediction() {
@@ -1407,11 +1432,11 @@ async function generateAIPrediction() {
        document.getElementById('ai-res-home').innerText = finalHomeName;
        document.getElementById('ai-res-away').innerText = finalAwayName;
        document.getElementById('ai-res-score').innerText = `${hScore} - ${aScore}`;
-        
+       
        document.getElementById('ai-prob-home-text').innerText = `${finalHomeName} ${homeWinPct}%`;
        document.getElementById('ai-prob-draw-text').innerText = `Draw ${drawPct}%`;
        document.getElementById('ai-prob-away-text').innerText = `${finalAwayName} ${awayWinPct}%`;
-        
+       
        document.getElementById('ai-poss-home').innerText = `${homePoss}%`;
        document.getElementById('ai-poss-away').innerText = `${awayPoss}%`;
  
@@ -1437,12 +1462,12 @@ async function generateAIPrediction() {
  
        resultBox.classList.remove('hidden');
        resultBox.classList.add('animate-fade-up');
-        
+       
         setTimeout(() => {
            document.getElementById('ai-bar-home').style.width = `${homeWinPct}%`;
            document.getElementById('ai-bar-draw').style.width = `${drawPct}%`;
            document.getElementById('ai-bar-away').style.width = `${awayWinPct}%`;
-            
+           
            document.getElementById('ai-bar-poss-home').style.width = `${homePoss}%`;
            document.getElementById('ai-bar-poss-away').style.width = `${awayPoss}%`;
         }, 100);
@@ -1464,9 +1489,17 @@ async function generateAIPrediction() {
 document.addEventListener('DOMContentLoaded', () => { 
     fetchMatches(); 
     setInterval(() => fetchMatches(), 90000); 
-   setTimeout(showWelcomeModal, 2000); 
-   setTimeout(showFlashPromo, 30000); // Show flash promo 30 secs after load
+    setTimeout(showWelcomeModal, 2000); 
+    setTimeout(showFlashPromo, 30000); 
     updateAIUsageUI();
+
+    // Telegram Deep Linking Handling
+    const startParam = tg.initDataUnsafe?.start_param;
+    if (startParam === 'ai') {
+        setTimeout(() => switchTabById('tab-ai'), 500);
+    } else if (startParam === 'promo') {
+        setTimeout(() => switchTabById('tab-promos'), 500);
+    }
 });
 </script>
 </body>
