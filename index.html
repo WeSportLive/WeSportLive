@@ -1468,11 +1468,11 @@ window.switchAiView = function(view) {
     const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
     // ----------------------------------------------------
-    // 👇 အောက်ပါနေရာတွင် ညီကို့ရဲ့ API KEY ထည့်သွင်းထားပါသည်
     const API_KEY = "AIzaSyCyOdALFPPeWhrriw9uLNN_9eOgIO9JYLQ"; 
     // ----------------------------------------------------
     
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+    // ⚠️ Model နာမည် အမှန် ပြင်ဆင်ထားသည် (gemini-1.5-flash ကို အသုံးပြုထားပါသည်)
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
     const MAX_RETRIES = 3;
     const INITIAL_DELAY_MS = 1000;
 
@@ -1604,9 +1604,10 @@ window.switchAiView = function(view) {
         const systemPrompt = `You are a world-class football (soccer) analyst and predictor. Your analysis must be highly professional, concise, and grounded in real-time information from Google Search. Always consider the **head-to-head (H2H)** records, current **league/competition form/standing**, and team news (injuries, suspensions) before giving a final prediction. Output should be in Burmese. Crucially, you **MUST AVOID** highly common and generic scores like 2-1, 1-1, 1-0, or 0-0. Your score prediction must be specific and reflect the depth of your analysis (e.g., 3-0, 3-2, 4-1, 0-1, 2-0, etc.). After your detailed analysis, you MUST provide the predicted final score on a new line using the exact format 'ခန့်မှန်းဂိုးရလဒ်: H-A', where H is the home score and A is the away score.`;
         const userQuery = `Match Analysis: ${homeTeam} vs ${awayTeam} playing on ${matchDate}. First, use Google Search to determine the current league and key competition for both teams on this date. Then, provide an in-depth prediction considering their recent form, league standing, and crucial head-to-head (H2H) history. Give a final score prediction on the last line.`;
 
+        // ⚠️ googleSearch အခေါ်အဝေါ် အမှန် ပြင်ဆင်ထားသည်
         const payload = {
             contents: [{ parts: [{ text: userQuery }] }],
-            tools: [{ "google_search": {} }],
+            tools: [{ googleSearch: {} }], 
             systemInstruction: { parts: [{ text: systemPrompt }] },
         };
 
@@ -1631,14 +1632,16 @@ window.switchAiView = function(view) {
                 generatedText = candidate.content.parts[0].text;
                 predictedScore = extractScore(generatedText);
             } else {
-                displayAiError("ခန့်မှန်းချက် မရရှိပါ (AI မှ အဖြေမပေးနိုင်ခဲ့ပါ)။");
+                displayAiError("ခန့်မှန်းချက် မရရှိပါ (AI မှ အဖြေမပေးနိုင်ခဲ့ပါ)။ အသင်းနာမည် ပြန်စစ်ကြည့်ပါ။");
                 return;
             }
         } catch (error) {
             console.error("Gemini API Error:", error);
-            let msg = `ခန့်မှန်းမှု ပြုလုပ်ရာတွင် အင်တာနက် သို့မဟုတ် ဆာဗာ အမှားအယွင်းဖြစ်ပွားပါသည်။`;
+            let msg = `ခန့်မှန်းမှု ပြုလုပ်ရာတွင် အင်တာနက် သို့မဟုတ် ဆာဗာ အမှားအယွင်းဖြစ်ပွားပါသည်။ (${error.message})`;
             if (error.message.includes("401") || error.message.includes("403") || error.message.includes("API_KEY_INVALID")) {
-                msg = `**API Key မမှန်ကန်ပါ** သို့မဟုတ် ခွင့်ပြုချက်မရှိပါ။ Admin အား အကြောင်းကြားပါ။`;
+                msg = `**API Key မမှန်ကန်ပါ** သို့မဟုတ် ခွင့်ပြုချက်မရှိပါ။`;
+            } else if (error.message.includes("400")) {
+                msg = `Model သို့မဟုတ် Tool အခေါ်အဝေါ် အမှားဖြစ်နေပါသည်။ API Version ကို စစ်ဆေးပါ။`;
             }
             displayAiError(msg);
         } finally {
@@ -1845,7 +1848,7 @@ window.switchAiView = function(view) {
 
         const payload = {
             contents: [{ parts: [{ text: uQuery }] }],
-            tools: [{ "google_search": {} }],
+            tools: [{ googleSearch: {} }],
             systemInstruction: { parts: [{ text: sysPrompt }] },
         };
 
