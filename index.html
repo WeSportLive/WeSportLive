@@ -65,6 +65,7 @@
         @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 70% { opacity: 1; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
         @keyframes pulse-red { 0% { transform:scale(1); box-shadow:0 0 0 0 rgba(239,68,68,.6); } 70% { transform:scale(1.02);box-shadow:0 0 0 10px rgba(239,68,68,0); } 100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(239,68,68,0); } }
+        @keyframes pulse-gold { 0% { box-shadow:0 0 0 0 rgba(234,179,8,.6); } 70% { box-shadow:0 0 0 10px rgba(234,179,8,0); } 100%{ box-shadow:0 0 0 0 rgba(234,179,8,0); } }
         @keyframes spin { to{transform:rotate(360deg)} }
         @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
         
@@ -82,6 +83,7 @@
        .animate-pop-in   { animation: popIn .5s ease-out both; }
        .animate-float    { animation: float 2.5s ease-in-out infinite; }
        .live-pulse       { animation: pulse-red 2.5s infinite; }
+       .gold-pulse       { animation: pulse-gold 2s infinite; }
        .loader           { border:3px solid rgba(156,163,175,.2); border-top-color:#eab308; border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; }
  
         /* Match Cards */
@@ -123,6 +125,14 @@
         
         .tab-content { display:none; }
        .tab-content.active { display:block; }
+
+       /* Spin Wheel CSS */
+       .wheel-container { position: relative; width: 260px; height: 260px; margin: 0 auto; border-radius: 50%; border: 6px solid #eab308; box-shadow: 0 0 20px rgba(234,179,8,0.4); overflow: hidden; }
+       .wheel { width: 100%; height: 100%; border-radius: 50%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(#ef4444 0 60deg, #3b82f6 60deg 120deg, #10b981 120deg 180deg, #f59e0b 180deg 240deg, #8b5cf6 240deg 300deg, #ec4899 300deg 360deg); position: relative; }
+       .wheel-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; text-align: center; font-weight: 900; font-size: 11px; color: white; transform-origin: 50% 50%; display: flex; align-items: center; justify-content: center; clip-path: polygon(50% 50%, 100% 0, 100% 100%); }
+       .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #0f172a; z-index: 10; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3)); }
+       .dark .wheel-pointer { border-top-color: #ffffff; }
+       .segment-text { position: absolute; top: 20%; left: 50%; transform: translateX(-50%) rotate(90deg); transform-origin: center; white-space: nowrap; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center bg-lightbg dark:bg-darkbg text-slate-800 dark:text-slate-200">
@@ -414,7 +424,7 @@
                            <input type="text" id="ai-home" placeholder="ဥပမာ - San Marino, Man Utd, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
                        </div>
                    </div>
-                    
+                   
                    <div class="flex justify-center items-center">
                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest border border-slate-200 dark:border-slate-700">VS</span>
                    </div>
@@ -427,7 +437,7 @@
                         </div>
                    </div>
                </div>
-                
+               
                <button onclick="generateAIPrediction()" id="ai-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 transition-all shadow-[0_8px_20px_rgba(147,51,234,0.3)] flex justify-center items-center">
                     AIဖြင့် ခန့်မှန်းမည် <i class="fas fa-magic ml-2 animate-pulse"></i>
                 </button>
@@ -442,16 +452,16 @@
                </div>
                 <h3 class="font-black text-[15px] text-slate-800 dark:text-white mb-2">အခမဲ့အကြိမ် ပြည့်သွားပါပြီ</h3>
                 <p class="text-[11px] font-bold text-slate-500 mb-5 px-4 leading-relaxed">ဆက်လက်ခန့်မှန်းရန် Agentထံတွင် Unlock Code တောင်းယူပါ။ <br>(အခမဲ့ဖြစ်ပါသည်)</p>
-                
+               
                <div class="w-full relative mb-4">
                    <i class="fas fa-key absolute left-4 top-1/2 -translate-y-1/2 text-brand-gold"></i>
                    <input type="text" id="ai-unlock-code" placeholder="Unlock Code ထည့်ပါ" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold text-center uppercase tracking-widest focus:ring-2 focus:ring-brand-gold focus:outline-none text-slate-800 dark:text-white shadow-inner transition-all">
                </div>
-                
+               
                <button onclick="unlockAI()" class="w-full bg-gradient-to-r from-yellow-400 to-brand-gold text-slate-900 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg mb-3">
                    <i class="fas fa-unlock-alt mr-2"></i> Code ဖြင့် ဖွင့်မည်
                </button>
-                
+               
                 <a href="https://t.me/WinExpress99" target="_blank" class="w-full flex justify-center items-center py-3.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 rounded-xl font-black text-[13px] active:scale-95 transition">
                    <i class="fab fa-telegram-plane mr-2 text-lg"></i> Agent ထံ Code တောင်းမည်
                </a>
@@ -461,10 +471,10 @@
         <div id="ai-result" class="hidden mt-6 animate-fade-up">
             <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-purple-500/20 relative overflow-hidden">
                <div class="absolute -right-4 -top-4 opacity-[0.03] text-8xl text-purple-500 pointer-events-none"><i class="fas fa-robot"></i></div>
-                
+               
                <div class="text-center mb-6 relative z-10">
                    <span class="inline-block bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 border border-purple-200 dark:border-purple-800">AI Prediction Result</span>
-                    
+                   
                    <div class="flex justify-center items-center space-x-2">
                        <div class="text-right flex-1 truncate font-black text-[15px] text-slate-800 dark:text-white" id="ai-res-home">Home</div>
                        <div class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-500 px-4 drop-shadow-sm" id="ai-res-score">0 - 0</div>
@@ -509,10 +519,32 @@
                            </p>
                    </div>
                </div>
+
+               <!-- Bet Simulator added here -->
+               <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 relative z-10">
+                    <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-2 flex items-center">
+                        <i class="fas fa-calculator text-blue-500 mr-2"></i> လောင်းကြေး တွက်ချက်ရန်
+                    </h4>
+                    <div class="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-200 dark:border-blue-800/50">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300">AI အကြံပြုချက် (Odds):</span>
+                            <span class="text-[14px] font-black text-blue-600 dark:text-blue-400" id="ai-sim-odd">1.85</span>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 w-16">လောင်းငွေ:</span>
+                            <input type="number" id="ai-stake-input" value="10000" oninput="updatePotentialWin()" class="flex-1 bg-white dark:bg-[#1e293b] border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 text-[13px] font-black focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white">
+                            <span class="text-[11px] font-bold text-slate-500">MMK</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white dark:bg-[#1e293b] p-3 rounded-lg shadow-sm">
+                            <span class="text-[11px] font-black text-slate-500">ရနိုင်မည့် အမြတ်:</span>
+                            <span class="text-[16px] font-black text-green-600 dark:text-green-400" id="ai-potential-win">18,500 MMK</span>
+                        </div>
+                    </div>
+               </div>
  
                <div class="mt-5 relative z-10">
-                   <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex justify-center items-center w-full py-3.5 bg-slate-900 dark:bg-brand-gold text-brand-gold dark:text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg">
-                       <i class="fas fa-coins mr-2"></i> 1XBET တွင် လောင်းကြေးထပ်မည်
+                   <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex justify-center items-center w-full py-4 bg-slate-900 dark:bg-brand-gold text-brand-gold dark:text-slate-900 rounded-xl font-black text-[14px] active:scale-95 transition shadow-lg live-pulse">
+                       <i class="fas fa-coins mr-2"></i> 1XBET တွင် ယခုပဲ လောင်းမည်
                    </a>
                </div>
                
@@ -616,6 +648,11 @@
     </section>
  
 </main>
+
+<!-- Floating Spin Button -->
+<button onclick="openSpinModal()" class="fixed bottom-24 right-4 z-40 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-full p-4 shadow-[0_4px_15px_rgba(239,68,68,0.5)] active:scale-90 transition gold-pulse flex items-center justify-center border-2 border-brand-gold">
+    <i class="fas fa-gift text-2xl animate-bounce"></i>
+</button>
  
 <nav class="fixed bottom-0 left-0 w-full z-40 flex justify-center pb-safe">
     <div class="w-full max-w-2xl bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 flex shadow-[0_-4px_20px_rgba(0,0,0,0.05)] overflow-x-auto hide-scrollbar">
@@ -686,12 +723,57 @@
         </div>
     </div>
 </div>
+
+<!-- Flash Promo Modal -->
+<div id="flash-promo-modal" class="fixed inset-0 bg-black/80 z-[105] hidden flex items-center justify-center px-4 backdrop-blur-sm" onclick="closeFlashPromo()">
+    <div class="bg-gradient-to-b from-red-600 to-red-900 w-full max-w-[340px] rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(239,68,68,0.5)] animate-pop-in border-2 border-brand-gold" onclick="event.stopPropagation()">
+        <div class="p-6 text-center flex flex-col items-center relative text-white">
+            <button onclick="closeFlashPromo()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/30 flex items-center justify-center text-white transition active:scale-90"><i class="fas fa-times"></i></button>
+            <div class="text-4xl mb-2"><i class="fas fa-bolt text-brand-gold animate-pulse"></i></div>
+            <h2 class="text-[20px] font-black mb-1 uppercase tracking-wider text-brand-gold drop-shadow-md">Flash Sale!</h2>
+            <p class="text-[12px] font-bold mb-4">လာမည့် (၁) နာရီအတွင်း အကောင့်သစ်ဖွင့်ပါက 100% အပြင် Extra Spins ထပ်ဆောင်းရမည်!</p>
+            <div class="bg-black/40 rounded-xl p-3 w-full border border-white/20 mb-4 flex justify-center space-x-2 tabular-nums font-black text-xl">
+               <div id="flash-m" class="bg-red-500 px-3 py-1 rounded">59</div><span>:</span><div id="flash-s" class="bg-red-500 px-3 py-1 rounded">59</div>
+           </div>
+            <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="w-full py-3.5 bg-brand-gold text-slate-900 rounded-xl font-black text-[14px] shadow-lg active:scale-95 transition-transform uppercase">ယခုပဲ အကောင့်ဖွင့်မည်</a>
+        </div>
+    </div>
+</div>
+
+<!-- Spin Wheel Modal -->
+<div id="spin-modal" class="fixed inset-0 bg-slate-900/90 z-[110] hidden flex items-center justify-center px-4 backdrop-blur-sm" onclick="closeSpinModal()">
+    <div class="bg-white dark:bg-[#0f172a] w-full max-w-[360px] rounded-3xl overflow-hidden shadow-2xl animate-pop-in border border-brand-gold/30" onclick="event.stopPropagation()">
+        <div class="p-6 text-center relative flex flex-col items-center">
+            <button onclick="closeSpinModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 transition active:scale-90"><i class="fas fa-times"></i></button>
+            <h2 class="text-[20px] font-black text-slate-900 dark:text-white mb-1"><i class="fas fa-gift text-brand-gold"></i> နေ့စဉ် ကံစမ်းမဲ</h2>
+            <p class="text-[11px] font-bold text-slate-500 mb-6">နေ့စဉ် တစ်ကြိမ်လှည့်ပြီး ဆုကြေးများ ရယူပါ</p>
+            
+            <div class="wheel-container mb-8">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="spin-wheel">
+                    <div class="wheel-segment" style="transform: rotate(0deg);"><span class="segment-text">100% Bonus</span></div>
+                    <div class="wheel-segment" style="transform: rotate(60deg);"><span class="segment-text">VIP Code</span></div>
+                    <div class="wheel-segment" style="transform: rotate(120deg);"><span class="segment-text">Try Again</span></div>
+                    <div class="wheel-segment" style="transform: rotate(180deg);"><span class="segment-text">Free Bet</span></div>
+                    <div class="wheel-segment" style="transform: rotate(240deg);"><span class="segment-text">No Luck</span></div>
+                    <div class="wheel-segment" style="transform: rotate(300deg);"><span class="segment-text">200% Bonus</span></div>
+                </div>
+            </div>
+            
+            <button id="spin-btn" onclick="spinNow()" class="w-full py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-slate-900 rounded-xl font-black text-[16px] shadow-lg active:scale-95 transition-transform uppercase tracking-wider">
+                ယခုပဲ လှည့်မည်
+            </button>
+            <p id="spin-msg" class="text-[12px] font-bold text-red-500 mt-3 hidden">ယနေ့အတွက် ကံစမ်းပြီးပါပြီ။ မနက်ဖြန်မှ ပြန်လာခဲ့ပါ။</p>
+        </div>
+    </div>
+</div>
  
 <script>
 // --- State & Variables ---
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
+let currentAIOdd = 1.85; // Default for AI Predictor
  
 function getMatchDayString(dateObj) {
     const d = new Date(dateObj.getTime() - 5 * 3600000); 
@@ -706,6 +788,7 @@ let searchQuery = '';
 let countdownTimers = {};
 let manUtdCountdownTimer = null;
 let isFetching = false;
+let flashTimerInterval = null;
  
 const triggerHaptic = () => navigator.vibrate && navigator.vibrate(35);
  
@@ -743,6 +826,70 @@ function closeDownloadModal() {
  
 function showWelcomeModal() { document.getElementById('welcome-modal').classList.remove('hidden'); }
 function closeWelcomeModal() { document.getElementById('welcome-modal').classList.add('hidden'); }
+
+// Flash Promo Logic
+function showFlashPromo() {
+    document.getElementById('flash-promo-modal').classList.remove('hidden');
+    let timeLeft = 3599; // 59:59
+    const mEl = document.getElementById('flash-m');
+    const sEl = document.getElementById('flash-s');
+    if(flashTimerInterval) clearInterval(flashTimerInterval);
+    flashTimerInterval = setInterval(() => {
+        timeLeft--;
+        if(timeLeft < 0) { clearInterval(flashTimerInterval); return; }
+        let m = Math.floor(timeLeft / 60);
+        let s = timeLeft % 60;
+        mEl.innerText = String(m).padStart(2, '0');
+        sEl.innerText = String(s).padStart(2, '0');
+    }, 1000);
+}
+function closeFlashPromo() { document.getElementById('flash-promo-modal').classList.add('hidden'); }
+
+// Spin Wheel Logic
+let isSpinning = false;
+function openSpinModal() {
+    triggerHaptic();
+    document.getElementById('spin-modal').classList.remove('hidden');
+    const lastSpin = localStorage.getItem('lastSpinDate');
+    const today = new Date().toLocaleDateString();
+    if(lastSpin === today) {
+        document.getElementById('spin-btn').classList.add('opacity-50', 'cursor-not-allowed');
+        document.getElementById('spin-msg').classList.remove('hidden');
+    }
+}
+function closeSpinModal() { if(!isSpinning) document.getElementById('spin-modal').classList.add('hidden'); }
+function spinNow() {
+    if(isSpinning) return;
+    const lastSpin = localStorage.getItem('lastSpinDate');
+    const today = new Date().toLocaleDateString();
+    if(lastSpin === today) return;
+
+    triggerHaptic();
+    isSpinning = true;
+    const wheel = document.getElementById('spin-wheel');
+    
+    // Degrees: 0=100%, 60=VIP, 120=Try Again, 180=Free Bet, 240=No Luck, 300=200%
+    // Let's bias it to "100% Bonus" or "VIP Code"
+    const outcomes = [360, 300]; // 0 deg mapped to 360, 60 mapped to 300
+    const finalDegree = outcomes[Math.floor(Math.random() * outcomes.length)];
+    const extraSpins = 5 * 360; // Spin 5 times before stopping
+    const totalRotation = extraSpins + finalDegree;
+
+    wheel.style.transform = `rotate(${totalRotation}deg)`;
+    
+    setTimeout(() => {
+        isSpinning = false;
+        localStorage.setItem('lastSpinDate', today);
+        document.getElementById('spin-btn').classList.add('opacity-50', 'cursor-not-allowed');
+        document.getElementById('spin-msg').innerText = "ဂုဏ်ယူပါတယ်။ သင်၏ ဆုကြေးကို 1XBET တွင် ရယူလိုက်ပါ။";
+        document.getElementById('spin-msg').classList.remove('hidden', 'text-red-500');
+        document.getElementById('spin-msg').classList.add('text-green-500');
+        
+        setTimeout(() => {
+            window.location.href = "https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration";
+        }, 2000);
+    }, 4000);
+}
  
 function switchTab(tabId, btnEl) {
     triggerHaptic();
@@ -966,7 +1113,10 @@ function renderMatchCard(match, isCompact) {
  
     let oddsHtml = (!isCompact && isPre && !match.isPostponed) ? `<div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-center" onclick="event.stopPropagation()"><a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="inline-block w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-white rounded-lg font-bold text-[12px] active:scale-95 transition">🔥 1XBET ကြေးကြည့်မည်</a></div>` : '';
     const cdHtml = (!isCompact && isPre && !match.isPostponed) ? `<div id="cd-${match.id}" class="mt-3 flex justify-center"></div>` : '';
- 
+    
+    // Live Match Urgency
+    const urgencyHtml = (isLive && !isCompact) ? `<div onclick="event.stopPropagation()"><a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=line" target="_top" class="mt-3 block text-center bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-[10px] font-black py-1.5 rounded-lg animate-pulse">🔥 နောက်တစ်ဂိုးသွင်းမည့်သူ ကြေး ${(2.5 + Math.random()*3).toFixed(1)} ဆ - ယခုပဲ လောင်းမည်!</a></div>` : '';
+
     return `<div class="${isCompact?'finished-match-card':'match-card'} ${isUtd?'man-utd':''} ${isLive&&!isCompact?'live-card':''} p-${isCompact?'3':'4'} relative flex flex-col justify-between" onclick="openStatsModal('${match.id}')">
         ${utdBadge}
         <div class="flex justify-between items-center ${isCompact?'mb-2':'mb-4'}"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-wide bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded truncate max-w-[120px]">${match.leagueName}</span>${statusHtml}</div>
@@ -975,7 +1125,7 @@ function renderMatchCard(match, isCompact) {
             <div class="mx-2 text-[10px] font-black text-slate-400 italic mb-4">VS</div>
             <div class="text-center flex-1 flex flex-col items-center"><img src="${match.awayTeam.team.logo||px}" class="${isCompact?'w-8 h-8':'w-12 h-12'} mb-2 object-contain" onerror="this.src='${px}'"><h4 class="font-black ${isCompact?'text-[11px]':'text-[13px]'} leading-tight ${isUtd&&sa.includes('Man Utd')?'text-red-600':''}">${sa}${aReds}</h4>${aScore}</div>
         </div>
-       ${goalRow}${cdHtml}${probHtml}${oddsHtml}
+       ${goalRow}${urgencyHtml}${cdHtml}${probHtml}${oddsHtml}
     </div>`;
 }
  
@@ -1147,6 +1297,13 @@ function unlockAI() {
         alert("❌ Unlock Code မှားယွင်းနေပါသည်။ သင့် Agentထံတွင် ပြန်လည်တောင်းယူပါ။");
     }
 }
+
+// Update Bet Calculator
+function updatePotentialWin() {
+    let stake = parseFloat(document.getElementById('ai-stake-input').value) || 0;
+    let win = Math.round(stake * currentAIOdd);
+    document.getElementById('ai-potential-win').innerText = win.toLocaleString() + " MMK";
+}
  
 async function generateAIPrediction() {
     triggerHaptic();
@@ -1261,15 +1418,22 @@ async function generateAIPrediction() {
         let detailText = "";
         if (homeWinPct >= 50 && homeWinPct > awayWinPct) {
             detailText += `<span class="block mb-2">⚽ <b>အိမ်ရှင်အသာစီး:</b> AI ၏ တိကျသော ခွဲခြမ်းစိတ်ဖြာချက်အရ <b>${finalHomeName}</b>သည် ယခုပွဲစဉ်တွင် အနိုင်ရရန် (${homeWinPct}%)ရေပန်းစားနေပါသည်။ အိမ်ကွင်းအားသာချက်နှင့် ခြေစွမ်းပိုင်းအရ ဧည့်သည်အသင်းထက် သိသိသာသာ သာလွန်နေပါသည်။</span>`;
+            currentAIOdd = (1.50 + Math.random() * 0.40).toFixed(2);
         } else if (awayWinPct >= 50 && awayWinPct > homeWinPct) {
             detailText += `<span class="block mb-2">⚽ <b>ဧည့်သည်အသာစီး:</b> <b>${finalAwayName}</b> သည် အဝေးကွင်းဖြစ်သော်လည်း ခြေစွမ်းကွာဟမှုအရ အနိုင်ရရန် လွယ်ကူနေပါသည်။ AI ၏ တွက်ချက်မှုအရ ၎င်းတို့၏ တိုက်စစ်ပိုင်းသည် အိမ်ရှင်ကို ဖိအားပေးနိုင်စွမ်း အပြည့်အဝရှိပါသည်။</span>`;
+            currentAIOdd = (1.60 + Math.random() * 0.50).toFixed(2);
         } else {
             detailText += `<span class="block mb-2">⚽ <b>အကြိတ်အနယ်:</b> ယခုပွဲစဉ်သည် အသင်းနှစ်သင်းလုံး ခြေစွမ်းဟန်ချက်ညီနေပြီး အပြန်အလှန် သွင်းဂိုးများနှင့်အတူ အကြိတ်အနယ် ကစားရမည့်ပွဲဖြစ်ကာ သရေကျရန် ရာခိုင်နှုန်း များပြားနေပါသည်။</span>`;
+            currentAIOdd = (2.80 + Math.random() * 0.80).toFixed(2);
         }
         detailText += `<span class="block mb-2">📊 <b>နည်းဗျူဟာပိုင်း (Tactics):</b> ပွဲကစားချိန်အတွင်း <b>${homePoss >= awayPoss ? finalHomeName : finalAwayName}</b> မှ ဘောလုံးပိုင်ဆိုင်မှု (${Math.max(homePoss, awayPoss)}%) ခန့်ဖြင့် ပွဲကို ထိန်းချုပ်ကစားသွားမည်။ သွင်းဂိုးရနိုင်ချေ (xG) အနေဖြင့် အိမ်ရှင်က ${homeXG.toFixed(2)} ဂိုး နှင့် ဧည့်သည်က ${awayXG.toFixed(2)} ဂိုး ခန့်မှန်းရသည်။</span>`;
         detailText += `<span class="block text-brand-gold">💡 <b>Betting Tip:</b> ဂိုးပေါင်း အနေဖြင့် ${(homeXG + awayXG) > 2.5 ? 'Over 2.5' : 'Under 2.5'} ကို ရွေးချယ်သင့်ပြီး၊ 1XBET တွင် ZINXBET Promo Code အသုံးပြုကာ လောင်းကြေးထပ်နိုင်ပါသည်။</span>`;
  
        document.getElementById('ai-detailed-text').innerHTML = detailText;
+
+       // Update Calculator
+       document.getElementById('ai-sim-odd').innerText = currentAIOdd;
+       updatePotentialWin();
  
        resultBox.classList.remove('hidden');
        resultBox.classList.add('animate-fade-up');
@@ -1301,6 +1465,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchMatches(); 
     setInterval(() => fetchMatches(), 90000); 
    setTimeout(showWelcomeModal, 2000); 
+   setTimeout(showFlashPromo, 30000); // Show flash promo 30 secs after load
     updateAIUsageUI();
 });
 </script>
