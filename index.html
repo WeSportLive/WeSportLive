@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="my" class="dark">
 <head>
-    <!-- Google tag (gtag.js) - Fixed Analytics ID -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8LWM1G7R31"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -15,7 +14,6 @@
     <meta name="theme-color" content="#0b1120">
     <meta name="description" content="ဘောလုံးပွဲစဉ်များကို Live ကြည့်ရှုပြီး 1XBET အကောင့်ဖွင့်ကာ ကစားလိုက်ပါ။ AI ဖြင့် ပွဲစဉ်ရလဒ်များကို အခမဲ့ ခန့်မှန်းပါ။ Promo Code: ZINXBET">
     
-    <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="W.E Sports - Live Match Hub">
     <meta property="og:description" content="ဘောလုံးပွဲစဉ်များကို Live ကြည့်ရှုပြီး 1XBET အကောင့်ဖွင့်ကာ ကစားလိုက်ပါ။ Promo Code: ZINXBET">
     <meta property="og:image" content="https://i.ibb.co/Tx06dFv3/image.png">
@@ -31,16 +29,6 @@
     <link rel="apple-touch-icon" href="https://i.ibb.co/Tx06dFv3/image.png?v=we1">
     <link rel="shortcut icon" href="https://i.ibb.co/Tx06dFv3/image.png?v=we1" type="image/png">
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW setup pending'));
-        });
-      }
-    </script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -60,9 +48,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        :root { --live-red: #ef4444; --card-radius: 16px; }
+        :root {
+            --live-red: #ef4444; 
+            --card-radius: 16px;
+        }
         * { box-sizing: border-box; }
-        body { font-family: 'Pyidaungsu', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s; overscroll-behavior: none; position: relative; }
+        body {
+            font-family: 'Pyidaungsu', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+            overscroll-behavior: none;
+            position: relative;
+        }
         
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -74,7 +71,13 @@
         @keyframes spin { to{transform:rotate(360deg)} }
         @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
         
-        @keyframes float-up { 0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; } 10% { opacity: 0.08; } 90% { opacity: 0.08; } 100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; } }
+        /* Background Floating Animation */
+        @keyframes float-up {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.08; }
+            90% { opacity: 0.08; }
+            100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
         .dark @keyframes float-up { 10% { opacity: 0.15; } 90% { opacity: 0.15; } }
         .bg-particle { position: fixed; pointer-events: none; z-index: -1; opacity: 0; animation: float-up linear infinite; }
 
@@ -84,6 +87,7 @@
         .live-pulse       { animation:pulse-red 2.5s infinite; }
         .loader           { border:3px solid rgba(156,163,175,.2); border-top-color:#eab308; border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; }
 
+        /* Match Cards */
         .match-card { width: 100%; border-radius: var(--card-radius); transition: transform .2s, box-shadow .2s; cursor: pointer; border: 1px solid rgba(0,0,0,.05); }
         .dark .match-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-color: rgba(255,255,255,.05); }
         .match-card { background: linear-gradient(145deg, #ffffff, #f8fafc); }
@@ -98,16 +102,19 @@
         .finished-match-card { background: linear-gradient(145deg, #f8fafc, #ffffff); border: 1px solid rgba(0,0,0,.05); }
         .finished-match-card:active{ transform: scale(.98); }
 
+        /* Unified Glass/Service Cards */
         .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(226, 232, 240, 0.8); transition: transform 0.2s; }
         .dark .glass-card { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); }
         .glass-card:active { transform: scale(.98); }
 
+        /* Countdown */
         .countdown-wrap { display: flex; gap: 6px; justify-content: center; font-variant-numeric: tabular-nums; }
         .countdown-unit { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 4px 8px; min-width: 40px; }
         .countdown-unit .val { font-size: 14px; font-weight: 900; line-height: 1; }
         .countdown-unit .lbl { font-size: 8px; opacity:.7; text-transform:uppercase; margin-top:2px; }
         .countdown-unit { background:rgba(0,0,0,.03); border-color:rgba(0,0,0,.05); }
 
+        /* Notifications & Nav */
         .notif-dot { position:absolute; top:-2px; right:-2px; width:10px; height:10px; border-radius:50%; background:#ef4444; border:2px solid #0b1120; animation: pulse-red 2s infinite; }
         .notif-panel { position: absolute; top: calc(100% + 8px); right: 0; width: 300px; max-height: 340px; overflow-y: auto; background: #0f172a; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,.6); z-index: 200; padding: 12px; }
         .bottom-nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 2px; cursor:pointer; transition: color .2s; gap:4px; }
@@ -123,7 +130,6 @@
 </head>
 <body class="min-h-screen flex flex-col items-center bg-lightbg dark:bg-darkbg text-slate-800 dark:text-slate-200">
 
-<!-- Background Particles -->
 <i class="fas fa-futbol bg-particle text-slate-400 dark:text-slate-600 text-6xl" style="left: 10%; animation-duration: 18s; animation-delay: 0s;"></i>
 <i class="fas fa-coins bg-particle text-yellow-500 text-5xl" style="left: 35%; animation-duration: 22s; animation-delay: 3s;"></i>
 <i class="fas fa-futbol bg-particle text-slate-400 dark:text-slate-600 text-4xl" style="left: 60%; animation-duration: 15s; animation-delay: 7s;"></i>
@@ -131,7 +137,6 @@
 <i class="fas fa-coins bg-particle text-yellow-500 text-4xl" style="left: 20%; animation-duration: 19s; animation-delay: 5s;"></i>
 <i class="fas fa-futbol bg-particle text-slate-400 dark:text-slate-600 text-7xl" style="left: 75%; animation-duration: 28s; animation-delay: 8s;"></i>
 
-<!-- Goal Toast Notification -->
 <div id="goal-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-[110] pointer-events-none opacity-0 translate-y-[-24px] transition-all duration-300 min-w-[280px]">
     <div class="bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,.5)] flex items-center border border-green-500/50">
         <i class="fas fa-futbol animate-bounce mr-3 text-2xl text-green-400"></i>
@@ -142,7 +147,6 @@
     </div>
 </div>
 
-<!-- Sidebar Menu -->
 <div id="menu-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm" onclick="toggleMenu()"></div>
 <aside id="sidebar" class="fixed top-0 left-0 h-full w-[80%] max-w-[320px] bg-white dark:bg-[#0f172a] border-r border-slate-200 dark:border-white/10 z-[60] transform -translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
     <div class="p-5 border-b border-slate-200 dark:border-white/10 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
@@ -177,19 +181,21 @@
             <i class="fas fa-chevron-right text-slate-400 text-xs shrink-0"></i>
         </button>
         <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
-            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-blue-100 dark:bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-600"><i class="fas fa-user-plus text-lg"></i></div><span class="font-bold text-[13px]">အကောင့်ဖွင့်မယ်</span></div>
+            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-blue-100 dark:bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-600"><i class="fas fa-user-plus text-lg"></i></div><span class="font-bold text-[13px]">1XBET အကောင့်ဖွင့်မယ်</span></div>
             <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
         </a>
+        <button onclick="toggleMenu();setTimeout(openDownloadModal,300)" class="w-full text-left glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
+            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-600"><i class="fas fa-cloud-download-alt text-lg"></i></div><span class="font-bold text-[13px] text-slate-800 dark:text-white">1XBET App ဒေါင်းရန်</span></div>
+            <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
+        </button>
         <a href="https://t.me/WinExpress99" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
-            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-green-100 dark:bg-green-500/20 rounded-xl flex items-center justify-center text-green-600"><i class="fas fa-wallet text-lg"></i></div><span class="font-bold text-[13px]">ငွေသွင်း/ထုတ်</span></div>
+            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-green-100 dark:bg-green-500/20 rounded-xl flex items-center justify-center text-green-600"><i class="fas fa-wallet text-lg"></i></div><span class="font-bold text-[13px]">1XBET ငွေသွင်း/ထုတ်</span></div>
             <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
         </a>
     </div>
 </aside>
 
-<!-- Header -->
 <header class="w-full max-w-2xl sticky top-0 bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl z-40 border-b border-slate-200 dark:border-white/5 shadow-sm flex flex-col">
-    <!-- Marquee Banner -->
     <div class="w-full overflow-hidden bg-slate-900 text-white py-1.5 border-b border-slate-800">
         <div class="inline-block whitespace-nowrap animate-[marquee_25s_linear_infinite] pl-[100%] text-[11px] font-bold tracking-wide">
             <i class="fas fa-users mr-1 text-brand-gold"></i> W.E Sports မှ ကြိုဆိုပါတယ်! (100% ငွေသွင်းဘောနပ်စ်ရယူရန် Promo Code - ZINXBET ကိုအသုံးပြုပါ) <span class="mx-3 text-brand-gold">|</span>
@@ -231,59 +237,20 @@
         </div>
     </div>
 
-    <!-- Header Navigation Tabs -->
     <nav id="header-tabs" class="w-full px-4 pb-3 overflow-x-auto hide-scrollbar flex space-x-2 items-center">
         <button onclick="switchTab('tab-home',this)" data-tab="tab-home" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-brand-gold text-slate-900 shadow-md">ပင်မ</button>
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
-        <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI Predictor</button>
+        <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
         <button onclick="switchTab('tab-casino',this)" data-tab="tab-casino" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ကာစီနို</button>
         <button onclick="switchTab('tab-services',this)" data-tab="tab-services" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဝန်ဆောင်မှု</button>
+        <button onclick="switchTab('tab-promos',this)" data-tab="tab-promos" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပရိုမို</button>
     </nav>
 </header>
 
 <main class="w-full max-w-2xl px-4 pb-28">
     
-    <!-- Tab: Home -->
     <section id="tab-home" class="tab-content active animate-fade-up space-y-5 pt-4">
-        
-        <!-- World Cup & Star Players Banner -->
-     <!-- Promotional & Match Highlights Banner -->
-<div class="relative w-full rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-r from-slate-900 to-[#1e293b] border border-brand-gold/30 p-5">
-    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-    
-    <div class="relative z-10">
-        <h2 class="text-white text-[14px] font-black mb-3 flex items-center">
-            <i class="fas fa-fire text-brand-gold mr-2 animate-pulse"></i> ယနေ့ည အထူးပွဲစဉ်များ
-        </h2>
-        
-        <div class="flex flex-col gap-2 mb-4">
-            <!-- ပွဲစဉ် ၁ -->
-            <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex justify-between items-center text-[12px] text-white font-bold">
-                <span>🇵🇹 Portugal vs 🇨🇿 Czech</span>
-                <span class="text-brand-gold">1:30 AM</span>
-            </div>
-            <!-- ပွဲစဉ် ၂ -->
-            <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex justify-between items-center text-[12px] text-white font-bold">
-                <span>🇹🇷 Turkey vs 🇬🇪 Georgia</span>
-                <span class="text-brand-gold">10:30 PM</span>
-            </div>
-        </div>
-
-        <div class="bg-brand-gold/10 p-3 rounded-xl border border-brand-gold/30 text-center">
-            <p class="text-[11px] text-white font-bold">Promo Code - <span class="text-brand-gold font-black text-[13px]">ZINXBET</span> ကိုအသုံးပြုပြီး</p>
-            <p class="text-[12px] text-white font-black">100% ငွေသွင်းဘောနပ်စ် ရယူလိုက်ပါ! 🎁</p>
-        </div>
-    </div>
-</div>
-
-
-                
-                <p class="text-[11px] text-slate-300 font-bold text-center leading-relaxed">ကမ္ဘာ့ဖလားပွဲစဉ်များအားလုံးကို အခမဲ့ Live ကြည့်ရှုပြီး <br><span class="text-brand-gold">1XBET</span> တွင် လောင်းကြေးထပ်နိုင်ပါပြီ။</p>
-            </div>
-        </div>
-
-        <!-- Man Utd Banner -->
         <div id="man-utd-banner" class="hidden rounded-2xl p-4 bg-gradient-to-r from-red-900 to-slate-900 shadow-lg border border-red-500/30 relative overflow-hidden text-white">
             <div class="relative z-10 flex items-center justify-between">
                 <div class="flex flex-col items-center w-[30%]">
@@ -291,7 +258,7 @@
                     <span class="text-[11px] font-black uppercase">Man Utd</span>
                 </div>
                 <div class="w-[40%] text-center">
-                    <span class="text-[10px] bg-red-600 text-white px-2 py-0.5 rounded font-bold mb-2 inline-block">MATCH AT 1:30 AM</span>
+                    <span class="text-[10px] bg-red-600 text-white px-2 py-0.5 rounded font-bold mb-2 inline-block">NEXT MATCH</span>
                     <div id="mu-countdown" class="text-brand-gold font-black text-sm flex justify-center gap-1.5 tabular-nums"></div>
                     <div id="mu-match-date" class="text-[10px] text-slate-400 mt-1 font-bold"></div>
                 </div>
@@ -302,50 +269,67 @@
             </div>
         </div>
 
-        <!-- Quick Actions (Channels 1 & 2 + Financials without W.E SPORTS prefix) -->
         <div class="grid grid-cols-2 gap-3">
-            <a href="https://t.me/+WgOCMeMQpyc3N2U1" target="_blank" class="live-pulse bg-red-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[13px] font-black text-white shadow-md active:scale-95 transition">
-                <i class="fas fa-tv mr-2 text-lg"></i> Channel 1 တွင်ကြည့်ရန်
+            <a href="https://t.me/+WgOCMeMQpyc3N2U1" target="_blank" class="live-pulse bg-red-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
+                <i class="fas fa-play-circle mr-2 text-lg"></i> Channel 1 တွင်ကြည့်ရန်
             </a>
-            <a href="https://t.me/+kDj5HgX94s1lYWJl" target="_blank" class="live-pulse bg-orange-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[13px] font-black text-white shadow-md active:scale-95 transition">
-                <i class="fas fa-tv mr-2 text-lg"></i> Channel 2 တွင်ကြည့်ရန်
+            <a href="https://t.me/+kDj5HgX94s1lYWJl" target="_blank" class="live-pulse bg-orange-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
+                <i class="fas fa-play-circle mr-2 text-lg"></i> Channel 2 တွင်ကြည့်ရန်
             </a>
-            
+
             <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="glass-card rounded-2xl py-4 flex flex-col items-center justify-center text-slate-800 dark:text-white">
                 <i class="fas fa-user-plus text-2xl mb-2 text-green-500"></i>
-                <span class="text-[12px] font-black text-center">အကောင့်ဖွင့်ရန်</span>
+                <span class="text-[12px] font-black text-center">1XBET<br>အကောင့်ဖွင့်ရန်</span>
             </a>
             <a href="https://t.me/WinExpress99" target="_blank" class="glass-card rounded-2xl py-4 flex flex-col items-center justify-center text-slate-800 dark:text-white">
                 <i class="fas fa-wallet text-2xl mb-2 text-brand-gold"></i>
-                <span class="text-[12px] font-black text-center">ငွေသွင်း/ထုတ်</span>
+                <span class="text-[12px] font-black text-center">1XBET<br>ငွေသွင်း/ထုတ်</span>
             </a>
+            <button onclick="openDownloadModal()" class="col-span-2 w-full glass-card rounded-2xl py-4 flex flex-col items-center justify-center text-slate-800 dark:text-white bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border-blue-500/20 active:scale-95 transition">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-download text-3xl text-blue-500 animate-bounce"></i>
+                    <div class="text-left">
+                        <span class="text-[14px] font-black block">1XBET App ဒေါင်းရန်</span>
+                        <span class="text-[10px] text-slate-500 font-bold">100% Bonus - Promo: ZINXBET</span>
+                    </div>
+                </div>
+            </button>
         </div>
 
-        <!-- AI Banner -->
-        <button onclick="switchTabById('tab-ai')" class="w-full mb-2 mt-2 rounded-2xl p-4 bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg border border-purple-400/50 flex items-center justify-between text-white active:scale-95 transition relative overflow-hidden">
-            <div class="absolute -right-4 -top-4 opacity-[0.05] text-8xl text-white pointer-events-none"><i class="fas fa-brain"></i></div>
-            <div class="flex items-center space-x-3 relative z-10">
+        <button onclick="switchTabById('tab-ai')" class="w-full mb-2 mt-2 rounded-2xl p-4 bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg border border-purple-400/50 flex items-center justify-between text-white active:scale-95 transition">
+            <div class="flex items-center space-x-3">
                 <div class="text-3xl animate-bounce">🔮</div>
                 <div class="text-left">
-                    <h3 class="font-black text-[14px]">Admin & AI Tactical Analysis</h3>
-                    <p class="text-[10px] font-bold text-purple-200">အသေးစိတ် အချက်အလက်များဖြင့် တွက်ချက်ထားသည်</p>
+                    <h3 class="font-black text-[14px]">ဂိုးရလဒ် ခန့်မှန်းမည်</h3>
+                    <p class="text-[10px] font-bold text-purple-200">AI နှင့် ESPN Data ဖြင့် ရလဒ်များကို ကြိုတင်ကြည့်ပါ</p>
                 </div>
             </div>
-            <i class="fas fa-chevron-right text-purple-300 relative z-10"></i>
+            <i class="fas fa-chevron-right text-purple-300"></i>
         </button>
 
-        <!-- Top Matches -->
+        <div class="rounded-2xl p-0.5 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-600 shadow-md">
+            <div class="bg-[#0f172a] rounded-[14px] p-4 flex items-center justify-between relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-10 text-5xl text-yellow-400"><i class="fas fa-gift"></i></div>
+                <div class="relative z-10">
+                    <h3 class="text-[14px] font-black text-white mb-1">100% Bonus ရယူရန် 🎁</h3>
+                    <p class="text-[11px] text-brand-gold font-bold tracking-wide">Promo Code: ZINXBET</p>
+                </div>
+                <button onclick="copyPromo('ZINXBET',this)" class="relative z-10 bg-brand-gold text-slate-900 px-3 py-2 rounded-xl font-black text-[11px] active:scale-95 transition shadow-sm">
+                    COPY ယူမည်
+                </button>
+            </div>
+        </div>
+
         <div>
             <div class="flex justify-between items-center px-1 mb-3">
                 <h3 class="text-[14px] font-black text-slate-800 dark:text-white">🔥 အထူးပွဲစဉ်များ</h3>
                 <button onclick="switchTabById('tab-matches')" class="text-[10px] text-slate-400 font-bold hover:text-brand-gold transition">အားလုံးကြည့်ရန် <i class="fas fa-chevron-right text-[8px] ml-1"></i></button>
             </div>
             <div id="home-top-matches" class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 snap-x">
-                <div class="w-full text-center py-6 text-slate-500 text-[11px]"><div class="loader inline-block mb-2"></div><br>Woxy 🦊 ပွဲစဉ်များ ရှာနေပါသည်...</div>
+                <div class="w-full text-center py-6 text-slate-500 text-[11px]"><div class="loader inline-block mb-2"></div><br>ပွဲစဉ်များ ရှာနေပါသည်...</div>
             </div>
         </div>
 
-        <!-- Casino Section -->
         <div>
             <div class="flex justify-between items-center px-1 mb-3">
                 <h3 class="text-[14px] font-black text-slate-800 dark:text-white">🎰 လူကြိုက်များသော ဂိမ်းများ</h3>
@@ -368,15 +352,14 @@
         </div>
     </section>
 
-    <!-- Tab: AI Predictor -->
     <section id="tab-ai" class="tab-content pt-4 space-y-4 animate-fade-up">
         <div class="text-center mb-6 mt-2">
-            <div class="inline-block p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3 animate-float relative">
-                <i class="fas fa-brain text-4xl text-purple-600 dark:text-purple-400 relative z-10"></i>
+            <div class="inline-block p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3 animate-float">
+                <i class="fas fa-robot text-4xl text-purple-600 dark:text-purple-400"></i>
             </div>
-            <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">Tactical AI Predictor</h2>
+            <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">W.E Sports AI Predictor</h2>
             <p class="text-[12px] font-bold text-slate-500 max-w-[280px] mx-auto leading-relaxed">
-                စက်ရုပ်၏ တွက်ချက်မှုနှင့် Admin ၏ <span class="text-brand-gold">Professional Analysis</span> ကို ပေါင်းစပ်ပေးထားပါသည်။
+                ထိပ်တန်းလိဂ်ပွဲစဉ်များသာမက <span class="text-brand-gold">Friendly Matches နိုင်ငံတကာခြေစမ်းပွဲများ</span> အထိ AI မှ အသေးစိတ် တွက်ချက်ခန့်မှန်းပေးပါသည်။
             </p>
         </div>
 
@@ -387,7 +370,7 @@
                         <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">အိမ်ရှင်အသင်း (Home Team)</label>
                         <div class="relative">
                             <i class="fas fa-home absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="ai-home" placeholder="ဥပမာ - Portugal, Man Utd, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
+                            <input type="text" id="ai-home" placeholder="ဥပမာ - San Marino, Man Utd, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
                         </div>
                     </div>
                     
@@ -399,16 +382,17 @@
                         <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">ဧည့်သည်အသင်း (Away Team)</label>
                         <div class="relative">
                             <i class="fas fa-plane absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="ai-away" placeholder="ဥပမာ - Argentina, Arsenal, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
+                            <input type="text" id="ai-away" placeholder="ဥပမာ - Faroe Islands, Arsenal, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
                         </div>
                     </div>
                 </div>
                 
                 <button onclick="generateAIPrediction()" id="ai-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 transition-all shadow-[0_8px_20px_rgba(147,51,234,0.3)] flex justify-center items-center">
-                    ခန့်မှန်းချက် ရယူမည် <i class="fas fa-search-chart ml-2"></i>
+                    AI ဖြင့် ခန့်မှန်းမည် <i class="fas fa-magic ml-2 animate-pulse"></i>
                 </button>
 
-                <div id="ai-usage-counter" class="text-center text-[11px] font-bold text-slate-500 mt-4"></div>
+                <div id="ai-usage-counter" class="text-center text-[11px] font-bold text-slate-500 mt-4">
+                    </div>
             </div>
 
             <div id="ai-locked-section" class="hidden flex-col items-center justify-center py-2 text-center animate-pop-in">
@@ -435,10 +419,10 @@
 
         <div id="ai-result" class="hidden mt-6 animate-fade-up">
             <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-purple-500/20 relative overflow-hidden">
-                <div class="absolute -right-4 -top-4 opacity-[0.03] text-8xl text-purple-500 pointer-events-none"><i class="fas fa-chart-line"></i></div>
+                <div class="absolute -right-4 -top-4 opacity-[0.03] text-8xl text-purple-500 pointer-events-none"><i class="fas fa-robot"></i></div>
                 
                 <div class="text-center mb-6 relative z-10">
-                    <span class="inline-block bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 border border-purple-200 dark:border-purple-800">Tactical Match Analysis</span>
+                    <span class="inline-block bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 border border-purple-200 dark:border-purple-800">AI Prediction Result</span>
                     
                     <div class="flex justify-center items-center space-x-2">
                         <div class="text-right flex-1 truncate font-black text-[15px] text-slate-800 dark:text-white" id="ai-res-home">Home</div>
@@ -459,16 +443,29 @@
                             <div id="ai-bar-draw" class="h-full bg-slate-400 transition-all duration-1000 w-0"></div>
                             <div id="ai-bar-away" class="h-full bg-red-500 transition-all duration-1000 w-0"></div>
                         </div>
-                        <div class="text-center mt-1 text-[9px] text-slate-400 font-bold uppercase">Win Probability</div>
+                        <div class="text-center mt-1 text-[9px] text-slate-400 font-bold uppercase">နိုင်ခြေ ရာခိုင်နှုန်း (Win Probability)</div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="flex justify-between text-[11px] font-bold mb-1.5 px-1 text-slate-600 dark:text-slate-300">
+                            <span id="ai-poss-home">0%</span>
+                            <span class="text-[9px] text-slate-400 uppercase tracking-widest">Possession</span>
+                            <span id="ai-poss-away">0%</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full flex overflow-hidden shadow-inner">
+                            <div id="ai-bar-poss-home" class="h-full bg-indigo-500 transition-all duration-1000 w-0"></div>
+                            <div id="ai-bar-poss-away" class="h-full bg-orange-500 transition-all duration-1000 w-0"></div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 relative z-10">
                     <h4 class="font-black text-[12px] text-slate-800 dark:text-white mb-3 flex items-center">
-                        <i class="fas fa-clipboard-check text-brand-gold mr-2"></i> ကျွမ်းကျင်သူ (Admin) ၏ သုံးသပ်ချက်
+                        <i class="fas fa-align-left text-brand-gold mr-2"></i> AI ၏ အသေးစိတ် သုံးသပ်ချက်
                     </h4>
                     <div class="bg-slate-50 dark:bg-[#0f172a] p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
-                        <p id="ai-detailed-text" class="text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 font-bold space-y-3 block"></p>
+                        <p id="ai-detailed-text" class="text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 font-bold space-y-3 block">
+                            </p>
                     </div>
                 </div>
 
@@ -481,7 +478,6 @@
         </div>
     </section>
 
-    <!-- Tab: Matches -->
     <section id="tab-matches" class="tab-content pt-4 space-y-4 animate-fade-up">
         <div class="relative">
             <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -498,7 +494,7 @@
             </div>
             <div id="date-selector" class="flex overflow-x-auto hide-scrollbar gap-2 px-1 pb-1 snap-x mb-3"></div>
             <div id="matches-container" class="flex flex-col gap-3 min-h-[200px]">
-                <div class="flex flex-col items-center justify-center py-10 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Pandy 🐼 ပွဲစဉ်များကို ရှာဖွေပေးနေပါသည်...</span></div>
+                <div class="flex flex-col items-center justify-center py-10 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Woxy 🦊 က ပွဲစဉ်များကို ရှာဖွေပေးနေပါသည်...</span></div>
             </div>
         </div>
         <div id="finished-matches-view" class="hidden">
@@ -507,7 +503,6 @@
         </div>
     </section>
 
-    <!-- Tab: Standings -->
     <section id="tab-standings" class="tab-content pt-4 space-y-4 animate-fade-up">
         <div class="relative px-1">
             <i class="fas fa-trophy absolute left-4 top-1/2 -translate-y-1/2 text-brand-gold"></i>
@@ -524,7 +519,6 @@
         </div>
     </section>
 
-    <!-- Tab: Casino -->
     <section id="tab-casino" class="tab-content pt-4 space-y-4 animate-fade-up">
         <div class="text-center mb-4">
             <h2 class="text-lg font-black text-slate-900 dark:text-white mb-1">ကာစီနို နှင့် စလော့</h2>
@@ -546,7 +540,6 @@
         </div>
     </section>
 
-    <!-- Tab: Services -->
     <section id="tab-services" class="tab-content pt-4 space-y-4 animate-fade-up">
         <h3 class="text-[15px] font-black px-1 text-slate-800 dark:text-white">အကူအညီနှင့် ဝန်ဆောင်မှုများ</h3>
         <button onclick="openInstallModal()" class="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-95 transition">
@@ -561,24 +554,23 @@
             </a>
         </div>
     </section>
+
+    <section id="tab-promos" class="tab-content pt-4 animate-fade-up">
+        <div class="text-center mb-4"><h2 class="text-lg font-black text-slate-900 dark:text-white mb-1">အထူး ပရိုမိုရှင်းများ</h2><p class="text-[12px] font-bold text-slate-500">ဘောနပ်စ်အပြည့်နဲ့ ဆော့ကစားဖို့ အကောင့်ဖွင့်ပါ</p></div>
+        <div class="w-full rounded-2xl overflow-hidden shadow-xl border border-yellow-500/30">
+            <div class="bg-gradient-to-b from-yellow-200 to-brand-gold pt-6 pb-6 px-4 text-center text-slate-900 relative">
+                <div class="text-2xl font-black italic uppercase tracking-tighter mb-4">🎁 Promo Code: ZINXBET</div>
+                <div class="flex flex-col gap-3 mt-2">
+                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="bg-slate-900 text-brand-gold px-4 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition">အကောင့်ဖွင့်မယ်</a>
+                    <button onclick="copyPromo('ZINXBET',this)" class="bg-white/50 border border-slate-900/20 text-slate-900 px-4 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition">PROMO ယူမည်</button>
+                </div>
+                <p class="text-[12px] font-bold mt-4 opacity-90">100% Bonus အတွက် အခုပဲ အသုံးပြုလိုက်ပါ</p>
+            </div>
+        </div>
+    </section>
+
 </main>
 
-<!-- Floating Action Button Menu (FAB) -->
-<div id="fab-menu" class="fixed bottom-[100px] right-4 z-[90] hidden flex-col items-end space-y-3 pb-3 transition-all duration-300 opacity-0 translate-y-4">
-    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex items-center space-x-3 active:scale-95 transition-transform">
-        <span class="bg-slate-900 dark:bg-white text-brand-gold dark:text-slate-900 text-[12px] font-black px-4 py-2 rounded-xl shadow-lg border border-brand-gold/30">အကောင့်ဖွင့်ရန်</span>
-        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-user-plus text-lg"></i></div>
-    </a>
-    <a href="https://t.me/WinExpress99" target="_blank" class="flex items-center space-x-3 active:scale-95 transition-transform">
-        <span class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[12px] font-black px-4 py-2 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700">ငွေသွင်း/ထုတ်</span>
-        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-wallet text-lg"></i></div>
-    </a>
-</div>
-<button onclick="toggleFAB()" id="fab-main" class="fixed bottom-20 right-4 z-[90] w-14 h-14 bg-gradient-to-r from-yellow-400 to-brand-gold text-slate-900 rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(234,179,8,0.4)] active:scale-95 transition-transform duration-300">
-    <i class="fas fa-bolt text-2xl transition-transform duration-300" id="fab-icon"></i>
-</button>
-
-<!-- Bottom Navigation -->
 <nav class="fixed bottom-0 left-0 w-full z-40 flex justify-center pb-safe">
     <div class="w-full max-w-2xl bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 flex shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <div onclick="switchTabById('tab-home')" data-navtab="tab-home" class="bottom-nav-item active text-slate-400"><i class="nav-icon fas fa-home"></i><span class="nav-label">ပင်မ</span></div>
@@ -587,10 +579,10 @@
         <div onclick="switchTabById('tab-standings')" data-navtab="tab-standings" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-list-ol"></i><span class="nav-label">ဇယား</span></div>
         <div onclick="switchTabById('tab-casino')" data-navtab="tab-casino" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-dice"></i><span class="nav-label">ကာစီနို</span></div>
         <div onclick="switchTabById('tab-services')" data-navtab="tab-services" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-concierge-bell"></i><span class="nav-label">ဝန်ဆောင်မှု</span></div>
+        <div onclick="switchTabById('tab-promos')" data-navtab="tab-promos" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gift"></i><span class="nav-label">ပရိုမို</span></div>
     </div>
 </nav>
 
-<!-- Modals -->
 <div id="stats-modal" class="fixed inset-0 bg-black/80 z-[70] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm flex items-end sm:items-center justify-center" onclick="closeStatsModal()">
     <div class="bg-white dark:bg-[#0f172a] w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[88vh] overflow-y-auto transform translate-y-full transition-transform duration-300 shadow-2xl border border-slate-200 dark:border-white/10" id="stats-modal-content" onclick="event.stopPropagation()">
         <div class="p-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md z-10">
@@ -659,7 +651,7 @@
         <div class="p-6 text-center flex flex-col items-center relative">
             <button onclick="closeWelcomeModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 transition active:scale-90"><i class="fas fa-times"></i></button>
             <div class="text-4xl mb-3 animate-bounce">🐼</div>
-            <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">W.E Sports မှ ကြိုဆိုပါတယ်!</h2>
+            <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">Pandy 🐼 မှ ကြိုဆိုပါတယ်! W.E Sports</h2>
             <p class="text-[12px] font-bold text-slate-500 mb-4">ပထမဆုံး ငွေသွင်းမှုအတွက် ၁၀၀% ဘောနပ်စ်</p>
             <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 w-full border border-slate-200 dark:border-slate-700 mb-5">
                 <span class="text-[10px] text-slate-500 font-bold block mb-1 uppercase">Promo Code</span>
@@ -675,7 +667,6 @@
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
-let statsCache = {}; // Added Stats Caching
 
 function getMatchDayString(dateObj) {
     const d = new Date(dateObj.getTime() - 5 * 3600000); 
@@ -861,6 +852,7 @@ function renderHomeTopMatches() {
     if (cutoff.getHours() < 5) { cutoff.setHours(5, 0, 0, 0); } else { cutoff.setDate(cutoff.getDate() + 1); cutoff.setHours(5, 0, 0, 0); }
     let matches = [...allCachedMatches.live, ...allCachedMatches.upcoming].filter(m => m.date <= cutoff);
     
+    // Priority Sorting
     const topTeams = ['Manchester United', 'Arsenal', 'Liverpool', 'Chelsea', 'Manchester City', 'Tottenham', 'Real Madrid', 'Barcelona', 'Bayern Munich', 'Paris Saint-Germain', 'Juventus', 'Inter Milan', 'AC Milan', 'Myanmar', 'Portugal', 'Argentina', 'Brazil', 'France', 'England', 'Spain', 'Germany'];
     
     matches.sort((a, b) => {
@@ -968,7 +960,6 @@ function renderMatchCard(match, isCompact) {
     </div>`;
 }
 
-// Caching included for stats
 async function openStatsModal(matchId) {
     const match = globalMatchesMap[matchId]; if (!match) return;
     const modal = document.getElementById('stats-modal'), content = document.getElementById('stats-modal-content'), cont = document.getElementById('stats-container');
@@ -976,14 +967,6 @@ async function openStatsModal(matchId) {
 
     const px = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
     const headerHtml = `<div class="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700"><div class="flex flex-col items-center flex-1"><img src="${match.homeTeam.team.logo||px}" class="w-10 h-10 object-contain mb-1"><span class="text-[12px] font-black text-slate-800 dark:text-white">${match.homeTeam.team.name.substring(0,12)}</span></div><div class="text-center px-2"><span class="text-sm font-black bg-slate-200 dark:bg-slate-900 px-3 py-1 rounded-lg text-slate-700 dark:text-white">${match.status==='in'||match.status==='post' ? match.homeTeam.score+' - '+match.awayTeam.score : 'VS'}</span></div><div class="flex flex-col items-center flex-1"><img src="${match.awayTeam.team.logo||px}" class="w-10 h-10 object-contain mb-1"><span class="text-[12px] font-black text-slate-800 dark:text-white">${match.awayTeam.team.name.substring(0,12)}</span></div></div>`;
-    
-    // Check cache (valid for 5 mins = 300,000 ms)
-    const now = Date.now();
-    if (statsCache[matchId] && (now - statsCache[matchId].timestamp < 300000)) {
-        cont.innerHTML = headerHtml + `<div class="p-6 pt-5 animate-fade-up">${statsCache[matchId].html}</div>`;
-        return;
-    }
-
     cont.innerHTML = headerHtml + `<div class="flex flex-col items-center justify-center py-10 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Woxy 🦊 Stats ရှာပေးနေပါတယ်...</span></div>`;
 
     try {
@@ -997,14 +980,9 @@ async function openStatsModal(matchId) {
             const hV = parseFloat(hO.displayValue)||0, aV = parseFloat(aO.displayValue)||0, tot = hV+aV || 1, hPct = (hV/tot)*100, aPct=(aV/tot)*100;
             statsHtml += `<div class="mb-5"><div class="flex justify-between text-[12px] font-bold text-slate-600 dark:text-slate-300 mb-1.5"><span>${hO.displayValue}</span><span class="text-[10px] text-slate-400">${l}</span><span>${aO.displayValue}</span></div><div class="flex h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width:${hPct}%"></div><div class="h-full bg-red-500" style="width:${aPct}%"></div></div></div>`;
         });
-        
-        const finalHtml = statsHtml || '<div class="text-center text-[12px] font-bold text-slate-400 py-6">Stats မရရှိနိုင်သေးပါ</div>';
-        statsCache[matchId] = { timestamp: now, html: finalHtml }; // Save to cache
-        
-        cont.innerHTML = headerHtml + `<div class="p-6 pt-5 animate-fade-up">${finalHtml}</div>`;
+        cont.innerHTML = headerHtml + `<div class="p-6 pt-5 animate-fade-up">${statsHtml||'<div class="text-center text-[12px] font-bold text-slate-400 py-6">Stats မရရှိနိုင်သေးပါ</div>'}</div>`;
     } catch { cont.innerHTML = headerHtml + `<div class="p-8 text-center text-slate-400 font-bold text-[12px]">ဒီပွဲ Stats မရရှိနိုင်သေးပါ</div>`; }
 }
-
 function closeStatsModal() {
     const modal = document.getElementById('stats-modal'), content = document.getElementById('stats-modal-content');
     modal.classList.add('opacity-0'); content.classList.add('translate-y-full'); content.classList.remove('translate-y-0');
@@ -1018,11 +996,8 @@ function renderManUtdBanner(match) {
     const isHome = match.homeTeam.team.name.includes('Manchester United'), opp = isHome ? match.awayTeam.team : match.homeTeam.team;
     document.getElementById('mu-opponent-logo').src = opp.logo || ''; document.getElementById('mu-opponent-name').textContent = opp.name.substring(0,12);
     
-    // Setting specific target based on instruction for Man Utd
-    const targetTime = match.date.getTime(); 
-    
     const updateTime = () => {
-        const dist = targetTime - Date.now();
+        const dist = match.date.getTime() - Date.now();
         if (dist < 0) { document.getElementById('mu-countdown').innerHTML = `<span class="text-red-500">LIVE NOW</span>`; return; }
         const d = Math.floor(dist / 86400000), h = Math.floor((dist % 86400000) / 3600000), m = Math.floor((dist % 3600000) / 60000), s = Math.floor((dist % 60000) / 1000);
         document.getElementById('mu-countdown').innerHTML = `<div class="flex flex-col items-center"><span>${d}</span><span class="text-[8px]">Days</span></div><div>:</div><div class="flex flex-col items-center"><span>${h}</span><span class="text-[8px]">Hrs</span></div><div>:</div><div class="flex flex-col items-center"><span>${m}</span><span class="text-[8px]">Min</span></div><div>:</div><div class="flex flex-col items-center"><span class="text-red-400">${s}</span><span class="text-[8px]">Sec</span></div>`;
@@ -1048,6 +1023,7 @@ async function fetchMatches(isManual=false) {
     if (isFetching && !isManual) return; isFetching = true;
     if (isManual) { const icon = document.getElementById('refresh-icon'); icon.style.animation = 'spin 0.8s linear infinite'; setTimeout(()=>icon.style.animation='',1000); }
 
+    // Updated leagues list including World Cup, Euro, and Copa America
     const leagues = [
         'eng.1', 'uefa.champions', 'uefa.europa', 'ita.1', 'esp.1', 
         'ger.1', 'fra.1', 'eng.fa', 'eng.2', 'ksa.1', 'usa.1', 
@@ -1098,7 +1074,7 @@ async function fetchMatches(isManual=false) {
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
 
-// --- UPGRADED PROFESSIONAL AI TACTICAL PREDICTOR ---
+// --- FULL AI PREDICTION FEATURE ---
 
 const MAX_AI_PREDICTIONS = 5;
 const AI_UNLOCK_CODE = "ZINXBETVIP";
@@ -1183,11 +1159,11 @@ async function generateAIPrediction() {
     resultBox.classList.add('hidden');
     resultBox.classList.remove('animate-fade-up');
     
-    ['ai-bar-home', 'ai-bar-draw', 'ai-bar-away'].forEach(id => {
+    ['ai-bar-home', 'ai-bar-draw', 'ai-bar-away', 'ai-bar-poss-home', 'ai-bar-poss-away'].forEach(id => {
         document.getElementById(id).style.width = '0%';
     });
 
-    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2"></div> Data ဆွဲယူနေပါသည်...`;
+    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2"></div> AI တွက်ချက်နေပါသည်...`;
 
     try {
         const leagues = ['eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'ned.1', 'por.1', 'ksa.1', 'eng.2'];
@@ -1223,7 +1199,7 @@ async function generateAIPrediction() {
                     return { att: globalTeamPowers[key].att, def: globalTeamPowers[key].def, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1) };
                 }
             }
-            return { att: 1.0, def: 1.0, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1), isUnknown: true }; 
+            return { att: 0.9, def: 1.3, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1), isUnknown: true }; 
         };
 
         const homeData = findTeam(homeInput);
@@ -1232,23 +1208,31 @@ async function generateAIPrediction() {
         let homeAtt = homeData.att; let homeDef = homeData.def;
         let awayAtt = awayData.att; let awayDef = awayData.def;
 
-        if (!homeData.isUnknown && awayData.isUnknown) { awayAtt = 0.6; awayDef = 1.8; }
-        if (homeData.isUnknown && !awayData.isUnknown) { homeAtt = 0.6; homeDef = 1.8; } 
+        if (!homeData.isUnknown && awayData.isUnknown) { awayAtt = 0.5; awayDef = 2.0; }
+        if (homeData.isUnknown && !awayData.isUnknown) { homeAtt = 0.5; homeDef = 2.0; } 
 
-        let homeXG = homeAtt * (awayDef / 1.2) * 1.15; // Home advantage
-        let awayXG = awayAtt * (homeDef / 1.2);
+        let homeXG = homeAtt * (awayDef / 1.4) * 1.10; 
+        let awayXG = awayAtt * (homeDef / 1.4);
 
-        // Reduce random noise, rely more on structural data
-        homeXG = Math.max(0.1, homeXG); 
-        awayXG = Math.max(0.1, awayXG);
+        homeXG += (Math.random() * 0.2 - 0.1);
+        awayXG += (Math.random() * 0.2 - 0.1);
+        homeXG = Math.max(0, homeXG); awayXG = Math.max(0, awayXG);
 
         let hScore = Math.round(homeXG);
         let aScore = Math.round(awayXG);
 
-        const totalXG = homeXG + awayXG + 1.2; 
+        const totalXG = homeXG + awayXG + 0.8; 
         const homeWinPct = Math.round((homeXG / totalXG) * 100);
         const awayWinPct = Math.round((awayXG / totalXG) * 100);
         const drawPct = 100 - (homeWinPct + awayWinPct);
+
+        const totalRating = homeAtt + awayDef + homeDef + awayAtt;
+        let homePoss = Math.round(((homeAtt + awayDef) / totalRating) * 100);
+        
+        if (homeData.isUnknown && !awayData.isUnknown) homePoss = Math.min(35, homePoss);
+        if (!homeData.isUnknown && awayData.isUnknown) homePoss = Math.max(65, homePoss);
+        homePoss = Math.max(20, Math.min(80, homePoss + (homeData.isUnknown === awayData.isUnknown ? 2 : 0))); 
+        const awayPoss = 100 - homePoss;
 
         const finalHomeName = homeData.short;
         const finalAwayName = awayData.short;
@@ -1260,16 +1244,20 @@ async function generateAIPrediction() {
         document.getElementById('ai-prob-home-text').innerText = `${finalHomeName} ${homeWinPct}%`;
         document.getElementById('ai-prob-draw-text').innerText = `Draw ${drawPct}%`;
         document.getElementById('ai-prob-away-text').innerText = `${finalAwayName} ${awayWinPct}%`;
+        
+        document.getElementById('ai-poss-home').innerText = `${homePoss}%`;
+        document.getElementById('ai-poss-away').innerText = `${awayPoss}%`;
 
         let detailText = "";
         if (homeWinPct >= 50 && homeWinPct > awayWinPct) {
-            detailText += `<span class="block mb-2">🛡️ <b>Structural Analysis:</b> ${finalHomeName} သည် အိမ်ကွင်းအားသာချက် အပြည့်အဝရရှိထားပြီး Expected Goals (xG) တွက်ချက်မှုအရ <b>${homeXG.toFixed(2)}</b> အထိ ဖန်တီးနိုင်စွမ်းရှိသည်။ ဧည့်သည်အသင်း၏ ခံစစ်အားနည်းချက်ကို အမိအရ အသုံးချနိုင်မည်ဟု ယူဆရသည်။</span>`;
+            detailText += `<span class="block mb-2">⚽ <b>အိမ်ရှင်အသာစီး:</b> AI ၏ တိကျသော ခွဲခြမ်းစိတ်ဖြာချက်အရ <b>${finalHomeName}</b> သည် ယခုပွဲစဉ်တွင် အနိုင်ရရန် (${homeWinPct}%) ရေပန်းစားနေပါသည်။ အိမ်ကွင်းအားသာချက်နှင့် ခြေစွမ်းပိုင်းအရ ဧည့်သည်အသင်းထက် သိသိသာသာ သာလွန်နေပါသည်။</span>`;
         } else if (awayWinPct >= 50 && awayWinPct > homeWinPct) {
-            detailText += `<span class="block mb-2">🚀 <b>Away Threat:</b> အဝေးကွင်းဖြစ်သော်လည်း ${finalAwayName} ၏ တိုက်စစ်စွမ်းရည် (Attacking Form) မှာ အလွန်ထက်မြက်နေသည်။ အိမ်ရှင်အသင်း၏ ကွင်းလယ်နှင့် ခံစစ်ကြား ဟာကွက်များကို ထိုးဖောက်ပြီး အနိုင် ၃ မှတ် ယူသွားရန် ရာခိုင်နှုန်း (${awayWinPct}%) ရှိနေသည်။</span>`;
+            detailText += `<span class="block mb-2">⚽ <b>ဧည့်သည်အသာစီး:</b> <b>${finalAwayName}</b> သည် အဝေးကွင်းဖြစ်သော်လည်း ခြေစွမ်းကွာဟမှုအရ အနိုင်ရရန် လွယ်ကူနေပါသည်။ AI ၏ တွက်ချက်မှုအရ ၎င်းတို့၏ တိုက်စစ်ပိုင်းသည် အိမ်ရှင်ကို ဖိအားပေးနိုင်စွမ်း အပြည့်အဝရှိပါသည်။</span>`;
         } else {
-            detailText += `<span class="block mb-2">⚖️ <b>Balanced Matchup:</b> အသင်းနှစ်သင်းလုံး၏ လက်ရှိ Form နှင့် ကစားကွက်အရ များစွာ ကွာဟမှုမရှိပါ။ အလယ်အလတ်တန်းစား သရေကျမည့် ပွဲမျိုးဖြစ်ပြီး (Under 2.5/3) ဂိုးနည်းနိုင်ချေ ပိုများသည်။</span>`;
+            detailText += `<span class="block mb-2">⚽ <b>အကြိတ်အနယ်:</b> ယခုပွဲစဉ်သည် အသင်းနှစ်သင်းလုံး ခြေစွမ်းဟန်ချက်ညီနေပြီး အပြန်အလှန် သွင်းဂိုးများနှင့်အတူ အကြိတ်အနယ် ကစားရမည့်ပွဲဖြစ်ကာ သရေကျရန် ရာခိုင်နှုန်း များပြားနေပါသည်။</span>`;
         }
-        detailText += `<span class="block text-brand-gold mt-2">💡 <b>Admin Pick:</b> စာရင်းဇယားနှင့် ခြေစွမ်းပိုင်းအရ <b>${homeWinPct > awayWinPct ? finalHomeName : (awayWinPct > homeWinPct ? finalAwayName : 'Draw (သို့) Under')}</b> ကို ရွေးချယ်သင့်ပါသည်။ လောင်းကြေးထပ်ရန် 1XBET တွင် ဝင်ရောက်ပါ။</span>`;
+        detailText += `<span class="block mb-2">📊 <b>နည်းဗျူဟာပိုင်း (Tactics):</b> ပွဲကစားချိန်အတွင်း <b>${homePoss >= awayPoss ? finalHomeName : finalAwayName}</b> မှ ဘောလုံးပိုင်ဆိုင်မှု (${Math.max(homePoss, awayPoss)}%) ခန့်ဖြင့် ပွဲကို ထိန်းချုပ်ကစားသွားမည်။ သွင်းဂိုးရနိုင်ချေ (xG) အနေဖြင့် အိမ်ရှင်က ${homeXG.toFixed(2)} ဂိုး နှင့် ဧည့်သည်က ${awayXG.toFixed(2)} ဂိုး ခန့်မှန်းရသည်။</span>`;
+        detailText += `<span class="block text-brand-gold">💡 <b>Betting Tip:</b> ဂိုးပေါင်း အနေဖြင့် ${(homeXG + awayXG) > 2.5 ? 'Over 2.5' : 'Under 2.5'} ကို ရွေးချယ်သင့်ပြီး၊ 1XBET တွင် ZINXBET Promo Code အသုံးပြုကာ လောင်းကြေးထပ်နိုင်ပါသည်။</span>`;
 
         document.getElementById('ai-detailed-text').innerHTML = detailText;
 
@@ -1280,11 +1268,14 @@ async function generateAIPrediction() {
             document.getElementById('ai-bar-home').style.width = `${homeWinPct}%`;
             document.getElementById('ai-bar-draw').style.width = `${drawPct}%`;
             document.getElementById('ai-bar-away').style.width = `${awayWinPct}%`;
+            
+            document.getElementById('ai-bar-poss-home').style.width = `${homePoss}%`;
+            document.getElementById('ai-bar-poss-away').style.width = `${awayPoss}%`;
         }, 100);
 
     } catch (error) {
         console.error(error);
-        alert('ခွဲခြမ်းစိတ်ဖြာမှု လုပ်ဆောင်ရာတွင် အခက်အခဲရှိနေပါသည်။ ကျေးဇူးပြု၍ ပြန်လည်ကြိုးစားပါ။');
+        alert('AI တွက်ချက်မှုတွင် အခက်အခဲရှိနေပါသည်။ ကျေးဇူးပြု၍ ပြန်လည်ကြိုးစားကြည့်ပါ။');
     } finally {
         if (!isUnlocked) {
             usage++;
