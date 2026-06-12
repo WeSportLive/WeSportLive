@@ -127,6 +127,7 @@
         .tab-content { display:none; }
         .tab-content.active { display:block; }
     </style>
+
     <!-- HLS.js Library for Live Streaming -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
@@ -253,30 +254,6 @@
 <main class="w-full max-w-2xl px-4 pb-28">
     
     <section id="tab-home" class="tab-content active animate-fade-up space-y-5 pt-4">
-
-        <!-- Live Stream Player Section -->
-        <div id="live-stream-section" class="animate-pop-in mb-5">
-            <div class="w-full bg-black rounded-2xl overflow-hidden border border-red-500/30 shadow-lg shadow-red-500/5">
-                <div class="flex items-center justify-between px-4 py-2 bg-red-500/10 border-b border-red-500/20">
-                    <div class="flex items-center gap-2">
-                        <div class="bg-red-500 text-white px-2 py-0.5 rounded text-[10px] font-black flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> LIVE
-                        </div>
-                        <span class="text-[11px] font-black text-white uppercase tracking-wider">W.E LIVE</span>
-                    </div>
-                    <div class="flex items-center gap-3 text-slate-400 text-[10px] font-bold">
-                        <span><i class="fas fa-users mr-1"></i> <span id="viewer-count">...</span></span>
-                    </div>
-                </div>
-                <div class="relative aspect-video bg-black flex items-center justify-center">
-                    <video id="video-player" class="w-full h-full" controls autoplay playsinline></video>
-                    <div id="video-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm z-10">
-                        <div class="border-3 border-slate-400/20 border-t-yellow-500 rounded-full w-6 h-6 animate-spin mb-3"></div>
-                        <p class="text-[11px] font-bold text-slate-300">လက်ရှိတွင် Live လွှင့်ထားခြင်း မရှိသေးပါ</p>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div id="man-utd-banner" class="hidden rounded-2xl p-4 bg-gradient-to-r from-red-900 to-slate-900 shadow-lg border border-red-500/30 relative overflow-hidden text-white">
             <div class="relative z-10 flex items-center justify-between">
                 <div class="flex flex-col items-center w-[30%]">
@@ -1319,38 +1296,44 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(showWelcomeModal, 2000); 
     updateAIUsageUI();
 });
-
-    // Live Stream Player Logic
-    var videoPlayer = document.getElementById('video-player');
-    var videoLoader = document.getElementById('video-loader');
-    var videoSrc = 'https://faqs-finder-enhanced-speed.trycloudflare.com/hls/test.m3u8';
-
-    function initLivePlayer() {
-        if (!videoPlayer) return;
-        if (Hls.isSupported()) {
-            var hls = new Hls();
-            hls.loadSource(videoSrc);
-            hls.attachMedia(videoPlayer);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                if (videoLoader) videoLoader.style.display = 'none';
-                videoPlayer.play().catch(function(e) { console.log("Autoplay blocked"); });
-            });
-            hls.on(Hls.Events.ERROR, function(event, data) {
-                if (data.fatal && videoLoader) videoLoader.style.display = 'flex';
-            });
-        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-            videoPlayer.src = videoSrc;
-            videoPlayer.addEventListener('loadedmetadata', function() {
-                if (videoLoader) videoLoader.style.display = 'none';
-                videoPlayer.play();
-            });
-        }
-    }
-    document.addEventListener('DOMContentLoaded', initLivePlayer);
-    setInterval(function() { 
-        var vc = document.getElementById('viewer-count');
-        if(vc) vc.innerText = Math.floor(Math.random() * (450 - 280) + 280); 
-    }, 5000);
 </script>
-</body>
+
+    <script>
+    // Live Stream Player Logic
+    (function() {
+        var videoPlayer = document.getElementById('video-player');
+        var videoLoader = document.getElementById('video-loader');
+        var videoSrc = 'https://faqs-finder-enhanced-speed.trycloudflare.com/hls/test.m3u8';
+
+        function initLivePlayer() {
+            if (!videoPlayer) return;
+            if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(videoSrc);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    if (videoLoader) videoLoader.style.display = 'none';
+                    videoPlayer.play().catch(function(e) { console.log("Autoplay blocked"); });
+                });
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal && videoLoader) videoLoader.style.display = 'flex';
+                });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                videoPlayer.src = videoSrc;
+                videoPlayer.addEventListener('loadedmetadata', function() {
+                    if (videoLoader) videoLoader.style.display = 'none';
+                    videoPlayer.play();
+                });
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', initLivePlayer);
+        
+        setInterval(function() { 
+            var vc = document.getElementById('viewer-count');
+            if(vc) vc.innerText = Math.floor(Math.random() * (450 - 280) + 280); 
+        }, 5000);
+    })();
+    </script>
+    </body>
 </html>
