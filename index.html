@@ -285,16 +285,20 @@
 
         <!-- အသစ်ထည့်သွင်းလိုက်သော ကိုယ်ပိုင် Server Live Video Player Section -->
         <div class="w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 bg-black relative aspect-video mb-5 group">
-            <video id="live-player" class="w-full h-full object-contain" controls playsinline autoplay muted></video>
-            <div class="absolute top-3 left-3 bg-red-600/90 backdrop-blur-sm text-white text-[10px] font-black px-2.5 py-1 rounded-md z-10 flex items-center shadow-lg">
-                <span class="w-2 h-2 bg-white rounded-full mr-1.5 animate-pulse"></span> W.E LIVE
-            </div>
-            <!-- Loading Indicator -->
-            <div id="player-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-0">
-                <div class="loader mb-2 border-t-brand-gold"></div>
-                <span class="text-[11px] font-bold text-slate-300">Livey 🦊 လိုင်းချိတ်ဆက်နေပါသည်...</span>
-            </div>
-        </div>
+ <video id="live-player" class="w-full aspect-video bg-black" controls autoplay muted playsinline></video>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+  var video = document.getElementById('live-player');
+  var videoSrc = 'http://37.1.205.83/hls/wesport.m3u8';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+  }
+</script>
+
 
         <div class="grid grid-cols-2 gap-3">
             <a href="https://t.me/+7QQb-lAuv04xZDRl" target="_blank" class="col-span-2 w-full flex items-center justify-center p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-brand-gold/50 shadow-lg active:scale-95 transition">
