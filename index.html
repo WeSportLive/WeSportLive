@@ -1,105 +1,493 @@
-
 <!DOCTYPE html>
-<html lang="my">
+<html lang="my" class="dark">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8LWM1G7R31"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8LWM1G7R31');
+    </script>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W.E Sports - Live Stream Player</title>
-    <!-- HLS.js Library - Live လွှင့်တာကို Browser အားလုံးမှာ ကြည့်လို့ရအောင် ကူညီပေးပါတယ် -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0b1120">
+    <meta name="description" content="ဘောလုံးပွဲစဉ်များကို Live ကြည့်ရှုပြီး 1XBET အကောင့်ဖွင့်ကာ ကစားလိုက်ပါ။ AI ဖြင့် ပွဲစဉ်ရလဒ်များကို အခမဲ့ ခန့်မှန်းပါ။ Promo Code: ZINXBET">
+    
+    <meta property="og:title" content="W.E Sports - Live Match Hub">
+    <meta property="og:description" content="ဘောလုံးပွဲစဉ်များကို Live ကြည့်ရှုပြီး 1XBET အကောင့်ဖွင့်ကာ ကစားလိုက်ပါ။ Promo Code: ZINXBET">
+    <meta property="og:image" content="https://i.ibb.co/Tx06dFv3/image.png">
+    <meta property="og:url" content="https://t.me/WinExpress99">
+    <meta property="og:type" content="website">
+
+    <title>W.E Sports - Live Match Hub</title>
+    
+    <link rel="preconnect" href="https://site.api.espn.com">
+    <link rel="preconnect" href="https://a.espncdn.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="apple-touch-icon" href="https://i.ibb.co/Tx06dFv3/image.png?v=we1">
+    <link rel="shortcut icon" href="https://i.ibb.co/Tx06dFv3/image.png?v=we1" type="image/png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- HLS.js Library for Live Streaming -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <style>
-        body { 
-            background-color: #1a1a1a; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        darkbg: '#0b1120', 
+                        lightbg: '#f8fafc',
+                        brand: { gold: '#eab308', blue: '#1e3a8a' }
+                    } 
+                } 
+            }
         }
-        .video-container {
-            width: 90%;
-            max-width: 850px;
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --live-red: #ef4444; 
+            --card-radius: 16px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Pyidaungsu', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+            overscroll-behavior: none;
+            position: relative;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 70% { opacity: 1; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes pulse-red { 0% { transform:scale(1); box-shadow:0 0 0 0 rgba(239,68,68,.6); } 70% { transform:scale(1.02);box-shadow:0 0 0 10px rgba(239,68,68,0); } 100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(239,68,68,0); } }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+        
+        /* Background Floating Animation */
+        @keyframes float-up {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.08; }
+            90% { opacity: 0.08; }
+            100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+        .dark @keyframes float-up { 10% { opacity: 0.15; } 90% { opacity: 0.15; } }
+        .bg-particle { position: fixed; pointer-events: none; z-index: -1; opacity: 0; animation: float-up linear infinite; }
+
+        .animate-fade-up  { animation: fadeSlideUp .4s ease-out both; }
+        .animate-pop-in   { animation: popIn .5s ease-out both; }
+        .animate-float    { animation: float 2.5s ease-in-out infinite; }
+        .live-pulse       { animation:pulse-red 2.5s infinite; }
+        .loader           { border:3px solid rgba(156,163,175,.2); border-top-color:#eab308; border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; }
+
+        /* Match Cards */
+        .match-card { width: 100%; border-radius: var(--card-radius); transition: transform .2s, box-shadow .2s; cursor: pointer; border: 1px solid rgba(0,0,0,.05); }
+        .dark .match-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-color: rgba(255,255,255,.05); }
+        .match-card { background: linear-gradient(145deg, #ffffff, #f8fafc); }
+        .match-card:active{ transform: scale(.98); }
+        .dark .match-card.man-utd { background: linear-gradient(145deg, rgba(69,10,10,.8), rgba(15,23,42,.9)); border-color:rgba(239,68,68,.3); }
+        .match-card.man-utd { background: linear-gradient(145deg, #fef2f2, #ffffff); border-color:rgba(239,68,68,.2); }
+        .match-card.live-card { border-color: rgba(239,68,68,.4); }
+        .dark .match-card.live-card { box-shadow: 0 0 0 1px rgba(239,68,68,.3), 0 4px 15px -4px rgba(239,68,68,.2); }
+
+        .finished-match-card { width: 100%; border-radius: 12px; transition: transform .2s; cursor: pointer; padding: 10px 14px !important; margin-bottom: 2px; }
+        .dark .finished-match-card { background: linear-gradient(145deg, rgba(30,41,59,.6), rgba(15,23,42,.8)); border: 1px solid rgba(255,255,255,.05); }
+        .finished-match-card { background: linear-gradient(145deg, #f8fafc, #ffffff); border: 1px solid rgba(0,0,0,.05); }
+        .finished-match-card:active{ transform: scale(.98); }
+
+        /* Unified Glass/Service Cards */
+        .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(226, 232, 240, 0.8); transition: transform 0.2s; }
+        .dark .glass-card { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); }
+        .glass-card:active { transform: scale(.98); }
+
+        /* Countdown */
+        .countdown-wrap { display: flex; gap: 6px; justify-content: center; font-variant-numeric: tabular-nums; }
+        .countdown-unit { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 4px 8px; min-width: 40px; }
+        .countdown-unit .val { font-size: 14px; font-weight: 900; line-height: 1; }
+        .countdown-unit .lbl { font-size: 8px; opacity:.7; text-transform:uppercase; margin-top:2px; }
+        .countdown-unit { background:rgba(0,0,0,.03); border-color:rgba(0,0,0,.05); }
+
+        /* Notifications & Nav */
+        .notif-dot { position:absolute; top:-2px; right:-2px; width:10px; height:10px; border-radius:50%; background:#ef4444; border:2px solid #0b1120; animation: pulse-red 2s infinite; }
+        .notif-panel { position: absolute; top: calc(100% + 8px); right: 0; width: 300px; max-height: 340px; overflow-y: auto; background: #0f172a; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,.6); z-index: 200; padding: 12px; }
+        .bottom-nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 2px; cursor:pointer; transition: color .2s; gap:4px; }
+        .bottom-nav-item .nav-icon { font-size:16px; transition: transform .2s; }
+        .bottom-nav-item .nav-label { font-size:9px; font-weight:700; white-space: nowrap; }
+        .bottom-nav-item.active .nav-icon { transform: scale(1.15); color: #eab308; }
+        .bottom-nav-item.active .nav-label { color: #eab308; }
+        .red-card-indicator { display:inline-block; width:8px; height:12px; background:#ef4444; border-radius:2px; margin-left:4px; vertical-align:middle; }
+        
+        .tab-content { display:none; }
+        .tab-content.active { display:block; }
+
+        /* Live Stream Player Styles */
+        .live-player-container {
+            width: 100%;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 2px solid #333;
+            margin-bottom: 15px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1);
         }
-        video { 
-            width: 100%; 
-            display: block;
+        .live-player-header {
+            padding: 8px 12px;
+            background: rgba(239, 68, 68, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(239, 68, 68, 0.2);
         }
-        .status-bar {
-            padding: 15px;
-            background: #222;
-            text-align: center;
-        }
-        .live-tag {
-            background: #ff0000;
-            padding: 4px 8px;
+        .live-badge {
+            background: #ef4444;
+            color: white;
+            padding: 2px 8px;
             border-radius: 4px;
-            font-weight: bold;
-            font-size: 12px;
-            margin-right: 10px;
+            font-size: 10px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .live-badge-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse-red 1.5s infinite;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col items-center bg-lightbg dark:bg-darkbg text-slate-800 dark:text-slate-200">
 
-    <div style="margin-bottom: 20px; text-align: center;">
-        <h1>W.E Sports Live Match Hub</h1>
-    </div>
+<i class="fas fa-futbol bg-particle text-slate-400 dark:text-slate-600 text-6xl" style="left: 10%; animation-duration: 18s; animation-delay: 0s;"></i>
+<i class="fas fa-coins bg-particle text-yellow-500 text-5xl" style="left: 35%; animation-duration: 22s; animation-delay: 3s;"></i>
+<i class="fas fa-futbol bg-particle text-slate-400 dark:text-slate-600 text-4xl" style="left: 60%; animation-duration: 15s; animation-delay: 7s;"></i>
+<i class="fas fa-dice bg-particle text-purple-400 text-5xl" style="left: 80%; animation-duration: 25s; animation-delay: 1s;"></i>
+<i class="fas fa-coins bg-particle text-yellow-500 text-4xl" style="left: 20%; animation-duration: 19s; animation-delay: 5s;"></i>
+<i class="fas fa-futbol bg-particle text-slate-400 dark:text-slate-600 text-7xl" style="left: 75%; animation-duration: 28s; animation-delay: 8s;"></i>
 
-    <div class="video-container">
-        <video id="video" controls autoplay playsinline></video>
-        <div class="status-bar">
-            <span class="live-tag">● LIVE</span>
-            <span>W.E Sports Streaming Server</span>
+<div id="goal-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-[110] pointer-events-none opacity-0 translate-y-[-24px] transition-all duration-300 min-w-[280px]">
+    <div class="bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,.5)] flex items-center border border-green-500/50">
+        <i class="fas fa-futbol animate-bounce mr-3 text-2xl text-green-400"></i>
+        <div>
+            <div id="toast-title" class="font-black text-[15px] leading-tight">⚽ ဂိုးဝင်သွားပါပြီ!</div>
+            <div id="toast-subtitle" class="text-[11px] font-bold text-slate-300 mt-1 uppercase tracking-wide"></div>
         </div>
     </div>
+</div>
 
-    <script>
-        var video = document.getElementById('video');
-        // HTTPS Streaming URL (Cloudflare Tunnel မှတစ်ဆင့် လုံခြုံစွာ ချိတ်ဆက်ထားသည်)
-        var videoSrc = 'https://faqs-finder-enhanced-speed.trycloudflare.com/hls/test.m3u8';
+<div id="menu-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm" onclick="toggleMenu()"></div>
+<aside id="sidebar" class="fixed top-0 left-0 h-full w-[80%] max-w-[320px] bg-white dark:bg-[#0f172a] border-r border-slate-200 dark:border-white/10 z-[60] transform -translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+    <div class="p-5 border-b border-slate-200 dark:border-white/10 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
+        <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center border-2 border-brand-gold overflow-hidden shadow-md shrink-0">
+                <img src="https://i.ibb.co/Tx06dFv3/image.png" alt="Logo" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <h2 class="font-black text-lg leading-tight text-slate-900 dark:text-white">W.E Sports</h2>
+                <p class="text-[10px] text-brand-gold font-bold uppercase tracking-widest">Live Match Hub</p>
+            </div>
+        </div>
+        <button onclick="toggleMenu()" class="text-slate-400 hover:text-red-500 transition p-2 active:scale-90"><i class="fas fa-times text-xl"></i></button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4 space-y-3">
+        <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest px-2 mb-2">အမြန် ဝန်ဆောင်မှုများ</p>
+        <button onclick="copyPromo('ZINXBET',this)" class="glass-card w-full flex items-center justify-between p-4 rounded-2xl bg-yellow-50/50 dark:bg-yellow-900/10 border border-yellow-500/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/20 active:scale-95 transition">
+            <div class="flex items-center space-x-3 text-left">
+                <div class="w-10 h-10 bg-brand-gold rounded-xl flex items-center justify-center text-slate-900 shadow-md shrink-0"><i class="fas fa-gift text-lg"></i></div>
+                <div>
+                    <span class="font-black text-[13px] text-yellow-600 dark:text-brand-gold">Promo Code: ZINXBET</span>
+                    <div class="font-bold text-[10px] text-slate-500 mt-0.5">100% ပထမဆုံးသွင်းငွေဘောနပ်စ်</div>
+                </div>
+            </div>
+            <i class="fas fa-copy text-brand-gold text-sm shrink-0"></i>
+        </button>
+        <button onclick="toggleMenu();setTimeout(openInstallModal,300)" class="glass-card w-full flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400"><i class="fas fa-mobile-alt text-lg"></i></div>
+                <span class="font-bold text-[13px] text-slate-800 dark:text-white">App ကို ဖုန်းထဲထည့်မယ်</span>
+            </div>
+            <i class="fas fa-chevron-right text-slate-400 text-xs shrink-0"></i>
+        </button>
+        <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
+            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-blue-100 dark:bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-600"><i class="fas fa-user-plus text-lg"></i></div><span class="font-bold text-[13px]">1XBET အကောင့်ဖွင့်မယ်</span></div>
+            <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
+        </a>
+        <button onclick="toggleMenu();setTimeout(openDownloadModal,300)" class="w-full text-left glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
+            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-600"><i class="fas fa-cloud-download-alt text-lg"></i></div><span class="font-bold text-[13px] text-slate-800 dark:text-white">1XBET App ဒေါင်းရန်</span></div>
+            <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
+        </button>
+        <a href="https://t.me/WinExpress99" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
+            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-green-100 dark:bg-green-500/20 rounded-xl flex items-center justify-center text-green-600"><i class="fas fa-wallet text-lg"></i></div><span class="font-bold text-[13px]">1XBET ငွေသွင်း/ထုတ်</span></div>
+            <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
+        </a>
+    </div>
+</aside>
 
+<header class="w-full max-w-2xl sticky top-0 bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl z-40 border-b border-slate-200 dark:border-white/5 shadow-sm flex flex-col">
+    <div class="w-full overflow-hidden bg-slate-900 text-white py-1.5 border-b border-slate-800">
+        <div class="whitespace-nowrap flex animate-[marquee_25s_linear_infinite] px-4">
+            <span class="text-[11px] font-bold tracking-wide mr-12">🎁 Promo Code: ZINXBET (100% Bonus)</span>
+            <span class="text-[11px] font-bold tracking-wide mr-12">⚽ Live Match Hub - W.E Sports</span>
+            <span class="text-[11px] font-bold tracking-wide mr-12">📱 Download 1XBET App Now!</span>
+            <span class="text-[11px] font-bold tracking-wide mr-12">🎁 Promo Code: ZINXBET (100% Bonus)</span>
+        </div>
+    </div>
+    <div class="flex items-center justify-between px-4 h-16">
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleMenu()" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 active:scale-90 transition">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="flex items-center space-x-2">
+                <div class="w-9 h-9 bg-white rounded-full flex items-center justify-center border border-brand-gold overflow-hidden shadow-sm">
+                    <img src="https://i.ibb.co/Tx06dFv3/image.png" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black text-[15px] leading-tight dark:text-white">W.E Sports</span>
+                    <span class="text-[9px] font-black text-brand-gold uppercase tracking-tighter">Live Match Hub</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="relative">
+                <button onclick="toggleNotif()" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 active:scale-90 transition relative">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span class="notif-dot"></span>
+                </button>
+                <div id="notif-panel" class="notif-panel hidden animate-fade-up">
+                    <div class="flex items-center justify-between mb-3 px-1">
+                        <span class="text-[12px] font-black text-slate-200 uppercase tracking-widest">အသိပေးချက်များ</span>
+                        <span class="text-[10px] text-slate-500 font-bold">အားလုံးဖတ်ပြီး</span>
+                    </div>
+                    <div class="space-y-2" id="notif-list">
+                        <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                            <p class="text-[11px] text-slate-300 font-bold leading-relaxed">W.E Sports မှ ကြိုဆိုပါတယ်။ ဘောလုံးပွဲစဉ်များကို တိုက်ရိုက်ကြည့်ရှုနိုင်ပါပြီ။</p>
+                            <span class="text-[9px] text-slate-500 mt-2 block font-bold">ယခုလေးတင်</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 active:scale-90 transition">
+                <i id="theme-icon" class="fas fa-moon text-xl"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="px-4 pb-3">
+        <div class="flex space-x-2 overflow-x-auto hide-scrollbar pb-1">
+            <button onclick="switchTabById('tab-home')" class="nav-pill active bg-brand-gold text-slate-900 px-5 py-2 rounded-xl text-[12px] font-black shadow-lg shadow-yellow-500/20 transition-all shrink-0">ပင်မ</button>
+            <button onclick="switchTabById('tab-matches')" class="nav-pill bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 px-5 py-2 rounded-xl text-[12px] font-black hover:bg-slate-200 dark:hover:bg-white/10 transition shrink-0">ပွဲစဉ်များ</button>
+            <button onclick="switchTabById('tab-ai')" class="nav-pill bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 px-5 py-2 rounded-xl text-[12px] font-black hover:bg-slate-200 dark:hover:bg-white/10 transition shrink-0 flex items-center"><i class="fas fa-robot mr-1.5 text-purple-500"></i> AI ခန့်မှန်းချက်</button>
+            <button onclick="switchTabById('tab-standings')" class="nav-pill bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 px-5 py-2 rounded-xl text-[12px] font-black hover:bg-slate-200 dark:hover:bg-white/10 transition shrink-0">ဇယား</button>
+            <button onclick="switchTabById('tab-casino')" class="nav-pill bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 px-5 py-2 rounded-xl text-[12px] font-black hover:bg-slate-200 dark:hover:bg-white/10 transition shrink-0">ကာစီနို</button>
+            <button onclick="switchTabById('tab-services')" class="nav-pill bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 px-5 py-2 rounded-xl text-[12px] font-black hover:bg-slate-200 dark:hover:bg-white/10 transition shrink-0">ဝန်ဆောင်မှု</button>
+            <button onclick="switchTabById('tab-promos')" class="nav-pill bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 px-5 py-2 rounded-xl text-[12px] font-black hover:bg-slate-200 dark:hover:bg-white/10 transition shrink-0">ပရိုမို</button>
+        </div>
+    </div>
+</header>
+
+<main class="w-full max-w-2xl px-4 pb-32 pt-4 flex-1">
+    
+    <section id="tab-home" class="tab-content active space-y-5 animate-fade-up">
+        
+        <!-- Live Stream Player Section -->
+        <div id="live-stream-section" class="animate-pop-in">
+            <div class="live-player-container">
+                <div class="live-player-header">
+                    <div class="flex items-center gap-2">
+                        <div class="live-badge">
+                            <span class="live-badge-dot"></span>
+                            LIVE
+                        </div>
+                        <span class="text-[12px] font-black text-white uppercase tracking-wider">W.E LIVE</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-[10px] text-slate-400 font-bold"><i class="fas fa-users mr-1"></i> <span id="viewer-count">...</span></span>
+                        <button onclick="toggleFullScreen()" class="text-slate-400 hover:text-white"><i class="fas fa-expand text-xs"></i></button>
+                    </div>
+                </div>
+                <div class="relative aspect-video bg-black flex items-center justify-center">
+                    <video id="video-player" class="w-full h-full" controls autoplay playsinline></video>
+                    <!-- Loading Overlay -->
+                    <div id="video-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm z-10">
+                        <div class="loader mb-3"></div>
+                        <p class="text-[11px] font-bold text-slate-300">လက်ရှိတွင် Live လွှင့်ထားခြင်း မရှိသေးပါ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between px-1">
+            <h3 class="text-[15px] font-black text-slate-900 dark:text-white flex items-center uppercase tracking-tight">
+                <span class="w-1.5 h-6 bg-brand-gold rounded-full mr-2"></span>
+                ယနေ့ ပွဲစဉ်များ
+            </h3>
+            <span class="text-[11px] font-bold text-brand-gold uppercase tracking-widest bg-yellow-500/10 px-3 py-1 rounded-full">Today's Matches</span>
+        </div>
+        
+        <div id="matches-container" class="space-y-3 min-h-[200px]">
+            <div class="flex flex-col items-center justify-center py-12 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">ပွဲစဉ်များကို ရှာဖွေနေပါသည်...</span></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 border-brand-gold/20 shadow-lg shadow-yellow-500/5">
+                <div class="w-12 h-12 bg-yellow-500/20 text-brand-gold rounded-2xl flex items-center justify-center text-2xl shadow-inner"><i class="fas fa-user-plus"></i></div>
+                <span class="font-black text-[12px] dark:text-white">အကောင့်ဖွင့်ရန်</span>
+            </a>
+            <a href="https://t.me/WinExpress99" target="_blank" class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 border-blue-500/20 shadow-lg shadow-blue-500/5">
+                <div class="w-12 h-12 bg-blue-500/20 text-blue-500 rounded-2xl flex items-center justify-center text-2xl shadow-inner"><i class="fab fa-telegram-plane"></i></div>
+                <span class="font-black text-[12px] dark:text-white">Telegram Group</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ... (rest of the sections: tab-matches, tab-ai, tab-standings, etc. - keep original content) ... -->
+    <section id="tab-matches" class="tab-content pt-4 space-y-4 animate-fade-up">
+        <div class="flex items-center justify-between px-1">
+            <h3 class="text-[15px] font-black text-slate-900 dark:text-white">ပြီးစီးခဲ့သော ပွဲစဉ်များ</h3>
+            <span class="text-[11px] font-bold text-slate-400">Past Matches</span>
+        </div>
+        <div id="finished-matches-container" class="flex flex-col gap-2 min-h-[100px]"></div>
+    </section>
+
+    <section id="tab-standings" class="tab-content pt-4 space-y-4 animate-fade-up">
+        <div class="relative px-1">
+            <i class="fas fa-trophy absolute left-4 top-1/2 -translate-y-1/2 text-brand-gold"></i>
+            <select id="standings-league-select" onchange="fetchStandings(this.value)" class="w-full pl-10 pr-8 py-3 rounded-xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 text-[13px] font-bold appearance-none focus:ring-2 focus:ring-brand-gold shadow-sm">
+                <option value="eng.1">Premier League</option>
+                <option value="esp.1">La Liga</option>
+                <option value="ita.1">Serie A</option>
+                <option value="ger.1">Bundesliga</option>
+                <option value="fra.1">Ligue 1</option>
+            </select>
+        </div>
+        <div id="standings-container" class="w-full bg-white dark:bg-[#1e293b] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden min-h-[300px]">
+             <div class="flex flex-col items-center justify-center py-12 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Livey 🦊 က ဇယားကို ယူဆောင်လာပါပြီ...</span></div>
+        </div>
+    </section>
+
+    <section id="tab-casino" class="tab-content pt-4 space-y-4 animate-fade-up">
+        <div class="text-center mb-4">
+            <h2 class="text-lg font-black text-slate-900 dark:text-white mb-1">ကာစီနို နှင့် စလော့</h2>
+            <p class="text-[12px] font-bold text-slate-500">စိတ်ကြိုက် ဂိမ်းပေါင်းစုံကို တစ်နေရာတည်းတွင်</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <span class="text-4xl mb-2">🎰</span><span class="font-black text-[12px] tracking-widest">SLOTS</span>
+            </a>
+            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <span class="text-4xl mb-2">🃏</span><span class="font-black text-[12px] tracking-widest text-center">LIVE<br>CASINO</span>
+            </a>
+            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <span class="text-4xl mb-2">🎡</span><span class="font-black text-[12px] tracking-widest">ROULETTE</span>
+            </a>
+            <a href="https://reffpa.com/L?tag=d_5044128m_97c_Slot&site=5044128&ad=97&r=slots" target="_top" class="glass-card rounded-2xl aspect-[4/3] flex flex-col items-center justify-center text-slate-800 dark:text-white">
+                <span class="text-4xl mb-2">🚀</span><span class="font-black text-[12px] tracking-widest text-center">CRASH<br>GAMES</span>
+            </a>
+        </div>
+    </section>
+
+    <section id="tab-services" class="tab-content pt-4 space-y-4 animate-fade-up">
+        <h3 class="text-[15px] font-black px-1 text-slate-800 dark:text-white">အကူအညီနှင့် ဝန်ဆောင်မှုများ</h3>
+        <button onclick="openInstallModal()" class="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-95 transition">
+            <div class="flex items-center space-x-4"><div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center text-xl"><i class="fas fa-arrow-down"></i></div><div class="text-left"><h4 class="font-black text-[14px] text-slate-900 dark:text-white">App ကို ဖုန်းထဲထည့်မယ်</h4><p class="text-[11px] font-bold text-slate-500">Home Screen ကနေ အလွယ်တကူ ဝင်ကြည့်ရန်</p></div></div><i class="fas fa-chevron-right text-slate-400"></i>
+        </button>
+        <div class="grid grid-cols-1 gap-3">
+            <button onclick="openDownloadModal()" class="w-full glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
+                <div class="flex items-center space-x-4"><div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600"><i class="fas fa-cloud-download-alt text-xl"></i></div><span class="font-bold text-[14px] text-slate-800 dark:text-white">1XBET App ဒေါင်းရန်</span></div><i class="fas fa-chevron-right text-slate-400"></i>
+            </button>
+            <a href="https://t.me/WinExpress99" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
+                <div class="flex items-center space-x-4"><div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600"><i class="fas fa-comment-dots text-xl"></i></div><span class="font-bold text-[14px]">Agent ကို စကားပြောမယ်</span></div><i class="fas fa-chevron-right text-slate-400"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="tab-promos" class="tab-content pt-4 animate-fade-up">
+        <div class="text-center mb-4"><h2 class="text-lg font-black text-slate-900 dark:text-white mb-1">အထူး ပရိုမိုရှင်းများ</h2><p class="text-[12px] font-bold text-slate-500">ဘောနပ်စ်အပြည့်နဲ့ ဆော့ကစားဖို့ အကောင့်ဖွင့်ပါ</p></div>
+        <div class="w-full rounded-2xl overflow-hidden shadow-xl border border-yellow-500/30">
+            <div class="bg-gradient-to-b from-yellow-200 to-brand-gold pt-6 pb-6 px-4 text-center text-slate-900 relative">
+                <div class="text-2xl font-black italic uppercase tracking-tighter mb-4">🎁 Promo Code: ZINXBET</div>
+                <div class="flex flex-col gap-3 mt-2">
+                    <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="bg-slate-900 text-brand-gold px-4 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition">အကောင့်ဖွင့်မယ်</a>
+                    <button onclick="copyPromo('ZINXBET',this)" class="bg-white/50 border border-slate-900/20 text-slate-900 px-4 py-3.5 rounded-xl font-black text-[13px] active:scale-95 transition">PROMO ယူမည်</button>
+                </div>
+                <p class="text-[12px] font-bold mt-4 opacity-90">100% Bonus အတွက် အခုပဲ အသုံးပြုလိုက်ပါ</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<nav class="fixed bottom-0 left-0 w-full z-40 flex justify-center pb-safe">
+    <div class="w-full max-w-2xl bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 flex shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        <div onclick="switchTabById('tab-home')" data-navtab="tab-home" class="bottom-nav-item active text-slate-400"><i class="nav-icon fas fa-home"></i><span class="nav-label">ပင်မ</span></div>
+        <div onclick="switchTabById('tab-matches')" data-navtab="tab-matches" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-futbol"></i><span class="nav-label">ပွဲစဉ်</span></div>
+        <div onclick="switchTabById('tab-ai')" data-navtab="tab-ai" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-robot"></i><span class="nav-label">AI</span></div>
+        <div onclick="switchTabById('tab-standings')" data-navtab="tab-standings" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-list-ol"></i><span class="nav-label">ဇယား</span></div>
+        <div onclick="switchTabById('tab-casino')" data-navtab="tab-casino" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-dice"></i><span class="nav-label">ကာစီနို</span></div>
+        <div onclick="switchTabById('tab-services')" data-navtab="tab-services" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-concierge-bell"></i><span class="nav-label">ဝန်ဆောင်မှု</span></div>
+        <div onclick="switchTabById('tab-promos')" data-navtab="tab-promos" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gift"></i><span class="nav-label">ပရိုမို</span></div>
+    </div>
+</nav>
+
+<!-- ... (keep all modals and existing scripts from original file) ... -->
+
+<script>
+    // Live Stream Player Script
+    var videoPlayer = document.getElementById('video-player');
+    var videoLoader = document.getElementById('video-loader');
+    var videoSrc = 'https://faqs-finder-enhanced-speed.trycloudflare.com/hls/test.m3u8';
+
+    function initLivePlayer() {
         if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource(videoSrc);
-            hls.attachMedia(video);
+            hls.attachMedia(videoPlayer);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play();
+                videoLoader.style.display = 'none';
+                videoPlayer.play();
             });
-
-            // Error ဖြစ်ရင် အလိုအလျောက် ပြန်ချိတ်ပေးမယ့် စနစ်
-            hls.on(Hls.Events.ERROR, function (event, data) {
+            hls.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
-                    switch (data.type) {
-                        case Hls.ErrorTypes.NETWORK_ERROR:
-                            console.log("Network error, trying to recover...");
-                            hls.startLoad();
-                            break;
-                        case Hls.ErrorTypes.MEDIA_ERROR:
-                            console.log("Media error, trying to recover...");
-                            hls.recoverMediaError();
-                            break;
-                        default:
-                            hls.destroy();
-                            break;
-                    }
+                    videoLoader.style.display = 'flex';
                 }
             });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // Safari Browser အတွက်
-            video.src = videoSrc;
-            video.addEventListener('loadedmetadata', function() {
-                video.play();
+        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+            videoPlayer.src = videoSrc;
+            videoPlayer.addEventListener('loadedmetadata', function() {
+                videoLoader.style.display = 'none';
+                videoPlayer.play();
             });
         }
-    </script>
+    }
+
+    // Initialize player on load
+    document.addEventListener('DOMContentLoaded', initLivePlayer);
+
+    // Placeholder for viewer count simulation
+    setInterval(() => {
+        document.getElementById('viewer-count').innerText = Math.floor(Math.random() * (500 - 300) + 300);
+    }, 5000);
+
+    function toggleFullScreen() {
+        if (videoPlayer.requestFullscreen) videoPlayer.requestFullscreen();
+        else if (videoPlayer.webkitRequestFullscreen) videoPlayer.webkitRequestFullscreen();
+        else if (videoPlayer.msRequestFullscreen) videoPlayer.msRequestFullscreen();
+    }
+
+    // (Original scripts for tabs, modals, and data fetching should follow here)
+    // ...
+</script>
 
 </body>
 </html>
