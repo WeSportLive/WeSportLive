@@ -1,19 +1,71 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="my">
 <head>
-    <title>Live Stream Player</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W.E Sports - Live Stream Player</title>
+    <!-- HLS.js Library - Live လွှင့်တာကို Browser အားလုံးမှာ ကြည့်လို့ရအောင် ကူညီပေးပါတယ် -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        body { background-color: #f0f0f0; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        video { max-width: 90%; max-height: 90%; border: 1px solid #ccc; }
+        body { 
+            background-color: #1a1a1a; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+        .video-container {
+            width: 90%;
+            max-width: 850px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid #333;
+        }
+        video { 
+            width: 100%; 
+            display: block;
+        }
+        .status-bar {
+            padding: 15px;
+            background: #222;
+            text-align: center;
+        }
+        .live-tag {
+            background: #ff0000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
-    <video id="video" controls autoplay></video>
+
+    <div style="margin-bottom: 20px; text-align: center;">
+        <h1>W.E Sports Live Match Hub</h1>
+    </div>
+
+    <div class="video-container">
+        <video id="video" controls autoplay playsinline></video>
+        <div class="status-bar">
+            <span class="live-tag">● LIVE</span>
+            <span>W.E Sports Streaming Server</span>
+        </div>
+    </div>
 
     <script>
         var video = document.getElementById('video');
-        var videoSrc = 'http://37.1.205.83:8080/live/test.m3u8';
+        // HTTPS Streaming URL (Cloudflare Tunnel မှတစ်ဆင့် လုံခြုံစွာ ချိတ်ဆက်ထားသည်)
+        var videoSrc = 'https://faqs-finder-enhanced-speed.trycloudflare.com/hls/test.m3u8';
+
         if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource(videoSrc);
@@ -21,12 +73,33 @@
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play();
             });
+
+            // Error ဖြစ်ရင် အလိုအလျောက် ပြန်ချိတ်ပေးမယ့် စနစ်
+            hls.on(Hls.Events.ERROR, function (event, data) {
+                if (data.fatal) {
+                    switch (data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            console.log("Network error, trying to recover...");
+                            hls.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            console.log("Media error, trying to recover...");
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            hls.destroy();
+                            break;
+                    }
+                }
+            });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari Browser အတွက်
             video.src = videoSrc;
             video.addEventListener('loadedmetadata', function() {
                 video.play();
             });
         }
     </script>
+
 </body>
 </html>
