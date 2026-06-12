@@ -1325,19 +1325,28 @@ function promptPasscode() {
 async function verifyPasscode() {
     triggerHaptic();
     const inputField = document.getElementById('live-passcode');
-    const input = inputField.value.trim();
-    const validAnswers = ['ချိုဆိမ့်', 'ချိုစိမ့်']; 
+    let input = inputField.value;
     
-    if (validAnswers.includes(input)) {
+    // ၁။ Space (အကွာအဝေး) တွေနဲ့ မမြင်ရတဲ့ Zero-width character တွေကို ဖယ်ထုတ်ပါမယ်
+    input = input.replace(/\s+/g, '').replace(/[\u200B-\u200D\uFEFF]/g, '');
+    
+    // ၂။ '်' နဲ့ '့' အစီအစဉ်လွဲနေတာမျိုး၊ Space ခံရိုက်တာမျိုးတွေကိုပါ အဆင်ပြေအောင် 
+    // "ချို" ပါသလား၊ "ဆိ" သို့မဟုတ် "စိ" ပါသလား၊ "မ" ပါသလား ဆိုပြီး ခွဲစစ်လိုက်ပါမယ်
+    const isValid = input.includes('ချို') && 
+                    (input.includes('ဆိ') || input.includes('စိ')) && 
+                    input.includes('မ');
+    
+    if (isValid) {
         localStorage.setItem('weSportsLiveUnlocked', 'true');
         document.getElementById('passcode-section').classList.add('hidden');
         await startLiveStream(); 
     } else {
-        alert('❌ အဖြေမှားယွင်းနေပါသည်။ မြန်မာလို သေချာရိုက်ထည့်ပေးပါ။');
+        alert('❌ အဖြေမှားယွင်းနေပါသည်။ မြန်မာလို သေချာရိုက်ထည့်ပေးပါ။ (ဥပမာ - ချိုဆိမ့်)');
         inputField.value = ''; 
         inputField.focus();
     }
 }
+
 
 // --- Dynamic Viewer Count (Simulated) ---
 let viewerInterval = null;
