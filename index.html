@@ -678,7 +678,24 @@
         </div>
     </div>
 </div>
-
+<!-- Gatekeeper Modal (Myanmar Check) -->
+<div id="gatekeeper-modal" class="fixed inset-0 bg-slate-900/95 z-[110] hidden flex-col items-center justify-center px-4 backdrop-blur-md">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-[340px] rounded-2xl overflow-hidden shadow-2xl p-6 text-center border border-brand-gold/50 animate-pop-in">
+        <div class="text-4xl mb-4 animate-bounce">☕</div>
+        <h2 class="text-[16px] font-black text-slate-900 dark:text-white mb-2">မြန်မာဟုတ်မဟုတ် စစ်ဆေးခြင်း</h2>
+        <p class="text-[12px] font-bold text-slate-500 mb-5">App ထဲဝင်ရန် အောက်ပါမေးခွန်းကို ဖြေပေးပါ</p>
+        
+        <div class="mb-4 text-left">
+            <label class="text-[13px] font-black text-slate-800 dark:text-slate-200 block mb-2 leading-relaxed">
+                မေးခွန်း - လက်ဖက်ရည်ဆိုင်မှာ အချိုနဲ့ အဆိမ့်ကို ရောသောက်ချင်ရင် ဘယ်လိုမှာလေ့ရှိလဲ?
+            </label>
+            <input type="text" id="captcha-answer" placeholder="အဖြေကို မြန်မာလိုရိုက်ပါ" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-brand-gold focus:outline-none dark:text-white text-center shadow-inner">
+            <p id="captcha-error" class="text-red-500 text-[10px] font-bold mt-2 hidden text-center">အဖြေမှားနေပါတယ်။ ပြန်စမ်းကြည့်ပါဗျ။</p>
+        </div>
+        
+        <button onclick="checkCaptcha()" class="w-full py-3 bg-brand-gold text-slate-900 rounded-xl font-black text-[14px] shadow-md active:scale-95 transition-transform">အတည်ပြုမည်</button>
+    </div>
+</div>
 <div id="welcome-modal" class="fixed inset-0 bg-slate-900/80 z-[100] hidden flex items-center justify-center px-4 backdrop-blur-sm" onclick="closeWelcomeModal()">
     <div class="bg-white dark:bg-slate-900 w-full max-w-[340px] rounded-2xl overflow-hidden shadow-2xl animate-pop-in border border-brand-gold/50" onclick="event.stopPropagation()">
         <div class="p-6 text-center flex flex-col items-center relative">
