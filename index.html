@@ -47,8 +47,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
     <style>
         :root {
             --live-red: #ef4444; 
@@ -89,6 +87,7 @@
         .live-pulse       { animation:pulse-red 2.5s infinite; }
         .loader           { border:3px solid rgba(156,163,175,.2); border-top-color:#eab308; border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; }
 
+        /* Match Cards */
         .match-card { width: 100%; border-radius: var(--card-radius); transition: transform .2s, box-shadow .2s; cursor: pointer; border: 1px solid rgba(0,0,0,.05); }
         .dark .match-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-color: rgba(255,255,255,.05); }
         .match-card { background: linear-gradient(145deg, #ffffff, #f8fafc); }
@@ -103,16 +102,19 @@
         .finished-match-card { background: linear-gradient(145deg, #f8fafc, #ffffff); border: 1px solid rgba(0,0,0,.05); }
         .finished-match-card:active{ transform: scale(.98); }
 
+        /* Unified Glass/Service Cards */
         .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(226, 232, 240, 0.8); transition: transform 0.2s; }
         .dark .glass-card { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); }
         .glass-card:active { transform: scale(.98); }
 
+        /* Countdown */
         .countdown-wrap { display: flex; gap: 6px; justify-content: center; font-variant-numeric: tabular-nums; }
         .countdown-unit { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 4px 8px; min-width: 40px; }
         .countdown-unit .val { font-size: 14px; font-weight: 900; line-height: 1; }
         .countdown-unit .lbl { font-size: 8px; opacity:.7; text-transform:uppercase; margin-top:2px; }
         .countdown-unit { background:rgba(0,0,0,.03); border-color:rgba(0,0,0,.05); }
 
+        /* Notifications & Nav */
         .notif-dot { position:absolute; top:-2px; right:-2px; width:10px; height:10px; border-radius:50%; background:#ef4444; border:2px solid #0b1120; animation: pulse-red 2s infinite; }
         .notif-panel { position: absolute; top: calc(100% + 8px); right: 0; width: 300px; max-height: 340px; overflow-y: auto; background: #0f172a; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,.6); z-index: 200; padding: 12px; }
         .bottom-nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 2px; cursor:pointer; transition: color .2s; gap:4px; }
@@ -125,26 +127,11 @@
         .tab-content { display:none; }
         .tab-content.active { display:block; }
     </style>
+
+    <!-- HLS.js Library for Live Streaming -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body class="min-h-screen flex flex-col items-center bg-lightbg dark:bg-darkbg text-slate-800 dark:text-slate-200">
-
-<div id="app-lock-overlay" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center p-4 transition-opacity duration-500 hidden">
-    <div class="w-full max-w-[340px] bg-slate-800 border border-red-500/30 p-6 rounded-3xl shadow-2xl text-center animate-pop-in">
-        <div class="text-6xl mb-4 animate-bounce">🦊</div>
-        <h2 class="font-black text-xl text-white mb-2">W.E Sports မှ ကြိုဆိုပါတယ်</h2>
-        <p class="text-[12px] text-slate-400 mb-6 leading-relaxed">App အတွင်းသို့ ဝင်ရောက်ရန်နှင့် Live ကြည့်ရန် အောက်ပါမေးခွန်းကို မြန်မာလို အဖြေမှန် ရိုက်ထည့်ပါ။</p>
-        
-        <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-700 mb-5 shadow-inner">
-            <p class="text-[13px] font-bold text-brand-gold leading-relaxed">မေးခွန်း - လက်ဖက်ရည်ဆိုင်မှာ အချိုနဲ့ အဆိမ့်ကို ရောသောက်ချင်ရင် ဘယ်လိုမှာလေ့ရှိလဲ?</p>
-        </div>
-
-        <input type="text" id="app-passcode" placeholder="ဆလိမ်နဲ့စာလုံးပေါင်းပါ" class="w-full px-4 py-4 rounded-xl bg-black border border-slate-600 text-[14px] font-bold text-white focus:ring-2 focus:ring-red-500 focus:outline-none text-center mb-5 transition-all">
-        
-        <button onclick="verifyAppPasscode()" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white py-4 rounded-xl font-black text-[14px] active:scale-95 transition-all shadow-md flex justify-center items-center">
-            App ထဲသို့ ဝင်မည် <i class="fas fa-sign-in-alt ml-2"></i>
-        </button>
-    </div>
-</div>
 
 <i class="fas fa-futbol bg-particle text-slate-400 dark:text-slate-600 text-6xl" style="left: 10%; animation-duration: 18s; animation-delay: 0s;"></i>
 <i class="fas fa-coins bg-particle text-yellow-500 text-5xl" style="left: 35%; animation-duration: 22s; animation-delay: 3s;"></i>
@@ -255,8 +242,6 @@
 
     <nav id="header-tabs" class="w-full px-4 pb-3 overflow-x-auto hide-scrollbar flex space-x-2 items-center">
         <button onclick="switchTab('tab-home',this)" data-tab="tab-home" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-brand-gold text-slate-900 shadow-md">ပင်မ</button>
-        <button onclick="switchTab('tab-live',this)" data-tab="tab-live" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-red-500 flex items-center gap-1.5"><i class="fas fa-tv animate-pulse"></i> Live</button>
-        
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
         <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
@@ -270,8 +255,6 @@
     
     <section id="tab-home" class="tab-content active animate-fade-up space-y-5 pt-4">
         <div id="man-utd-banner" class="hidden rounded-2xl p-4 bg-gradient-to-r from-red-900 to-slate-900 shadow-lg border border-red-500/30 relative overflow-hidden text-white">
-            <div class="absolute inset-0 bg-black/40 z-0"></div>
-            <div class="absolute top-2 right-2 z-10 text-[9px] font-black tracking-widest text-white/50 uppercase">Bruno Fernandes</div>
             <div class="relative z-10 flex items-center justify-between">
                 <div class="flex flex-col items-center w-[30%]">
                     <img src="https://a.espncdn.com/i/teamlogos/soccer/500/360.png" class="w-10 h-10 object-contain drop-shadow-md mb-1">
@@ -372,37 +355,6 @@
         </div>
     </section>
 
-    <section id="tab-live" class="tab-content pt-4 animate-fade-up">
-        <div class="text-center mb-5">
-            <h2 class="text-lg font-black text-slate-900 dark:text-white mb-1"><i class="fas fa-broadcast-tower text-red-500 animate-pulse mr-2"></i>W.E Sports Live</h2>
-            <p class="text-[12px] font-bold text-slate-500">In-App တိုက်ရိုက်ထုတ်လွှင့်မှု</p>
-        </div>
-        
-        <div id="live-player-container" class="w-full rounded-2xl overflow-hidden shadow-lg border border-red-500/30 bg-black relative group hidden mb-4">
-            <video id="live-video" class="w-full aspect-video bg-black" controls playsinline></video>
-            
-            <div class="absolute top-3 left-3 z-10 flex items-center gap-2 pointer-events-none">
-                <span class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-md animate-pulse shadow-md">
-                    <i class="fas fa-circle text-[6px] mr-1 align-middle"></i>LIVE
-                </span>
-                <span class="bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-md border border-white/10">
-                    <i class="fas fa-eye text-slate-300 mr-1"></i> <span id="viewer-count">...</span>
-                </span>
-            </div>
-        </div>
-
-        <button id="start-stream-btn" onclick="startLiveStream()" class="w-full mb-4 bg-slate-900 dark:bg-[#1e293b] border border-slate-700 hover:border-red-500 transition-all text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 flex justify-center items-center shadow-md">
-            <i class="fas fa-play-circle text-red-500 text-xl mr-2"></i> ပွဲစဉ်ကို Live ကြည့်ရှုမည်
-        </button>
-
-        <div class="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 mt-2">
-            <h4 class="font-black text-[13px] text-brand-gold mb-2"><i class="fas fa-info-circle mr-1"></i> သတိပြုရန်</h4>
-            <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                App အတွင်း တိုက်ရိုက်ကြည့်ရှုရာတွင် အခက်အခဲရှိပါက ပင်မစာမျက်နှာ (Home) ရှိ Channel 1 နှင့် Channel 2 (Telegram) လင့်ခ်များမှတစ်ဆင့်လည်း ဝင်ရောက်ကြည့်ရှုနိုင်ပါသည်။
-            </p>
-        </div>
-    </section>
-
     <section id="tab-ai" class="tab-content pt-4 space-y-4 animate-fade-up">
         <div class="text-center mb-6 mt-2">
             <div class="inline-block p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3 animate-float">
@@ -442,7 +394,8 @@
                     AI ဖြင့် ခန့်မှန်းမည် <i class="fas fa-magic ml-2 animate-pulse"></i>
                 </button>
 
-                <div id="ai-usage-counter" class="text-center text-[11px] font-bold text-slate-500 mt-4"></div>
+                <div id="ai-usage-counter" class="text-center text-[11px] font-bold text-slate-500 mt-4">
+                    </div>
             </div>
 
             <div id="ai-locked-section" class="hidden flex-col items-center justify-center py-2 text-center animate-pop-in">
@@ -514,7 +467,8 @@
                         <i class="fas fa-align-left text-brand-gold mr-2"></i> AI ၏ အသေးစိတ် သုံးသပ်ချက်
                     </h4>
                     <div class="bg-slate-50 dark:bg-[#0f172a] p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
-                        <p id="ai-detailed-text" class="text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 font-bold space-y-3 block"></p>
+                        <p id="ai-detailed-text" class="text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 font-bold space-y-3 block">
+                            </p>
                     </div>
                 </div>
 
@@ -623,12 +577,12 @@
 <nav class="fixed bottom-0 left-0 w-full z-40 flex justify-center pb-safe">
     <div class="w-full max-w-2xl bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 flex shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <div onclick="switchTabById('tab-home')" data-navtab="tab-home" class="bottom-nav-item active text-slate-400"><i class="nav-icon fas fa-home"></i><span class="nav-label">ပင်မ</span></div>
-        <div onclick="switchTabById('tab-live')" data-navtab="tab-live" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-tv text-red-500"></i><span class="nav-label text-red-500">Live</span></div>
         <div onclick="switchTabById('tab-matches')" data-navtab="tab-matches" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-futbol"></i><span class="nav-label">ပွဲစဉ်</span></div>
         <div onclick="switchTabById('tab-ai')" data-navtab="tab-ai" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-robot"></i><span class="nav-label">AI</span></div>
         <div onclick="switchTabById('tab-standings')" data-navtab="tab-standings" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-list-ol"></i><span class="nav-label">ဇယား</span></div>
         <div onclick="switchTabById('tab-casino')" data-navtab="tab-casino" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-dice"></i><span class="nav-label">ကာစီနို</span></div>
-        <div onclick="switchTabById('tab-services')" data-navtab="tab-services" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-concierge-bell"></i><span class="nav-label">Service</span></div>
+        <div onclick="switchTabById('tab-services')" data-navtab="tab-services" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-concierge-bell"></i><span class="nav-label">ဝန်ဆောင်မှု</span></div>
+        <div onclick="switchTabById('tab-promos')" data-navtab="tab-promos" class="bottom-nav-item text-slate-400"><i class="nav-icon fas fa-gift"></i><span class="nav-label">ပရိုမို</span></div>
     </div>
 </nav>
 
@@ -712,6 +666,7 @@
 </div>
 
 <script>
+// --- State & Variables ---
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
 let previousScores = {};
@@ -786,17 +741,10 @@ function switchTab(tabId, btnEl) {
     document.querySelectorAll('.tab-btn').forEach(b => {
         b.classList.remove('bg-brand-gold','text-slate-900','shadow-md');
         b.classList.add('bg-slate-100','dark:bg-slate-800','text-slate-600','dark:text-slate-300');
-        // Live tab button icon fix
-        if(b.dataset.tab === 'tab-live') b.classList.add('text-red-500');
     });
     if (btnEl) {
-        if(tabId !== 'tab-live') {
-            btnEl.classList.add('bg-brand-gold','text-slate-900','shadow-md');
-            btnEl.classList.remove('bg-slate-100','dark:bg-slate-800','text-slate-600','dark:text-slate-300');
-        } else {
-            btnEl.classList.add('bg-red-600','text-white','shadow-md');
-            btnEl.classList.remove('bg-slate-100','dark:bg-slate-800','text-red-500');
-        }
+        btnEl.classList.add('bg-brand-gold','text-slate-900','shadow-md');
+        btnEl.classList.remove('bg-slate-100','dark:bg-slate-800','text-slate-600','dark:text-slate-300');
         btnEl.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
     }
 
@@ -830,11 +778,6 @@ function toggleMatchView(viewName) {
 function copyPromo(promo, btn) {
     navigator.clipboard ? navigator.clipboard.writeText(promo) : (()=>{ const el=document.createElement('textarea'); el.value=promo; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); })();
     const orig = btn.innerHTML; btn.innerHTML = 'COPIED!'; setTimeout(() => btn.innerHTML = orig, 2000);
-}
-
-function copyPromoCode(promo, btn) {
-    navigator.clipboard ? navigator.clipboard.writeText(promo) : (()=>{ const el=document.createElement('textarea'); el.value=promo; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); })();
-    btn.innerHTML = 'COPIED!'; setTimeout(() => btn.innerHTML = 'COPY ယူမည်', 2000);
 }
 
 function addNotification(title, detail) {
@@ -912,6 +855,7 @@ function renderHomeTopMatches() {
     if (cutoff.getHours() < 5) { cutoff.setHours(5, 0, 0, 0); } else { cutoff.setDate(cutoff.getDate() + 1); cutoff.setHours(5, 0, 0, 0); }
     let matches = [...allCachedMatches.live, ...allCachedMatches.upcoming].filter(m => m.date <= cutoff);
     
+    // Priority Sorting
     const topTeams = ['Manchester United', 'Arsenal', 'Liverpool', 'Chelsea', 'Manchester City', 'Tottenham', 'Real Madrid', 'Barcelona', 'Bayern Munich', 'Paris Saint-Germain', 'Juventus', 'Inter Milan', 'AC Milan', 'Myanmar', 'Portugal', 'Argentina', 'Brazil', 'France', 'England', 'Spain', 'Germany'];
     
     matches.sort((a, b) => {
@@ -1082,6 +1026,7 @@ async function fetchMatches(isManual=false) {
     if (isFetching && !isManual) return; isFetching = true;
     if (isManual) { const icon = document.getElementById('refresh-icon'); icon.style.animation = 'spin 0.8s linear infinite'; setTimeout(()=>icon.style.animation='',1000); }
 
+    // Updated leagues list including World Cup, Euro, and Copa America
     const leagues = [
         'eng.1', 'uefa.champions', 'uefa.europa', 'ita.1', 'esp.1', 
         'ger.1', 'fra.1', 'eng.fa', 'eng.2', 'ksa.1', 'usa.1', 
@@ -1119,7 +1064,7 @@ async function fetchMatches(isManual=false) {
                 const obj={ id:ev.id, leagueId:res.id, leagueName:res.data.leagues[0].abbreviation||res.data.leagues[0].name, homeTeam:home, awayTeam:away, status:state, displayClock:comp.status.displayClock||comp.status.type.shortDetail, date, homeGoals, awayGoals, homeRedCards:homeReds, awayRedCards:awayReds, isPostponed:isPost2 };
                 globalMatchesMap[ev.id]=obj;
 
-                if (isPost2) {  } else if (state==='in') live.push(obj); else if (state==='post' && date<=now && date>=past) finished.push(obj); else if (date<next) upcoming.push(obj);
+                if (isPost2) { /* hidden */ } else if (state==='in') live.push(obj); else if (state==='post' && date<=now && date>=past) finished.push(obj); else if (date<next) upcoming.push(obj);
             });
         });
 
@@ -1131,6 +1076,8 @@ async function fetchMatches(isManual=false) {
         renderDateSelector(); filterAndRenderMatches(); renderHomeTopMatches();
     } catch(e) { console.error(e); } finally { isFetching=false; }
 }
+
+// --- FULL AI PREDICTION FEATURE ---
 
 const MAX_AI_PREDICTIONS = 5;
 const AI_UNLOCK_CODE = "ZINXBETVIP";
@@ -1219,7 +1166,7 @@ async function generateAIPrediction() {
         document.getElementById(id).style.width = '0%';
     });
 
-    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2 inline-block align-middle"></div> AI တွက်ချက်နေပါသည်...`;
+    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2"></div> AI တွက်ချက်နေပါသည်...`;
 
     try {
         const leagues = ['eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'ned.1', 'por.1', 'ksa.1', 'eng.2'];
@@ -1343,120 +1290,50 @@ async function generateAIPrediction() {
     }
 }
 
-// --- App Lock Verification (စစချင်း ဝင်ဝင်ချင်း စစ်ဆေးခြင်း) ---
-async function verifyAppPasscode() {
-    triggerHaptic();
-    const inputField = document.getElementById('app-passcode');
-    let input = inputField.value;
-    
-    // Space နှင့် အခြား မလိုအပ်သော စာလုံးများကို ဖယ်ထုတ်မည်
-    input = input.replace(/\s+/g, '').replace(/[\u200B-\u200D\uFEFF]/g, '');
-    
-    // "ချိုဆိမ့်" သို့မဟုတ် "ချိုစိမ့်" ပါမပါ စစ်ဆေးမည်
-    const isValid = input.includes('ချို') && (input.includes('ဆိ') || input.includes('စိ')) && input.includes('မ');
-    
-    if (isValid) {
-        localStorage.setItem('weSportsAppUnlocked', 'true');
-        
-        const overlay = document.getElementById('app-lock-overlay');
-        overlay.classList.add('opacity-0');
-        setTimeout(() => {
-            overlay.classList.add('hidden');
-            document.body.style.overflow = ''; 
-            showWelcomeModal(); 
-        }, 500);
-    } else {
-        alert('❌ အဖြေမှားယွင်းနေပါသည်။ မြန်မာလို သေချာရိုက်ထည့်ပေးပါ။ (ဆလိမ်နဲ့စားပေါင်းပါ)');
-        inputField.value = ''; 
-        inputField.focus();
-    }
-}
-
-// --- Dynamic Viewer Count (Simulated) ---
-let viewerInterval = null;
-
-function startSimulatedViewerCount() {
-    const viewerEl = document.getElementById('viewer-count');
-    let currentViewers = Math.floor(Math.random() * (4500 - 3000 + 1)) + 3000; 
-    viewerEl.innerText = currentViewers.toLocaleString();
-
-    if (viewerInterval) clearInterval(viewerInterval);
-    
-    viewerInterval = setInterval(() => {
-        const change = Math.floor(Math.random() * 51) - 20; 
-        currentViewers += change;
-        if (currentViewers < 1000) currentViewers = 1000; 
-        viewerEl.innerText = currentViewers.toLocaleString();
-    }, 5000);
-}
-
-// --- Live Stream Function ---
-// ⚠️ သတိပြုရန်: အစ်ကို့ VPS ကရမည့် m3u8 လင့်ခ်အသစ်ကို Base64 ပြောင်းပြီး ဒီနေရာတွင် အစားထိုးပါ။
-const encodedStreamUrl = 'aHR0cHM6Ly9mYXFzLWZpbmRlci1lbmhhbmNlZC1zcGVlZC50cnljbG91ZGZsYXJlLmNvbS9obHMvdGVzdC5tM3U4';
-let hlsInstance = null;
-
-async function startLiveStream() {
-    triggerHaptic();
-    const startBtn = document.getElementById('start-stream-btn');
-    startBtn.innerHTML = '<div class="loader !w-4 !h-4 !border-2 mr-2 inline-block"></div> ချိတ်ဆက်နေပါသည်...';
-    startBtn.disabled = true;
-
-    try {
-        const videoSrc = atob(encodedStreamUrl); 
-        const video = document.getElementById('live-video');
-        const playerContainer = document.getElementById('live-player-container');
-        
-        startBtn.classList.add('hidden');
-        playerContainer.classList.remove('hidden');
-        startSimulatedViewerCount();
-
-        if (Hls.isSupported()) {
-            if (hlsInstance) { hlsInstance.destroy(); }
-            hlsInstance = new Hls({ maxBufferLength: 30, liveSyncDurationCount: 3 });
-            hlsInstance.loadSource(videoSrc);
-            hlsInstance.attachMedia(video);
-            
-            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(e => console.log("Play error:", e));
-            });
-
-            hlsInstance.on(Hls.Events.ERROR, function (event, data) {
-                if (data.fatal && data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-                    alert("🔴 Live Stream လင့်ခ် အလုပ်မလုပ်တော့ပါ။ Server ကို စစ်ဆေးပါ။");
-                }
-            });
-
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoSrc;
-            video.addEventListener('loadedmetadata', function() {
-                video.play().catch(e => console.log("Play error:", e));
-            });
-            video.addEventListener('error', function() {
-                alert("🔴 Live Stream လင့်ခ် အလုပ်မလုပ်တော့ပါ။");
-            });
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Video Player ဖွင့်ရာတွင် အခက်အခဲရှိနေပါသည်။");
-        startBtn.innerHTML = '<i class="fas fa-play-circle text-red-500 text-xl mr-2"></i> ပွဲစဉ်ကို Live ကြည့်ရှုမည်';
-        startBtn.disabled = false;
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => { 
-    // App Lock အရင်စစ်ဆေးမည်
-    if (localStorage.getItem('weSportsAppUnlocked') !== 'true') {
-        document.body.style.overflow = 'hidden'; 
-        document.getElementById('app-lock-overlay').classList.remove('hidden');
-    } else {
-        document.getElementById('app-lock-overlay').classList.add('hidden');
-        setTimeout(showWelcomeModal, 2000); 
-    }
-
     fetchMatches(); 
     setInterval(() => fetchMatches(), 90000); 
+    setTimeout(showWelcomeModal, 2000); 
     updateAIUsageUI();
 });
 </script>
-</body>
+
+    <script>
+    // Live Stream Player Logic
+    (function() {
+        var videoPlayer = document.getElementById('video-player');
+        var videoLoader = document.getElementById('video-loader');
+        var videoSrc = 'https://www.wesportlive.com/hls/test.m3u8';
+
+        function initLivePlayer() {
+            if (!videoPlayer) return;
+            if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(videoSrc);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    if (videoLoader) videoLoader.style.display = 'none';
+                    videoPlayer.play().catch(function(e) { console.log("Autoplay blocked"); });
+                });
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal && videoLoader) videoLoader.style.display = 'flex';
+                });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                videoPlayer.src = videoSrc;
+                videoPlayer.addEventListener('loadedmetadata', function() {
+                    if (videoLoader) videoLoader.style.display = 'none';
+                    videoPlayer.play();
+                });
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', initLivePlayer);
+        
+        setInterval(function() { 
+            var vc = document.getElementById('viewer-count');
+            if(vc) vc.innerText = Math.floor(Math.random() * (450 - 280) + 280); 
+        }, 5000);
+    })();
+    </script>
+    </body>
 </html>
