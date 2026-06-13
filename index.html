@@ -1437,6 +1437,32 @@ async function verifyAppPasscode() {
         inputField.focus();
     }
 }
+
+// --- Real-time Viewer Count ---
+let viewerInterval = null;
+
+function startSimulatedViewerCount() {
+    const viewerEl = document.getElementById('viewer-count');
+    viewerEl.innerText = "0";
+
+    const fetchViewers = async () => {
+        try {
+            // စောစောက ဖန်တီးထားတဲ့ PHP ဆီကနေ Data လှမ်းတောင်းမည်
+            const response = await fetch('/viewers.php');
+            const data = await response.json();
+            viewerEl.innerText = data.viewers.toLocaleString();
+        } catch (error) {
+            console.log("Viewer Count ယူ၍မရပါ");
+        }
+    };
+
+    fetchViewers(); // ပထမဆုံး ချက်ချင်း တစ်ခါအရင်ယူမည်
+    if (viewerInterval) clearInterval(viewerInterval);
+    
+    // (၁၀) စက္ကန့် တစ်ကြိမ် အလိုအလျောက် Update လုပ်မည်
+    viewerInterval = setInterval(fetchViewers, 10000); 
+}
+
 // 🔄 Offline ဖြစ်နေပါက ပြန်လည်ချိတ်ဆက်မည့်စနစ်
 window.retryStream = function() {
     const offlineOverlay = document.getElementById('offline-overlay');
