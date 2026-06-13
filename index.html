@@ -47,7 +47,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
     <style>
         :root {
@@ -124,45 +124,6 @@
         
         .tab-content { display:none; }
         .tab-content.active { display:block; }
-
-        /* --- Custom Video.js Player Styles --- */
-        .player-wrapper { 
-            position: relative; 
-            width: 100%; 
-            background: #000; 
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(229, 9, 20, 0.2);
-        }
-        
-        .video-js .vjs-control-bar { background-color: rgba(0, 0, 0, 0.8); }
-        .video-js .vjs-play-progress { background-color: #e50914; }
-        .video-js .vjs-volume-level { background-color: #e50914; }
-        .video-js .vjs-big-play-button { 
-            background-color: rgba(229, 9, 20, 0.8); 
-            border: none; 
-            border-radius: 50%; 
-            width: 2.5em; height: 2.5em; line-height: 2.5em; 
-            top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        }
-
-        /* Live Offline Overlay Styles */
-        #offline-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-            display: none; 
-            flex-direction: column; justify-content: center; align-items: center;
-            z-index: 20; text-align: center; padding: 20px; box-sizing: border-box;
-        }
-        .offline-title { color: #e50914; font-size: 18px; font-weight: bold; margin-bottom: 8px; }
-        .offline-text { color: #ccc; font-size: 12px; margin-bottom: 15px; line-height: 1.6; }
-        .retry-btn { 
-            background: #e50914; color: white; border: none; padding: 10px 20px; 
-            border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; 
-            transition: 0.3s; box-shadow: 0 2px 10px rgba(229, 9, 20, 0.4);
-        }
-        .retry-btn:hover { background: #b80710; transform: scale(1.05); }
-        .mascots { font-size: 10px; color: #777; margin-top: 15px; font-weight: bold;}
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center bg-lightbg dark:bg-darkbg text-slate-800 dark:text-slate-200">
@@ -332,8 +293,8 @@
             <a href="https://t.me/+WgOCMeMQpyc3N2U1" target="_blank" class="live-pulse bg-red-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
                 <i class="fas fa-play-circle mr-2 text-lg"></i> Channel 1 တွင်ကြည့်ရန်
             </a>
-            <a href="https://t.me/+qaR75NVJfr41MjQ9" target="_blank" class="live-pulse bg-orange-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
-                <i class="fas fa-play-circle mr-2 text-lg"></i> Group Join ရန်
+            <a href="https://t.me/+kDj5HgX94s1lYWJl" target="_blank" class="live-pulse bg-orange-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
+                <i class="fas fa-play-circle mr-2 text-lg"></i> Channel 2 တွင်ကြည့်ရန်
             </a>
 
             <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="glass-card rounded-2xl py-4 flex flex-col items-center justify-center text-slate-800 dark:text-white">
@@ -417,10 +378,9 @@
             <p class="text-[12px] font-bold text-slate-500">In-App တိုက်ရိုက်ထုတ်လွှင့်မှု</p>
         </div>
         
-        <div class="player-wrapper mb-4 border border-red-500/30">
-            <video-js id="wesport-player" class="video-js vjs-fluid" controls preload="auto" playsinline>
-            </video-js>
-
+        <div id="live-player-container" class="w-full rounded-2xl overflow-hidden shadow-lg border border-red-500/30 bg-black relative group hidden mb-4">
+            <video id="live-video" class="w-full aspect-video bg-black" controls playsinline></video>
+            
             <div class="absolute top-3 left-3 z-10 flex items-center gap-2 pointer-events-none">
                 <span class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-md animate-pulse shadow-md">
                     <i class="fas fa-circle text-[6px] mr-1 align-middle"></i>LIVE
@@ -429,18 +389,16 @@
                     <i class="fas fa-eye text-slate-300 mr-1"></i> <span id="viewer-count">...</span>
                 </span>
             </div>
-
-            <div id="offline-overlay">
-                <div class="offline-title">⚽ လတ်တလော Live မရှိသေးပါ</div>
-                <div class="offline-text">ပွဲစဉ်မစတင်မီ ခေတ္တစောင့်ဆိုင်းပေးပါ။ <br>အချိန်ရောက်ပါက အောက်ပါခလုတ်ကိုနှိပ်၍ ပြန်လည်ချိတ်ဆက်ပါ။</div>
-                <button class="retry-btn" onclick="retryStream()">🔄 ပြန်လည်ချိတ်ဆက်မည်</button>
-                <div class="mascots mt-4 text-[10px] text-slate-400 font-bold">Powered by Woxy, Pandy & Livey</div>
-            </div>
         </div>
+
+        <button id="start-stream-btn" onclick="startLiveStream()" class="w-full mb-4 bg-slate-900 dark:bg-[#1e293b] border border-slate-700 hover:border-red-500 transition-all text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 flex justify-center items-center shadow-md">
+            <i class="fas fa-play-circle text-red-500 text-xl mr-2"></i> ပွဲစဉ်ကို Live ကြည့်ရှုမည်
+        </button>
+
         <div class="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 mt-2">
             <h4 class="font-black text-[13px] text-brand-gold mb-2"><i class="fas fa-info-circle mr-1"></i> သတိပြုရန်</h4>
             <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                App အတွင်း တိုက်ရိုက်ကြည့်ရှုရာတွင် အခက်အခဲရှိပါက VPN ဖွင့်ပြီးကြည့်ရှုနိုင်ပါသည်။
+                App အတွင်း တိုက်ရိုက်ကြည့်ရှုရာတွင် အခက်အခဲရှိပါက ပင်မစာမျက်နှာ (Home) ရှိ Channel 1 နှင့် Channel 2 (Telegram) လင့်ခ်များမှတစ်ဆင့်လည်း ဝင်ရောက်ကြည့်ရှုနိုင်ပါသည်။
             </p>
         </div>
     </section>
@@ -753,8 +711,6 @@
     </div>
 </div>
 
-<script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
-
 <script>
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
 let globalMatchesMap = {};
@@ -773,7 +729,6 @@ let searchQuery = '';
 let countdownTimers = {};
 let manUtdCountdownTimer = null;
 let isFetching = false;
-let wesportPlayer; // Global Player Instance
 
 const triggerHaptic = () => navigator.vibrate && navigator.vibrate(35);
 
@@ -831,6 +786,7 @@ function switchTab(tabId, btnEl) {
     document.querySelectorAll('.tab-btn').forEach(b => {
         b.classList.remove('bg-brand-gold','text-slate-900','shadow-md');
         b.classList.add('bg-slate-100','dark:bg-slate-800','text-slate-600','dark:text-slate-300');
+        // Live tab button icon fix
         if(b.dataset.tab === 'tab-live') b.classList.add('text-red-500');
     });
     if (btnEl) {
@@ -1387,14 +1343,16 @@ async function generateAIPrediction() {
     }
 }
 
-// --- App Lock Verification ---
+// --- App Lock Verification (စစချင်း ဝင်ဝင်ချင်း စစ်ဆေးခြင်း) ---
 async function verifyAppPasscode() {
     triggerHaptic();
     const inputField = document.getElementById('app-passcode');
     let input = inputField.value;
     
+    // Space နှင့် အခြား မလိုအပ်သော စာလုံးများကို ဖယ်ထုတ်မည်
     input = input.replace(/\s+/g, '').replace(/[\u200B-\u200D\uFEFF]/g, '');
     
+    // "ချိုဆိမ့်" သို့မဟုတ် "ချိုစိမ့်" ပါမပါ စစ်ဆေးမည်
     const isValid = input.includes('ချို') && (input.includes('ဆိ') || input.includes('စိ')) && input.includes('မ');
     
     if (isValid) {
@@ -1414,7 +1372,7 @@ async function verifyAppPasscode() {
     }
 }
 
-// --- Dynamic Viewer Count ---
+// --- Dynamic Viewer Count (Simulated) ---
 let viewerInterval = null;
 
 function startSimulatedViewerCount() {
@@ -1432,16 +1390,58 @@ function startSimulatedViewerCount() {
     }, 5000);
 }
 
-// 🔄 Offline ဖြစ်နေပါက ပြန်လည်ချိတ်ဆက်မည့်စနစ်
-window.retryStream = function() {
-    const offlineOverlay = document.getElementById('offline-overlay');
-    offlineOverlay.style.display = 'none';
-    const streamUrl = atob('aHR0cDovLzM3LjEuMjA1LjgzOjgwODAvbGl2ZS93ZXNwb3J0Lm0zdTg=');
-    wesportPlayer.src({ src: streamUrl, type: 'application/x-mpegURL' });
-    wesportPlayer.play().catch(e => {
-        console.log("Stream is still offline");
-    });
-};
+// --- Live Stream Function ---
+// ⚠️ သတိပြုရန်: အစ်ကို့ VPS ကရမည့် m3u8 လင့်ခ်အသစ်ကို Base64 ပြောင်းပြီး ဒီနေရာတွင် အစားထိုးပါ။
+const encodedStreamUrl = 'aHR0cHM6Ly9mYXFzLWZpbmRlci1lbmhhbmNlZC1zcGVlZC50cnljbG91ZGZsYXJlLmNvbS9obHMvdGVzdC5tM3U4';
+let hlsInstance = null;
+
+async function startLiveStream() {
+    triggerHaptic();
+    const startBtn = document.getElementById('start-stream-btn');
+    startBtn.innerHTML = '<div class="loader !w-4 !h-4 !border-2 mr-2 inline-block"></div> ချိတ်ဆက်နေပါသည်...';
+    startBtn.disabled = true;
+
+    try {
+        const videoSrc = atob(encodedStreamUrl); 
+        const video = document.getElementById('live-video');
+        const playerContainer = document.getElementById('live-player-container');
+        
+        startBtn.classList.add('hidden');
+        playerContainer.classList.remove('hidden');
+        startSimulatedViewerCount();
+
+        if (Hls.isSupported()) {
+            if (hlsInstance) { hlsInstance.destroy(); }
+            hlsInstance = new Hls({ maxBufferLength: 30, liveSyncDurationCount: 3 });
+            hlsInstance.loadSource(videoSrc);
+            hlsInstance.attachMedia(video);
+            
+            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(e => console.log("Play error:", e));
+            });
+
+            hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+                if (data.fatal && data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                    alert("🔴 Live Stream လင့်ခ် အလုပ်မလုပ်တော့ပါ။ Server ကို စစ်ဆေးပါ။");
+                }
+            });
+
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function() {
+                video.play().catch(e => console.log("Play error:", e));
+            });
+            video.addEventListener('error', function() {
+                alert("🔴 Live Stream လင့်ခ် အလုပ်မလုပ်တော့ပါ။");
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Video Player ဖွင့်ရာတွင် အခက်အခဲရှိနေပါသည်။");
+        startBtn.innerHTML = '<i class="fas fa-play-circle text-red-500 text-xl mr-2"></i> ပွဲစဉ်ကို Live ကြည့်ရှုမည်';
+        startBtn.disabled = false;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => { 
     // App Lock အရင်စစ်ဆေးမည်
@@ -1456,46 +1456,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchMatches(); 
     setInterval(() => fetchMatches(), 90000); 
     updateAIUsageUI();
-
-    // 📺 Video.js Player စတင်ခြင်း
-    startSimulatedViewerCount(); // Viewer Count ချက်ချင်းစတင်မည်
-    
-    const encodedStreamUrl = 'aHR0cDovLzM3LjEuMjA1LjgzOjgwODAvbGl2ZS93ZXNwb3J0Lm0zdTg=';
-    const streamUrl = atob(encodedStreamUrl);
-
-    wesportPlayer = videojs('wesport-player', {
-        autoplay: true,
-        muted: true, // ဖုန်းများတွင် Auto-play အလုပ်လုပ်ရန် Muted ထားပေးရပါသည်
-        sources: [{ src: streamUrl, type: 'application/x-mpegURL' }]
-    });
-
-    const offlineOverlay = document.getElementById('offline-overlay');
-
-    // 🔴 Stream မရှိချိန် Error တက်ပါက ကြေညာပြမည်
-    wesportPlayer.on('error', function() {
-        offlineOverlay.style.display = 'flex';
-        wesportPlayer.error(null); 
-    });
-
-    // 🟢 Stream အောင်မြင်စွာ လာနေပါက ကြေညာကို ဖျောက်မည်
-    wesportPlayer.on('playing', function() {
-        offlineOverlay.style.display = 'none';
-    });
-
-    // 📱 Fullscreen ချဲ့ပါက Android တွင် Landscape အလိုအလျောက် လှည့်ပေးမည့်စနစ်
-    wesportPlayer.on('fullscreenchange', function() {
-        if (wesportPlayer.isFullscreen()) {
-            if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch(function(error) {
-                    console.log('Auto-rotate not supported on this device', error);
-                });
-            }
-        } else {
-            if (screen.orientation && screen.orientation.unlock) {
-                screen.orientation.unlock();
-            }
-        }
-    });
 });
 </script>
 </body>
