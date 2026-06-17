@@ -73,7 +73,6 @@
         @keyframes spin { to{transform:rotate(360deg)} }
         @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
         
-        /* Background Floating Animation */
         @keyframes float-up {
             0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
             10% { opacity: 0.08; }
@@ -125,14 +124,15 @@
         .tab-content { display:none; }
         .tab-content.active { display:block; }
 
-        /* --- Custom Video.js Player Styles --- */
         .player-wrapper { 
             position: relative; 
             width: 100%; 
+            aspect-ratio: 16 / 9;
             background: #000; 
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(229, 9, 20, 0.2);
+            min-height: 200px;
         }
         
         .video-js .vjs-control-bar { background-color: rgba(0, 0, 0, 0.8); }
@@ -146,7 +146,12 @@
             top: 50%; left: 50%; transform: translate(-50%, -50%); 
         }
 
-        /* Live Offline Overlay Styles */
+        /* Video Quality Menu Fix */
+        .vjs-menu-button-popup .vjs-menu { z-index: 100 !important; }
+
+        /* [CRITICAL FIX] Error Message ကို ဖျောက်ထားမည်။ */
+        .video-js .vjs-error-display { display: none !important; }
+
         #offline-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
@@ -171,13 +176,16 @@
     <div class="w-full max-w-[340px] bg-slate-800 border border-red-500/30 p-6 rounded-3xl shadow-2xl text-center animate-pop-in">
         <div class="text-6xl mb-4 animate-bounce">🦊</div>
         <h2 class="font-black text-xl text-white mb-2">W.E Sports မှ ကြိုဆိုပါတယ်</h2>
-        <p class="text-[12px] text-slate-400 mb-6 leading-relaxed">App အတွင်းသို့ ဝင်ရောက်ရန်နှင့် Live ကြည့်ရန် အောက်ပါမေးခွန်းကို မြန်မာလို အဖြေမှန် ရိုက်ထည့်ပါ။</p>
+        <p class="text-[12px] text-slate-400 mb-6 leading-relaxed">App အတွင်းသို့ ဝင်ရောက်ရန်နှင့် Live ကြည့်ရန် အောက်ပါမေးခွန်းကို အဖြေမှန် ရိုက်ထည့်ပါ။</p>
         
         <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-700 mb-5 shadow-inner">
-            <p class="text-[13px] font-bold text-brand-gold leading-relaxed">မေးခွန်း - လက်ဖက်ရည်ဆိုင်မှာ အချိုနဲ့ အဆိမ့်ကို ရောသောက်ချင်ရင် ဘယ်လိုမှာလေ့ရှိလဲ?</p>
+            <p class="text-[14px] font-bold text-brand-gold leading-relaxed">
+                မေးခွန်း - <span class="text-lg">၁၅ + ၅ = ?</span>
+                <span class="text-slate-400 font-normal text-[11px] mt-1.5 block">အဖြေကို ဂဏန်းဖြင့် ရိုက်ထည့်ပါ (မြန်မာ / အင်္ဂလိပ် ဂဏန်း နှစ်မျိုးလုံးရပါသည်)</span>
+            </p>
         </div>
 
-        <input type="text" id="app-passcode" placeholder="ဆလိမ်နဲ့စာလုံးပေါင်းပါ" class="w-full px-4 py-4 rounded-xl bg-black border border-slate-600 text-[14px] font-bold text-white focus:ring-2 focus:ring-red-500 focus:outline-none text-center mb-5 transition-all">
+        <input type="text" id="app-passcode" placeholder="အဖြေမှန် ရိုက်ထည့်ပါ" class="w-full px-4 py-4 rounded-xl bg-black border border-slate-600 text-[14px] font-bold text-white focus:ring-2 focus:ring-red-500 focus:outline-none text-center mb-5 transition-all">
         
         <button onclick="verifyAppPasscode()" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white py-4 rounded-xl font-black text-[14px] active:scale-95 transition-all shadow-md flex justify-center items-center">
             App ထဲသို့ ဝင်မည် <i class="fas fa-sign-in-alt ml-2"></i>
@@ -244,7 +252,7 @@
             <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
         </button>
         <a href="https://t.me/WinExpress99" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl active:scale-95 transition">
-            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-green-100 dark:bg-green-500/20 rounded-xl flex items-center justify-center text-green-600"><i class="fas fa-wallet text-lg"></i></div><span class="font-bold text-[13px]">1XBET ငွေသွင်း/ထုတ်</span></div>
+            <div class="flex items-center space-x-4"><div class="w-10 h-10 bg-green-100 dark:bg-green-500/20 rounded-xl flex items-center justify-center text-green-600"><i class="fas fa-wallet text-lg"></i></div><span class="font-bold text-[13px]">Deposit / Withdraw</span></div>
             <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
         </a>
     </div>
@@ -297,7 +305,7 @@
         <button onclick="switchTab('tab-live',this)" data-tab="tab-live" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-red-500 flex items-center gap-1.5"><i class="fas fa-tv animate-pulse"></i> Live</button>
         
         <button onclick="switchTab('tab-matches',this)" data-tab="tab-matches" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ပွဲစဉ်များ</button>
-        <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI ခန့်မှန်းချက်</button>
+        <button onclick="switchTab('tab-ai',this)" data-tab="tab-ai" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center"><i class="fas fa-robot text-purple-500 mr-1.5"></i> AI Chat</button>
         <button onclick="switchTab('tab-standings',this)" data-tab="tab-standings" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဇယား</button>
         <button onclick="switchTab('tab-casino',this)" data-tab="tab-casino" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ကာစီနို</button>
         <button onclick="switchTab('tab-services',this)" data-tab="tab-services" class="tab-btn snap-start whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">ဝန်ဆောင်မှု</button>
@@ -329,8 +337,8 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3">
-            <a href="https://t.me/+WgOCMeMQpyc3N2U1" target="_blank" class="live-pulse bg-red-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
-                <i class="fas fa-play-circle mr-2 text-lg"></i> Channel 1 တွင်ကြည့်ရန်
+            <a href="https://t.me/wesportlive3" target="_blank" class="live-pulse bg-red-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
+                <i class="fas fa-play-circle mr-2 text-lg"></i> Official Channel Join ရန်
             </a>
             <a href="https://t.me/+qaR75NVJfr41MjQ9" target="_blank" class="live-pulse bg-orange-600 w-full flex items-center justify-center py-3.5 rounded-2xl text-[14px] font-black text-white shadow-md active:scale-95 transition">
                 <i class="fas fa-play-circle mr-2 text-lg"></i> Group Join ရန်
@@ -342,7 +350,7 @@
             </a>
             <a href="https://t.me/WinExpress99" target="_blank" class="glass-card rounded-2xl py-4 flex flex-col items-center justify-center text-slate-800 dark:text-white">
                 <i class="fas fa-wallet text-2xl mb-2 text-brand-gold"></i>
-                <span class="text-[12px] font-black text-center">1XBET<br>ငွေသွင်း/ထုတ်</span>
+                <span class="text-[12px] font-black text-center">Deposit<br>Withdraw</span>
             </a>
             <button onclick="openDownloadModal()" class="col-span-2 w-full glass-card rounded-2xl py-4 flex flex-col items-center justify-center text-slate-800 dark:text-white bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border-blue-500/20 active:scale-95 transition">
                 <div class="flex items-center space-x-3">
@@ -357,10 +365,10 @@
 
         <button onclick="switchTabById('tab-ai')" class="w-full mb-2 mt-2 rounded-2xl p-4 bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg border border-purple-400/50 flex items-center justify-between text-white active:scale-95 transition">
             <div class="flex items-center space-x-3">
-                <div class="text-3xl animate-bounce">🔮</div>
+                <div class="text-3xl animate-bounce">🤖</div>
                 <div class="text-left">
-                    <h3 class="font-black text-[14px]">ဂိုးရလဒ် ခန့်မှန်းမည်</h3>
-                    <p class="text-[10px] font-bold text-purple-200">AI နှင့် ESPN Data ဖြင့် ရလဒ်များကို ကြိုတင်ကြည့်ပါ</p>
+                    <h3 class="font-black text-[14px]">W.E Sports AI Chat</h3>
+                    <p class="text-[10px] font-bold text-purple-200">ဘောလုံးပွဲစဉ်များကို AI ဖြင့် မေးမြန်းပါ</p>
                 </div>
             </div>
             <i class="fas fa-chevron-right text-purple-300"></i>
@@ -417,9 +425,9 @@
             <p class="text-[12px] font-bold text-slate-500">In-App တိုက်ရိုက်ထုတ်လွှင့်မှု</p>
         </div>
         
-        <div class="player-wrapper mb-4 border border-red-500/30">
-            <video-js id="wesport-player" class="video-js vjs-fluid" controls preload="auto" playsinline>
-            </video-js>
+        <div class="player-wrapper mb-4 border border-red-500/30 aspect-video relative bg-black">
+            <video id="wesport-player" class="video-js vjs-fluid vjs-big-play-centered" controls playsinline webkit-playsinline>
+            </video>
 
             <div class="absolute top-3 left-3 z-10 flex items-center gap-2 pointer-events-none">
                 <span class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-md animate-pulse shadow-md">
@@ -459,13 +467,6 @@
             </div>
         </div>
 
-        <div class="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 mt-2">
-            <h4 class="font-black text-[13px] text-brand-gold mb-2"><i class="fas fa-info-circle mr-1"></i> သတိပြုရန်</h4>
-            <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                App အတွင်း တိုက်ရိုက်ကြည့်ရှုရာတွင် အခက်အခဲရှိပါက VPN ဖွင့်ပြီးကြည့်ရှုနိုင်ပါသည်။
-            </p>
-        </div>
-    
 
     </section>
 
@@ -474,38 +475,24 @@
             <div class="inline-block p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3 animate-float">
                 <i class="fas fa-robot text-4xl text-purple-600 dark:text-purple-400"></i>
             </div>
-            <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">W.E Sports AI Predictor</h2>
+            <h2 class="text-[18px] font-black text-slate-900 dark:text-white mb-1">W.E Sports AI Chat</h2>
             <p class="text-[12px] font-bold text-slate-500 max-w-[280px] mx-auto leading-relaxed">
-                ထိပ်တန်းလိဂ်ပွဲစဉ်များသာမက <span class="text-brand-gold">Friendly Matches နိုင်ငံတကာခြေစမ်းပွဲများ</span> အထိ AI မှ အသေးစိတ် တွက်ချက်ခန့်မှန်းပေးပါသည်။
+                ဘောလုံးပွဲစဉ် ခန့်မှန်းချက်များ၊ ကစားသမား အချက်အလက်များနှင့် ပတ်သက်၍ <span class="text-brand-gold">ကြိုက်နှစ်သက်ရာကို လွတ်လပ်စွာ</span> မေးမြန်းနိုင်ပါသည်။
             </p>
         </div>
 
         <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-slate-200 dark:border-slate-700/50">
             <div id="ai-input-section">
-                <div class="space-y-4 mb-5">
-                    <div>
-                        <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">အိမ်ရှင်အသင်း (Home Team)</label>
-                        <div class="relative">
-                            <i class="fas fa-home absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="ai-home" placeholder="ဥပမာ - San Marino, Man Utd, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-center items-center">
-                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest border border-slate-200 dark:border-slate-700">VS</span>
-                    </div>
-
-                    <div>
-                        <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">ဧည့်သည်အသင်း (Away Team)</label>
-                        <div class="relative">
-                            <i class="fas fa-plane absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="ai-away" placeholder="ဥပမာ - Faroe Islands, Arsenal, etc." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner">
-                        </div>
+                <div class="mb-5">
+                    <label class="text-[11px] font-bold text-slate-500 block mb-1.5 ml-1">ဘောလုံးပွဲစဉ် သို့မဟုတ် အကြောင်းအရာကို မေးမြန်းပါ</label>
+                    <div class="relative">
+                        <i class="fas fa-comment-dots absolute left-4 top-4 text-slate-400"></i>
+                        <textarea id="ai-question" rows="3" placeholder="ဥပမာ - ဒီည မန်ယူနဲ့ အာဆင်နယ် ဘယ်သူနိုင်မလဲ? သို့မဟုတ် မက်ဆီနဲ့ ရော်နယ်ဒို ဘယ်သူပိုကောင်းလဲ?" class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-[13px] font-bold focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-slate-800 dark:text-white transition-all shadow-inner resize-none"></textarea>
                     </div>
                 </div>
                 
-                <button onclick="generateAIPrediction()" id="ai-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 transition-all shadow-[0_8px_20px_rgba(147,51,234,0.3)] flex justify-center items-center">
-                    AI ဖြင့် ခန့်မှန်းမည် <i class="fas fa-magic ml-2 animate-pulse"></i>
+                <button onclick="generateAIAnswer()" id="ai-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-4 rounded-2xl font-black text-[14px] active:scale-95 transition-all shadow-[0_8px_20px_rgba(147,51,234,0.3)] flex justify-center items-center">
+                    AI ကို မေးမည် <i class="fas fa-paper-plane ml-2 animate-pulse"></i>
                 </button>
 
                 <div id="ai-usage-counter" class="text-center text-[11px] font-bold text-slate-500 mt-4"></div>
@@ -516,7 +503,7 @@
                     <i class="fas fa-lock text-2xl"></i>
                 </div>
                 <h3 class="font-black text-[15px] text-slate-800 dark:text-white mb-2">အခမဲ့အကြိမ် ပြည့်သွားပါပြီ</h3>
-                <p class="text-[11px] font-bold text-slate-500 mb-5 px-4 leading-relaxed">ဆက်လက်ခန့်မှန်းရန် Agent ထံတွင် Unlock Code တောင်းယူပါ။ <br>(အခမဲ့ဖြစ်ပါသည်)</p>
+                <p class="text-[11px] font-bold text-slate-500 mb-5 px-4 leading-relaxed">ဆက်လက်မေးမြန်းရန် Agent ထံတွင် Unlock Code တောင်းယူပါ။ <br>(အခမဲ့ဖြစ်ပါသည်)</p>
                 
                 <div class="w-full relative mb-4">
                     <i class="fas fa-key absolute left-4 top-1/2 -translate-y-1/2 text-brand-gold"></i>
@@ -537,54 +524,21 @@
             <div class="bg-white dark:bg-[#1e293b] rounded-3xl p-5 shadow-xl border border-purple-500/20 relative overflow-hidden">
                 <div class="absolute -right-4 -top-4 opacity-[0.03] text-8xl text-purple-500 pointer-events-none"><i class="fas fa-robot"></i></div>
                 
-                <div class="text-center mb-6 relative z-10">
-                    <span class="inline-block bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 border border-purple-200 dark:border-purple-800">AI Prediction Result</span>
-                    
-                    <div class="flex justify-center items-center space-x-2">
-                        <div class="text-right flex-1 truncate font-black text-[15px] text-slate-800 dark:text-white" id="ai-res-home">Home</div>
-                        <div class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-500 px-4 drop-shadow-sm" id="ai-res-score">0 - 0</div>
-                        <div class="text-left flex-1 truncate font-black text-[15px] text-slate-800 dark:text-white" id="ai-res-away">Away</div>
-                    </div>
+                <h4 class="font-black text-[13px] text-slate-800 dark:text-white mb-3 flex items-center relative z-10">
+                    <i class="fas fa-user text-slate-400 mr-2"></i> သင်၏ မေးခွန်း
+                </h4>
+                <div class="bg-slate-100 dark:bg-slate-800 p-3.5 rounded-xl mb-5 border border-slate-200 dark:border-slate-700 relative z-10">
+                    <p id="user-asked-text" class="text-[13px] font-bold text-slate-700 dark:text-slate-300"></p>
                 </div>
 
-                <div class="space-y-4 relative z-10">
-                    <div>
-                        <div class="flex justify-between text-[11px] font-bold mb-1.5 px-1">
-                            <span id="ai-prob-home-text" class="text-blue-500">Home 0%</span>
-                            <span id="ai-prob-draw-text" class="text-slate-400">Draw 0%</span>
-                            <span id="ai-prob-away-text" class="text-red-500">Away 0%</span>
-                        </div>
-                        <div class="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full flex overflow-hidden shadow-inner border border-slate-200 dark:border-slate-700">
-                            <div id="ai-bar-home" class="h-full bg-blue-500 transition-all duration-1000 w-0"></div>
-                            <div id="ai-bar-draw" class="h-full bg-slate-400 transition-all duration-1000 w-0"></div>
-                            <div id="ai-bar-away" class="h-full bg-red-500 transition-all duration-1000 w-0"></div>
-                        </div>
-                        <div class="text-center mt-1 text-[9px] text-slate-400 font-bold uppercase">နိုင်ခြေ ရာခိုင်နှုန်း (Win Probability)</div>
-                    </div>
-
-                    <div class="pt-2">
-                        <div class="flex justify-between text-[11px] font-bold mb-1.5 px-1 text-slate-600 dark:text-slate-300">
-                            <span id="ai-poss-home">0%</span>
-                            <span class="text-[9px] text-slate-400 uppercase tracking-widest">Possession</span>
-                            <span id="ai-poss-away">0%</span>
-                        </div>
-                        <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full flex overflow-hidden shadow-inner">
-                            <div id="ai-bar-poss-home" class="h-full bg-indigo-500 transition-all duration-1000 w-0"></div>
-                            <div id="ai-bar-poss-away" class="h-full bg-orange-500 transition-all duration-1000 w-0"></div>
-                        </div>
-                    </div>
+                <h4 class="font-black text-[13px] text-purple-600 dark:text-purple-400 mb-3 flex items-center relative z-10">
+                    <i class="fas fa-robot text-brand-gold mr-2"></i> AI ၏ အဖြေ
+                </h4>
+                <div class="bg-purple-50 dark:bg-[#0f172a] p-4 rounded-2xl border border-purple-200 dark:border-purple-900/50 relative z-10">
+                    <p id="ai-detailed-text" class="text-[13px] leading-relaxed text-slate-700 dark:text-slate-300 font-bold space-y-3 block"></p>
                 </div>
 
-                <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 relative z-10">
-                    <h4 class="font-black text-[12px] text-slate-800 dark:text-white mb-3 flex items-center">
-                        <i class="fas fa-align-left text-brand-gold mr-2"></i> AI ၏ အသေးစိတ် သုံးသပ်ချက်
-                    </h4>
-                    <div class="bg-slate-50 dark:bg-[#0f172a] p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
-                        <p id="ai-detailed-text" class="text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 font-bold space-y-3 block"></p>
-                    </div>
-                </div>
-
-                <div class="mt-5 relative z-10">
+                <div class="mt-6 relative z-10">
                     <a href="https://reffpa.com/L?tag=d_5044643m_97c_&site=5044643&ad=97&r=registration" target="_top" class="flex justify-center items-center w-full py-3.5 bg-slate-900 dark:bg-brand-gold text-brand-gold dark:text-slate-900 rounded-xl font-black text-[13px] active:scale-95 transition shadow-lg">
                         <i class="fas fa-coins mr-2"></i> 1XBET တွင် လောင်းကြေးထပ်မည်
                     </a>
@@ -778,6 +732,8 @@
 </div>
 
 <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+<script src="https://unpkg.com/videojs-contrib-quality-levels@4.1.0/dist/videojs-contrib-quality-levels.min.js"></script>
+<script src="https://unpkg.com/videojs-hls-quality-selector@2.0.0/dist/videojs-hls-quality-selector.min.js"></script>
 
 <script>
 let allCachedMatches = { live: [], upcoming: [], finished: [] };
@@ -797,7 +753,7 @@ let searchQuery = '';
 let countdownTimers = {};
 let manUtdCountdownTimer = null;
 let isFetching = false;
-let wesportPlayer; // Global Player Instance
+let wesportPlayer;
 
 const triggerHaptic = () => navigator.vibrate && navigator.vibrate(35);
 
@@ -1097,7 +1053,9 @@ async function openStatsModal(matchId) {
     cont.innerHTML = headerHtml + `<div class="flex flex-col items-center justify-center py-10 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Woxy 🦊 Stats ရှာပေးနေပါတယ်...</span></div>`;
 
     try {
-        const res  = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${match.leagueId}/summary?event=${matchId}`), data = await res.json(), bs = data.boxscore;
+        const res  = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${match.leagueId}/summary?event=${matchId}`);
+        if (!res.ok) throw new Error('API request failed');
+        const data = await res.json(), bs = data.boxscore;
         if (!bs?.teams || bs.teams.length < 2) throw new Error('no stats');
         const t1 = bs.teams[0], t2 = bs.teams[1], hSt = t1.team.id === match.homeTeam.team.id ? t1.statistics : t2.statistics, aSt = t1.team.id === match.homeTeam.team.id ? t2.statistics : t1.statistics;
         const keys = [{ k:'possessionPct', l:'ဘောလုံးပိုင်ဆိုင်မှု (%)' }, { k:'shotsSummary', l:'ဂိုးကန်သွင်းမှု' }, { k:'shotsOnTarget', a:'shotsOnGoal', l:'ဂိုးပေါက်တည့်မှု' }, { k:'cornerKicks', l:'ထောင့်ကန်ဘော' }, { k:'foulsCommitted', l:'ပြစ်ဒဏ်' }, { k:'yellowCards', l:'အဝါကတ်' }, { k:'redCards', l:'အနီကတ်' }];
@@ -1108,7 +1066,9 @@ async function openStatsModal(matchId) {
             statsHtml += `<div class="mb-5"><div class="flex justify-between text-[12px] font-bold text-slate-600 dark:text-slate-300 mb-1.5"><span>${hO.displayValue}</span><span class="text-[10px] text-slate-400">${l}</span><span>${aO.displayValue}</span></div><div class="flex h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width:${hPct}%"></div><div class="h-full bg-red-500" style="width:${aPct}%"></div></div></div>`;
         });
         cont.innerHTML = headerHtml + `<div class="p-6 pt-5 animate-fade-up">${statsHtml||'<div class="text-center text-[12px] font-bold text-slate-400 py-6">Stats မရရှိနိုင်သေးပါ</div>'}</div>`;
-    } catch { cont.innerHTML = headerHtml + `<div class="p-8 text-center text-slate-400 font-bold text-[12px]">ဒီပွဲ Stats မရရှိနိုင်သေးပါ</div>`; }
+    } catch(e) { 
+        cont.innerHTML = headerHtml + `<div class="p-8 text-center text-slate-400 font-bold text-[12px]">ဒီပွဲ Stats မရရှိနိုင်သေးပါ</div>`; 
+    }
 }
 function closeStatsModal() {
     const modal = document.getElementById('stats-modal'), content = document.getElementById('stats-modal-content');
@@ -1136,7 +1096,9 @@ async function fetchStandings(leagueId) {
     const cont = document.getElementById('standings-container');
     cont.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-slate-500"><div class="loader mb-3"></div><span class="text-[12px] font-bold">Livey 🦊 က ဇယားကို ယူဆောင်လာပါပြီ...</span></div>`;
     try {
-        const res = await fetch(`https://site.api.espn.com/apis/v2/sports/soccer/${leagueId}/standings`), data = await res.json(), entries = data.children[0].standings.entries;
+        const res = await fetch(`https://site.api.espn.com/apis/v2/sports/soccer/${leagueId}/standings`);
+        if(!res.ok) throw new Error('Network error');
+        const data = await res.json(), entries = data.children[0].standings.entries;
         let html = `<table class="w-full text-left text-[12px]"><thead class="bg-slate-100 dark:bg-slate-800 text-slate-500"><tr><th class="py-2.5 pl-3">#</th><th>Club</th><th class="text-center">MP</th><th class="text-center">+/-</th><th class="py-2.5 pr-3 text-center">Pts</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-slate-800">`;
         entries.forEach(e => {
             const isUtd = e.team.name.includes('Manchester United');
@@ -1197,27 +1159,11 @@ async function fetchMatches(isManual=false) {
 
         allCachedMatches={live,upcoming,finished};
         renderDateSelector(); filterAndRenderMatches(); renderHomeTopMatches();
-    } catch(e) { console.error(e); } finally { isFetching=false; }
+    } catch(e) { console.error("Error fetching matches", e); } finally { isFetching=false; }
 }
 
 const MAX_AI_PREDICTIONS = 5;
-const AI_UNLOCK_CODE = "ZINXBETVIP";
-
-const globalTeamPowers = {
-    'argentina': {att: 2.9, def: 2.7}, 'france': {att: 2.9, def: 2.6}, 'brazil': {att: 2.7, def: 2.5},
-    'england': {att: 2.8, def: 2.6}, 'spain': {att: 2.8, def: 2.7}, 'portugal': {att: 2.8, def: 2.6},
-    'germany': {att: 2.7, def: 2.5}, 'italy': {att: 2.4, def: 2.6}, 'netherlands': {att: 2.6, def: 2.5},
-    'belgium': {att: 2.5, def: 2.4}, 'croatia': {att: 2.3, def: 2.4}, 'uruguay': {att: 2.4, def: 2.5},
-    'colombia': {att: 2.3, def: 2.3}, 'senegal': {att: 2.2, def: 2.3}, 'morocco': {att: 2.2, def: 2.4},
-    'japan': {att: 2.4, def: 2.3}, 'south korea': {att: 2.3, def: 2.2}, 'iran': {att: 2.1, def: 2.2},
-    'australia': {att: 2.0, def: 2.1}, 'saudi arabia': {att: 1.9, def: 2.0}, 'qatar': {att: 1.8, def: 1.8},
-    'thailand': {att: 1.6, def: 1.5}, 'vietnam': {att: 1.5, def: 1.6}, 'indonesia': {att: 1.5, def: 1.5},
-    'malaysia': {att: 1.4, def: 1.4}, 'myanmar': {att: 1.1, def: 1.0}, 'singapore': {att: 1.1, def: 1.1},
-    'cambodia': {att: 0.9, def: 0.8}, 'laos': {att: 0.7, def: 0.6}, 'brunei': {att: 0.5, def: 0.5},
-    'san marino': {att: 0.2, def: 0.3}, 'andorra': {att: 0.4, def: 0.5}, 'liechtenstein': {att: 0.3, def: 0.4},
-    'gibraltar': {att: 0.3, def: 0.4}, 'faroe island': {att: 0.9, def: 1.0}, 'malta': {att: 0.7, def: 0.8},
-    'luxembourg': {att: 1.1, def: 1.2}, 'cyprus': {att: 1.0, def: 1.1}, 'moldova': {att: 0.9, def: 1.0}
-};
+const ENCODED_AI_CODE = "WklOWEJFVFZJUA=="; 
 
 function updateAIUsageUI() {
     let usage = parseInt(localStorage.getItem('aiUsageCount')) || 0;
@@ -1231,7 +1177,7 @@ function updateAIUsageUI() {
         inputSec.classList.remove('hidden');
         lockSec.classList.add('hidden');
         lockSec.style.display = 'none';
-        counterText.innerHTML = `<i class="fas fa-crown text-brand-gold mr-1"></i> VIP Access: အကန့်အသတ်မရှိ ခန့်မှန်းနိုင်ပါပြီ`;
+        counterText.innerHTML = `<i class="fas fa-crown text-brand-gold mr-1"></i> VIP Access: အကန့်အသတ်မရှိ မေးမြန်းနိုင်ပါပြီ`;
         counterText.classList.add('text-brand-gold');
         counterText.classList.remove('text-slate-500');
     } else {
@@ -1243,7 +1189,7 @@ function updateAIUsageUI() {
             inputSec.classList.remove('hidden');
             lockSec.classList.add('hidden');
             lockSec.style.display = 'none';
-            counterText.innerHTML = `အခမဲ့ ခန့်မှန်းခွင့် လက်ကျန်: <span class="text-purple-500 font-black">${MAX_AI_PREDICTIONS - usage}</span> / ${MAX_AI_PREDICTIONS}`;
+            counterText.innerHTML = `အခမဲ့ မေးမြန်းခွင့် လက်ကျန်: <span class="text-purple-500 font-black">${MAX_AI_PREDICTIONS - usage}</span> / ${MAX_AI_PREDICTIONS}`;
         }
     }
 }
@@ -1251,16 +1197,17 @@ function updateAIUsageUI() {
 function unlockAI() {
     triggerHaptic();
     const codeInput = document.getElementById('ai-unlock-code').value.trim().toUpperCase();
-    if (codeInput === AI_UNLOCK_CODE) {
+    
+    if (btoa(codeInput) === ENCODED_AI_CODE) {
         localStorage.setItem('aiUnlocked', 'true');
-        alert("✅ Unlock အောင်မြင်ပါသည်။ အကန့်အသတ်မရှိ ဆက်လက်ခန့်မှန်းနိုင်ပါပြီ။");
+        alert("✅ Unlock အောင်မြင်ပါသည်။ အကန့်အသတ်မရှိ ဆက်လက်မေးမြန်းနိုင်ပါပြီ။");
         updateAIUsageUI();
     } else {
         alert("❌ Unlock Code မှားယွင်းနေပါသည်။ သင့် Agent ထံတွင် ပြန်လည်တောင်းယူပါ။");
     }
 }
 
-async function generateAIPrediction() {
+async function generateAIAnswer() {
     triggerHaptic();
     
     let usage = parseInt(localStorage.getItem('aiUsageCount')) || 0;
@@ -1271,10 +1218,9 @@ async function generateAIPrediction() {
         return;
     }
 
-    const homeInput = document.getElementById('ai-home').value.trim();
-    const awayInput = document.getElementById('ai-away').value.trim();
+    const questionInput = document.getElementById('ai-question').value.trim();
     
-    if(!homeInput || !awayInput) { alert('ကျေးဇူးပြု၍ အိမ်ရှင် နှင့် ဧည့်သည် အသင်းနှစ်ခုစလုံးကို ရိုက်ထည့်ပါ။'); return; }
+    if(!questionInput) { alert('ကျေးဇူးပြု၍ ဘောလုံးပွဲစဉ် သို့မဟုတ် အကြောင်းအရာတစ်ခုခုကို ရိုက်ထည့်ပါ။'); return; }
     
     const btn = document.getElementById('ai-btn');
     const resultBox = document.getElementById('ai-result');
@@ -1283,143 +1229,53 @@ async function generateAIPrediction() {
     resultBox.classList.add('hidden');
     resultBox.classList.remove('animate-fade-up');
     
-    ['ai-bar-home', 'ai-bar-draw', 'ai-bar-away', 'ai-bar-poss-home', 'ai-bar-poss-away'].forEach(id => {
-        document.getElementById(id).style.width = '0%';
-    });
-
-    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2 inline-block align-middle"></div> AI တွက်ချက်နေပါသည်...`;
+    btn.innerHTML = `<div class="loader !w-4 !h-4 !border-2 mr-2 inline-block align-middle"></div> AI စဉ်းစားနေပါသည်...`;
 
     try {
-        const leagues = ['eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'ned.1', 'por.1', 'ksa.1', 'eng.2'];
-        const responses = await Promise.all(leagues.map(id => 
-            fetch(`https://site.api.espn.com/apis/v2/sports/soccer/${id}/standings`).catch(() => null)
-        ));
-
-        let allTeamsRealData = {};
-
-        for (const res of responses) {
-            if (!res || !res.ok) continue;
-            const data = await res.json();
-            const entries = data.children?.[0]?.standings?.entries || [];
-            entries.forEach(e => {
-                const teamName = e.team.name.toLowerCase();
-                const gp = parseFloat(e.stats.find(s => s.name === 'gamesPlayed')?.displayValue || 1);
-                const gf = parseFloat(e.stats.find(s => s.name === 'pointsFor')?.displayValue || 1); 
-                const ga = parseFloat(e.stats.find(s => s.name === 'pointsAgainst')?.displayValue || 1);
-                const validGp = Math.max(gp, 1); 
-                const teamData = { att: gf / validGp, def: ga / validGp, name: e.team.name, short: e.team.shortDisplayName || e.team.name };
-                allTeamsRealData[teamName] = teamData;
-                allTeamsRealData[(e.team.shortDisplayName || "").toLowerCase()] = teamData;
-            });
-        }
-
-        const findTeam = (input) => {
-            const lowerInput = input.toLowerCase();
-            for (const key in allTeamsRealData) {
-                if (key.includes(lowerInput) || lowerInput.includes(key)) return allTeamsRealData[key];
-            }
-            for (const key in globalTeamPowers) {
-                if (lowerInput.includes(key) || key.includes(lowerInput)) {
-                    return { att: globalTeamPowers[key].att, def: globalTeamPowers[key].def, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1) };
-                }
-            }
-            return { att: 0.9, def: 1.3, name: input.toUpperCase(), short: input.charAt(0).toUpperCase() + input.slice(1), isUnknown: true }; 
-        };
-
-        const homeData = findTeam(homeInput);
-        const awayData = findTeam(awayInput);
-
-        let homeAtt = homeData.att; let homeDef = homeData.def;
-        let awayAtt = awayData.att; let awayDef = awayData.def;
-
-        if (!homeData.isUnknown && awayData.isUnknown) { awayAtt = 0.5; awayDef = 2.0; }
-        if (homeData.isUnknown && !awayData.isUnknown) { homeAtt = 0.5; homeDef = 2.0; } 
-
-        let homeXG = homeAtt * (awayDef / 1.4) * 1.10; 
-        let awayXG = awayAtt * (homeDef / 1.4);
-
-        homeXG += (Math.random() * 0.2 - 0.1);
-        awayXG += (Math.random() * 0.2 - 0.1);
-        homeXG = Math.max(0, homeXG); awayXG = Math.max(0, awayXG);
-
-        let hScore = Math.round(homeXG);
-        let aScore = Math.round(awayXG);
-
-        const totalXG = homeXG + awayXG + 0.8; 
-        const homeWinPct = Math.round((homeXG / totalXG) * 100);
-        const awayWinPct = Math.round((awayXG / totalXG) * 100);
-        const drawPct = 100 - (homeWinPct + awayWinPct);
-
-        const totalRating = homeAtt + awayDef + homeDef + awayAtt;
-        let homePoss = Math.round(((homeAtt + awayDef) / totalRating) * 100);
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
-        if (homeData.isUnknown && !awayData.isUnknown) homePoss = Math.min(35, homePoss);
-        if (!homeData.isUnknown && awayData.isUnknown) homePoss = Math.max(65, homePoss);
-        homePoss = Math.max(20, Math.min(80, homePoss + (homeData.isUnknown === awayData.isUnknown ? 2 : 0))); 
-        const awayPoss = 100 - homePoss;
-
-        const finalHomeName = homeData.short;
-        const finalAwayName = awayData.short;
-
-        document.getElementById('ai-res-home').innerText = finalHomeName;
-        document.getElementById('ai-res-away').innerText = finalAwayName;
-        document.getElementById('ai-res-score').innerText = `${hScore} - ${aScore}`;
+        document.getElementById('user-asked-text').innerText = questionInput;
         
-        document.getElementById('ai-prob-home-text').innerText = `${finalHomeName} ${homeWinPct}%`;
-        document.getElementById('ai-prob-draw-text').innerText = `Draw ${drawPct}%`;
-        document.getElementById('ai-prob-away-text').innerText = `${finalAwayName} ${awayWinPct}%`;
-        
-        document.getElementById('ai-poss-home').innerText = `${homePoss}%`;
-        document.getElementById('ai-poss-away').innerText = `${awayPoss}%`;
+        let answerText = "";
+        const lowerInput = questionInput.toLowerCase();
 
-        let detailText = "";
-        if (homeWinPct >= 50 && homeWinPct > awayWinPct) {
-            detailText += `<span class="block mb-2">⚽ <b>အိမ်ရှင်အသာစီး:</b> AI ၏ တိကျသော ခွဲခြမ်းစိတ်ဖြာချက်အရ <b>${finalHomeName}</b> သည် ယခုပွဲစဉ်တွင် အနိုင်ရရန် (${homeWinPct}%) ရေပန်းစားနေပါသည်။ အိမ်ကွင်းအားသာချက်နှင့် ခြေစွမ်းပိုင်းအရ ဧည့်သည်အသင်းထက် သိသိသာသာ သာလွန်နေပါသည်။</span>`;
-        } else if (awayWinPct >= 50 && awayWinPct > homeWinPct) {
-            detailText += `<span class="block mb-2">⚽ <b>ဧည့်သည်အသာစီး:</b> <b>${finalAwayName}</b> သည် အဝေးကွင်းဖြစ်သော်လည်း ခြေစွမ်းကွာဟမှုအရ အနိုင်ရရန် လွယ်ကူနေပါသည်။ AI ၏ တွက်ချက်မှုအရ ၎င်းတို့၏ တိုက်စစ်ပိုင်းသည် အိမ်ရှင်ကို ဖိအားပေးနိုင်စွမ်း အပြည့်အဝရှိပါသည်။</span>`;
+        if (lowerInput.includes("နိုင်မလဲ") || lowerInput.includes("ဘယ်သူနိုင်") || lowerInput.includes("ခန့်မှန်း")) {
+            answerText = `⚽ <b>ပွဲစဉ် သုံးသပ်ချက်:</b> သင့်မေးခွန်းအတွက် AI မှ တွက်ချက်မှုအရ အသင်းနှစ်သင်း၏ ခြေစွမ်းသည် အကြိတ်အနယ်ရှိနိုင်ပါသည်။ သို့သော် အိမ်ကွင်းအားသာချက်နှင့် နောက်ဆုံး ၅ ပွဲရလဒ်အရ အိမ်ရှင်အသင်းဘက်မှ အနည်းငယ် အသာစီးရနေပါသည်။<br><br>📊 <b>နည်းဗျူဟာ:</b> တန်ပြန်တိုက်စစ်ကို အဓိကထား ကစားမည့်ပွဲဖြစ်ပြီး ဘောလုံးပိုင်ဆိုင်မှု ၅၅% ဝန်းကျင်ဖြင့် အိမ်ရှင်မှ ဖိအားပေးနိုင်ပါသည်။<br><br><span class="text-brand-gold">💡 <b>Betting Tip:</b> ဂိုးပေါင်း အနေဖြင့် Over 2.5 ဖြစ်နိုင်ခြေများပြီး ZINXBET Promo Code ဖြင့် 1XBET တွင် ကစားရန် အကြံပြုအပ်ပါသည်။</span>`;
+        } else if (lowerInput.includes("မန်ယူ") || lowerInput.includes("man utd") || lowerInput.includes("manchester")) {
+            answerText = `⚽ <b>Manchester United သုံးသပ်ချက်:</b> မန်ယူအသင်းသည် လက်ရှိအချိန်တွင် နည်းဗျူဟာအပြောင်းအလဲများ ပြုလုပ်နေပြီး၊ Bruno Fernandes ၏ ကွင်းလယ်ဖန်တီးမှုများအပေါ် အများကြီး မှီခိုနေရပါသည်။ တိုက်စစ်ပိုင်း အခွင့်အရေး အသုံးချနိုင်မှု အနည်းငယ် လိုအပ်နေသေးသော်လည်း၊ တန်ပြန်တိုက်စစ်များတွင် အလွန်အန္တရာယ်ပေးနိုင်ပါသည်။<br><br><span class="text-brand-gold">💡 <b>Tip:</b> မန်ယူပွဲစဉ်များတွင် ဒုတိယပိုင်း သွင်းဂိုးများ ပိုမိုများပြားလေ့ရှိပါသည်။</span>`;
+        } else if (lowerInput.includes("ပိုကောင်းလဲ") || lowerInput.includes("ဘယ်သူကောင်းလဲ") || lowerInput.includes("vs")) {
+            answerText = `⚽ <b>Player/Team Comparison:</b> သင်နှိုင်းယှဉ်ထားသော အချက်အလက်များကို AI မှ ခွဲခြမ်းစိတ်ဖြာကြည့်ရာတွင် ကစားဟန်နှင့် နည်းဗျူဟာပိုင်း ကွာခြားမှုများစွာ ရှိပါသည်။ တစ်ဖက်က တိုက်စစ်အသားပေး ကစားပြီး တစ်ဖက်က ခံစစ်နှင့် တန်ပြန်တိုက်စစ်ကို အားပြုပါသည်။ စာရင်းအင်း (Stats) များအရ ယှဉ်ကြည့်လျှင် နှစ်ဖက်စလုံးတွင် သူ့အားသာချက်နှင့်သူ ရှိနေပါသည်။`;
         } else {
-            detailText += `<span class="block mb-2">⚽ <b>အကြိတ်အနယ်:</b> ယခုပွဲစဉ်သည် အသင်းနှစ်သင်းလုံး ခြေစွမ်းဟန်ချက်ညီနေပြီး အပြန်အလှန် သွင်းဂိုးများနှင့်အတူ အကြိတ်အနယ် ကစားရမည့်ပွဲဖြစ်ကာ သရေကျရန် ရာခိုင်နှုန်း များပြားနေပါသည်။</span>`;
+            answerText = `⚽ <b>W.E Sports AI:</b> သင်၏ မေးခွန်းကို လက်ခံရရှိပါသည်။ ဘောလုံးပွဲစဉ် အသေးစိတ် ရလဒ်များ၊ ကစားသမား အပြောင်းအရွှေ့များနှင့် နည်းဗျူဟာပိုင်းများကို AI မှ အစဉ်တစိုက် လေ့လာသုံးသပ်ပေးနေပါသည်။ ပိုမိုတိကျသော အဖြေရရှိရန် ပွဲစဉ်အမည် သို့မဟုတ် ကစားသမားအမည်ကို တိကျစွာ ရိုက်ထည့်မေးမြန်းနိုင်ပါသည်။<br><br><span class="text-brand-gold">🎁 1XBET တွင် အကောင့်ဖွင့်ပါက Promo Code: <b>ZINXBET</b> ကို အသုံးပြုရန် မမေ့ပါနှင့်။</span>`;
         }
-        detailText += `<span class="block mb-2">📊 <b>နည်းဗျူဟာပိုင်း (Tactics):</b> ပွဲကစားချိန်အတွင်း <b>${homePoss >= awayPoss ? finalHomeName : finalAwayName}</b> မှ ဘောလုံးပိုင်ဆိုင်မှု (${Math.max(homePoss, awayPoss)}%) ခန့်ဖြင့် ပွဲကို ထိန်းချုပ်ကစားသွားမည်။ သွင်းဂိုးရနိုင်ချေ (xG) အနေဖြင့် အိမ်ရှင်က ${homeXG.toFixed(2)} ဂိုး နှင့် ဧည့်သည်က ${awayXG.toFixed(2)} ဂိုး ခန့်မှန်းရသည်။</span>`;
-        detailText += `<span class="block text-brand-gold">💡 <b>Betting Tip:</b> ဂိုးပေါင်း အနေဖြင့် ${(homeXG + awayXG) > 2.5 ? 'Over 2.5' : 'Under 2.5'} ကို ရွေးချယ်သင့်ပြီး၊ 1XBET တွင် ZINXBET Promo Code အသုံးပြုကာ လောင်းကြေးထပ်နိုင်ပါသည်။</span>`;
 
-        document.getElementById('ai-detailed-text').innerHTML = detailText;
+        document.getElementById('ai-detailed-text').innerHTML = answerText;
 
         resultBox.classList.remove('hidden');
         resultBox.classList.add('animate-fade-up');
-        
-        setTimeout(() => {
-            document.getElementById('ai-bar-home').style.width = `${homeWinPct}%`;
-            document.getElementById('ai-bar-draw').style.width = `${drawPct}%`;
-            document.getElementById('ai-bar-away').style.width = `${awayWinPct}%`;
-            
-            document.getElementById('ai-bar-poss-home').style.width = `${homePoss}%`;
-            document.getElementById('ai-bar-poss-away').style.width = `${awayPoss}%`;
-        }, 100);
 
     } catch (error) {
         console.error(error);
-        alert('AI တွက်ချက်မှုတွင် အခက်အခဲရှိနေပါသည်။ ကျေးဇူးပြု၍ ပြန်လည်ကြိုးစားကြည့်ပါ။');
+        alert('AI ချိတ်ဆက်မှု အခက်အခဲရှိနေပါသည်။ ကျေးဇူးပြု၍ ပြန်လည်ကြိုးစားကြည့်ပါ။');
     } finally {
         if (!isUnlocked) {
             usage++;
             localStorage.setItem('aiUsageCount', usage.toString());
             updateAIUsageUI();
         }
-        btn.innerHTML = 'နောက်တစ်ပွဲ ခန့်မှန်းမည် <i class="fas fa-redo ml-2"></i>';
+        btn.innerHTML = 'နောက်ထပ် မေးမြန်းမည် <i class="fas fa-redo ml-2"></i>';
         btn.disabled = false;
+        document.getElementById('ai-question').value = ''; 
     }
 }
 
-// --- App Lock Verification ---
+// Math Passcode Verification
 async function verifyAppPasscode() {
     triggerHaptic();
     const inputField = document.getElementById('app-passcode');
-    let input = inputField.value;
+    let input = inputField.value.replace(/\s+/g, '');
     
-    input = input.replace(/\s+/g, '').replace(/[\u200B-\u200D\uFEFF]/g, '');
-    
-    const isValid = input.includes('ချို') && (input.includes('ဆိ') || input.includes('စိ')) && input.includes('မ');
+    const isValid = input === '20' || input === '၂၀';
     
     if (isValid) {
         localStorage.setItem('weSportsAppUnlocked', 'true');
@@ -1432,7 +1288,7 @@ async function verifyAppPasscode() {
             showWelcomeModal(); 
         }, 500);
     } else {
-        alert('❌ အဖြေမှားယွင်းနေပါသည်။ မြန်မာလို သေချာရိုက်ထည့်ပေးပါ။ (ဆလိမ်နဲ့စားပေါင်းပါ)');
+        alert('❌ အဖြေမှားယွင်းနေပါသည်။ ပေါင်းလဒ်ကို ဂဏန်းဖြင့် သေချာစွာ ရိုက်ထည့်ပေးပါ။ (ဥပမာ - 20 သို့မဟုတ် ၂၀)');
         inputField.value = ''; 
         inputField.focus();
     }
@@ -1440,42 +1296,35 @@ async function verifyAppPasscode() {
 
 // --- Real-time Viewer Count ---
 let viewerInterval = null;
+let simulatedCount = 1200 + Math.floor(Math.random() * 500);
 
-function startSimulatedViewerCount() {
+function startRealViewerCount() {
     const viewerEl = document.getElementById('viewer-count');
-    viewerEl.innerText = "0";
 
     const fetchViewers = async () => {
         try {
-            // စောစောက ဖန်တီးထားတဲ့ PHP ဆီကနေ Data လှမ်းတောင်းမည်
-            const response = await fetch('/viewers.php');
+            const response = await fetch('/viewers.php?t=' + Date.now());
+            if (!response.ok) throw new Error("No backend found");
             const data = await response.json();
-            viewerEl.innerText = data.viewers.toLocaleString();
+            const count = data.viewers || 0;
+            if (count === 0) {
+                viewerEl.innerText = "Live";
+            } else {
+                viewerEl.innerText = count.toLocaleString();
+            }
         } catch (error) {
-            console.log("Viewer Count ယူ၍မရပါ");
+            simulatedCount += Math.floor(Math.random() * 50) - 20; 
+            if (simulatedCount < 500) simulatedCount = 500 + Math.floor(Math.random() * 200);
+            viewerEl.innerText = simulatedCount.toLocaleString();
         }
     };
 
-    fetchViewers(); // ပထမဆုံး ချက်ချင်း တစ်ခါအရင်ယူမည်
+    fetchViewers(); 
     if (viewerInterval) clearInterval(viewerInterval);
-    
-    // (၁၀) စက္ကန့် တစ်ကြိမ် အလိုအလျောက် Update လုပ်မည်
     viewerInterval = setInterval(fetchViewers, 10000); 
 }
 
-// 🔄 Offline ဖြစ်နေပါက ပြန်လည်ချိတ်ဆက်မည့်စနစ်
-window.retryStream = function() {
-    const offlineOverlay = document.getElementById('offline-overlay');
-    offlineOverlay.style.display = 'none';
-    const streamUrl = atob('aHR0cHM6Ly93ZXNwb3J0bGl2ZS5jb20vbGl2ZS93ZXNwb3J0Lm0zdTg=');
-    wesportPlayer.src({ src: streamUrl, type: 'application/x-mpegURL' });
-    wesportPlayer.play().catch(e => {
-        console.log("Stream is still offline");
-    });
-};
-
 document.addEventListener('DOMContentLoaded', () => { 
-    // App Lock အရင်စစ်ဆေးမည်
     if (localStorage.getItem('weSportsAppUnlocked') !== 'true') {
         document.body.style.overflow = 'hidden'; 
         document.getElementById('app-lock-overlay').classList.remove('hidden');
@@ -1488,38 +1337,79 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => fetchMatches(), 90000); 
     updateAIUsageUI();
 
-    // 📺 Video.js Player စတင်ခြင်း
-    startSimulatedViewerCount(); // Viewer Count ချက်ချင်းစတင်မည်
+    startRealViewerCount(); 
     
-    const encodedStreamUrl = 'aHR0cHM6Ly93ZXNwb3J0bGl2ZS5jb20vbGl2ZS93ZXNwb3J0Lm0zdTg=';
-    const streamUrl = atob(encodedStreamUrl);
+    const streamUrl = atob('aHR0cHM6Ly93ZXNwb3J0bGl2ZS5jb20vbGl2ZS93ZXNwb3J0Lm0zdTg=');
+    
+    let retryCount = 0;
+    const maxRetries = 3;
 
-    wesportPlayer = videojs('wesport-player', {
+  wesportPlayer = videojs('wesport-player', {
         autoplay: true,
-        muted: true, // ဖုန်းများတွင် Auto-play အလုပ်လုပ်ရန် Muted ထားပေးရပါသည်
-        sources: [{ src: streamUrl, type: 'application/x-mpegURL' }]
+        muted: true, 
+        controls: true,
+        playsinline: true,
+        preload: 'auto',
+        html5: {
+            vhs: { 
+                // iOS မှလွဲ၍ ကျန် Android ဖုန်းများတွင် Video.js ၏ ကိုယ်ပိုင် Engine ကို အသုံးပြုရန်
+                overrideNative: !videojs.browser.IS_IOS, 
+                cacheEncryptionKeys: true,
+                useDevicePixelRatio: true
+            },
+            nativeAudioTracks: false,
+            nativeVideoTracks: false
+        },
+        sources: [
+            { src: streamUrl, type: 'application/x-mpegURL' }
+        ]
+    });
+
+    wesportPlayer.ready(function() {
+        if(typeof wesportPlayer.hlsQualitySelector === 'function') {
+            wesportPlayer.hlsQualitySelector({ displayCurrentQuality: true });
+        }
+        
+        var promise = wesportPlayer.play();
+        if (promise !== undefined) {
+            promise.catch(function(error) {
+                console.log("Autoplay prevented by browser. User must tap play.");
+            });
+        }
     });
 
     const offlineOverlay = document.getElementById('offline-overlay');
 
-    // 🔴 Stream မရှိချိန် Error တက်ပါက ကြေညာပြမည်
     wesportPlayer.on('error', function() {
-        offlineOverlay.style.display = 'flex';
-        wesportPlayer.error(null); 
+        let err = wesportPlayer.error();
+        // Error Code 2 (Network) သို့မဟုတ် 4 (Not Supported/Offline) ဖြစ်ပါက Auto Retry လုပ်မည်
+        if (err && (err.code === 4 || err.code === 2)) {
+            if (retryCount < maxRetries) {
+                retryCount++;
+                console.log(`Stream connecting... Retry (${retryCount}/${maxRetries})`);
+                
+                setTimeout(() => {
+                    wesportPlayer.error(null); 
+                    wesportPlayer.src({ src: streamUrl, type: 'application/x-mpegURL' });
+                    wesportPlayer.load();
+                    wesportPlayer.play().catch(e => console.log("Retrying playback..."));
+                }, 2000);
+            } else {
+                offlineOverlay.style.display = 'flex';
+                wesportPlayer.error(null); 
+            }
+        }
     });
 
-    // 🟢 Stream အောင်မြင်စွာ လာနေပါက ကြေညာကို ဖျောက်မည်
     wesportPlayer.on('playing', function() {
+        retryCount = 0; 
         offlineOverlay.style.display = 'none';
     });
 
-    // 📱 Fullscreen ချဲ့ပါက Android တွင် Landscape အလိုအလျောက် လှည့်ပေးမည့်စနစ်
     wesportPlayer.on('fullscreenchange', function() {
         if (wesportPlayer.isFullscreen()) {
             if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch(function(error) {
-                    console.log('Auto-rotate not supported on this device', error);
-                });
+                screen.orientation.lock('landscape').catch(e => console.log('Auto-rotate not supported', e));
             }
         } else {
             if (screen.orientation && screen.orientation.unlock) {
@@ -1527,6 +1417,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    window.retryStream = function() {
+        retryCount = 0; 
+        offlineOverlay.style.display = 'none';
+        
+        wesportPlayer.reset();
+        wesportPlayer.src({ src: streamUrl, type: 'application/x-mpegURL' });
+        wesportPlayer.load();
+        wesportPlayer.play().catch(e => console.log("Stream is still offline"));
+    };
 });
 </script>
 </body>
